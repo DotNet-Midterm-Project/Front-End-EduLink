@@ -1,21 +1,27 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllArticles } from '../../Redux/Slices/articlesSlice';
 import Card from '../../Components/Card';
 import Pagination from '../../Components/Pagination';
 import ImageShow from '../../Components/Common/ImageShow';
+import Loading from '../../Components/Loading';
+import ServerError from '../../Components/Error/ServerError';
 
 const ArticlesList = () => {
     const dispatch = useDispatch();
-    const { articles, loading, error } = useSelector((state) => state.articles);
-    console.log(articles);
-
+    const { articles, loading, error } = useSelector((state) => state?.articles);
+    
     useEffect(() => {
         dispatch(fetchAllArticles());
     }, [dispatch]);
+    
+    if(loading){
+        return <Loading/>;
+    }
 
-    if (loading) return <p>Loading articles...</p>;
-    if (error) return <p style={{ color: 'red' }}>{error}</p>;
+    if(error){
+        return <ServerError error={error}/>
+    }
 
     return (
         <>
@@ -29,18 +35,30 @@ const ArticlesList = () => {
                 </div>
             </div>
             <div className="my-6">
-                <ImageShow/>
-            </div>
+                            <ImageShow
+                                key={articles[0]?.articleID}
+                                id={articles[0]?.articleID}
+                                title={articles[0]?.title}
+                                auther={articles[0]?.volunteerName}
+                                description={articles[0]?.articleContent}
+                                date={articles[0]?.publicationDate}
+                            />
+                        </div>
             {articles?.map(article => {
+
                 return (
-                    <Card
-                        key={article?.articleID}
-                        id={article?.articleID}
-                        title={article?.title}
-                        auther={article?.volunteerName}
-                        description={article?.articleContent}
-                        date={article?.publicationDate}
-                    />
+                    <>
+                       
+                        <Card
+                            key={article?.articleID}
+                            id={article?.articleID}
+                            title={article?.title}
+                            auther={article?.volunteerName}
+                            description={article?.articleContent}
+                            date={article?.publicationDate}
+                        />
+                    </>
+
                 )
             })}
 
