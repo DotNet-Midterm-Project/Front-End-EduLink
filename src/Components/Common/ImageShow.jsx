@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import image1 from "../../assets/image1.png";
 import { formatDate, splitDescription } from "../../utils/dateUtils";
 
 function ImageShow(props) {
