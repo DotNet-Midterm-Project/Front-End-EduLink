@@ -1,36 +1,51 @@
 import { Link } from "react-router-dom";
-import image1 from "../../assets/image1.png";
 import { formatDate, splitDescription } from "../../utils/dateUtils";
 
 function ImageShow(props) {
-    return (
-        <>
-            <div
-                id={props?.id}
-                key={props?.id}
-                className="relative"
-                data-te-carousel-init
-                data-te-ride="carousel"
-            >
-                <div className="relative rounded-gl h-96 mx-auto w-11/12 after:clear-both after:block after:content-[''] opacity-90">
-                  <Link to={`/articles/${props?.id}`}>
-                    <img
-                        src={image1}
-                        className="block w-full h-full object-fill rounded-2xl"
-                        alt="Motorbike Smoke"
-                    />
-                    </Link>
-                    <div className="absolute inset-x-[2%] bottom-5 hidden text-left md:block text-white">
-                        <p className="flex">{props?.auther} <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white me-2 ml-2"><span className="flex w-2 h-2 bg-white rounded-full me-1.5 flex-shrink-0"></span>{formatDate(props?.date)}</span> </p>
-                        <h5 className="text-2xl font-bold">{props?.title}</h5>
-                        <p className="">{splitDescription(props?.description, 10)}</p>
-                    </div>
-                </div>
-            </div>
+  console.log(props);
 
+  return (
+    <>
+      <div
+        id={props?.id}
+        key={props?.id}
+        className="relative"
+        data-te-carousel-init
+        data-te-ride="carousel"
+      >
+        <div className="relative rounded-gl mx-auto w-full md:w-[72rem] h-60 md:h-96 opacity-90">
+          <Link to={`/articles/${props?.id}`}>
+            <img
+              src={`${import.meta.env.VITE_URL_BACKEND}/Resources/${props?.image}`}
+              className="block w-full h-full object-cover"
+              style={{ borderRadius: "0px 20px 20px 20px" }}
+              alt={props?.title || "Image"}
+            />
+          </Link>
 
-        </>
-    );
+          {/* Text overlay: Adjusted for mobile and desktop */}
+          <div className="absolute inset-x-[2%] bottom-2 md:bottom-5 p-2 md:p-5 text-left text-white bg-black bg-opacity-60 rounded-lg">
+            {/* Author and Date */}
+            <p className="flex items-center text-sm md:text-base">
+              {props?.auther}
+              <span className="flex items-center text-xs md:text-sm font-medium text-gray-200 ms-2">
+                <span className="w-2 h-2 bg-white rounded-full mr-1"></span>
+                {formatDate(props?.date)}
+              </span>
+            </p>
+
+            {/* Title */}
+            <h5 className="text-lg md:text-2xl font-bold mt-1">{props?.title}</h5>
+
+            {/* Description with reduced characters for mobile */}
+            <p className="text-xs md:text-sm mt-1">
+              {splitDescription(props?.description, window.innerWidth < 768 ? 5 : 10)}
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default ImageShow;

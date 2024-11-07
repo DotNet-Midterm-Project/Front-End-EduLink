@@ -14,7 +14,7 @@ const Login = () => {
     e.preventDefault();
     dispatch(login({ email, password })).then((action) => {
       if (login.fulfilled.match(action)) {
-        navigate('/');
+        navigate('/articles');
       }
     });
   };
