@@ -1,4 +1,4 @@
-import image1 from "../assets/image1.png";
+//import image1 from "../assets/image1.png";
 
 function ImageShow() {
     return (
