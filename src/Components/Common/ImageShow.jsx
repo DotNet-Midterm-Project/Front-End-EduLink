@@ -23,8 +23,7 @@ function ImageShow(props) {
             />
           </Link>
 
-          {/* Text overlay: Adjusted for mobile and desktop */}
-          <div className="absolute inset-x-[2%] bottom-2 md:bottom-5 p-2 md:p-5 text-left text-white bg-black bg-opacity-60 rounded-lg">
+          <div className="absolute bottom-2 md:bottom-5 p-2 md:p-5 text-left text-white rounded-lg">
             {/* Author and Date */}
             <p className="flex items-center text-sm md:text-base">
               {props?.auther}

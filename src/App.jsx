@@ -1,25 +1,24 @@
 import React from "react";
 import Login from "./Components/Login";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import ArticlesList from "./Pages/Article/ArticlesList";
 import ArticlesListByID from "./Pages/Article/ArticlesListByID";
 import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
-import CardArticl from "./Components/Card";
-import ArticlesList from "./Pages/Article/ArticlesList";
+// import CardArticl from "./Components/Card";
 import Home from "./Pages/Home/Home";
-// import Layout from './Pages/Layout';
+import Layout from './Components/Layout';
 
 const App = () => {
   //const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
+  
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/articles" element={<ArticlesList />} />
-          <Route path="/articles/:id" element={<ArticlesListByID />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Layout><Login /></Layout>} />
+          <Route path="/articles" element={<Layout><ArticlesList /></Layout>} />
+          <Route path="/articles/:id" element={<Layout><ArticlesListByID /></Layout>} />
+          <Route path="/" element={<Home />}/>
 
           {/* <Router>
       <Routes>

@@ -24,8 +24,8 @@ export default function Component() {
     Tech_Workspace_with_Programmer,
   ];
 
-  const prev = () =>
-    setCurr((curr) => (curr === 0 ? slides.length - 1 : curr - 1));
+  // const prev = () =>
+  //   setCurr((curr) => (curr === 0 ? slides.length - 1 : curr - 1));
   const next = () =>
     setCurr((curr) => (curr === slides.length - 1 ? 0 : curr + 1));
 
@@ -43,19 +43,19 @@ export default function Component() {
   }, []);
 
   return (
-    <div className="relative h-screen w-full overflow-hidden">
+    <div className="relative h-screen w-full overflow-hidden z-20">
       <div className="absolute left-1/2 top-1/2 z-10 flex h-2/3 w-11/12 -translate-x-1/2 -translate-y-1/2 flex-col justify-between text-white sm:h-2/3 sm:w-2/3 md:left-10 md:w-1/2 md:translate-x-0 ">
-        <h1 className="text-center text-5xl font-bold tracking-wider sm:text-left sm:text-7xl md:text-8xl lg:text-9xl">
-          EduLinke
+        <h1 className="text-center text-[40px] mt-24 font-bold tracking-wider sm:text-left sm:text-[40px] md:text-[60px] lg:text-[75px]">
+          EduLink
         </h1>
         <p
-          className={`absolute text-2xl font-bold transition-all duration-300 sm:text-3xl md:text-4xl ${
+          className={`absolute text-2xl mt-12 transition-all duration-300 sm:text-3xl md:text-4xl ${
             fadeIn ? "translate-y-48 opacity-0" : "translate-y-36 opacity-90"
           }`}
         >
           {texts[curr]}
         </p>
-        <div className="mt-10 sm:mt-20">
+        <div className="mt-4 sm:mt-20">
           <button className="rounded-2xl border-2 border-orange-600 px-4 py-2 text-lg font-bold text-white shadow-lg transition duration-200 ease-in-out hover:scale-105 hover:border-0 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50 sm:text-2xl">
             Get Started Now
           </button>
@@ -66,37 +66,24 @@ export default function Component() {
         style={{ transform: `translateX(-${curr * 100}%)` }}
       >
         {slides.map((slide, index) => (
-          <div key={index} className="h-screen w-full  flex-shrink-0">
+          <div key={index} className="relative h-screen w-full flex-shrink-0">
+            {/* Main Image */}
             <img
               src={slide}
               alt={`Slide ${index + 1}`}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover blur-sm"
               loading={index === 0 ? "eager" : "lazy"}
             />
+            {/* Smaller Bottom-Right Image */}
+            <div className="bg-white rounded-md shadow-md">
+            <img
+              src={slide}
+              alt={`Thumbnail of Slide ${index + 1}`}
+              className="hidden sm:block absolute bottom-20 right-80 w-48 h-72 p-2 bg-white rounded-md shadow-md object-cover"
+            />
+            </div>
           </div>
         ))}
-      </div>
-      <div className="absolute inset-0 flex  items-center justify-between p-4">
-        <button
-          onClick={prev}
-          className="rounded-full text-center  h-8 w-8 bg-white/10  text-gray-800 shadow hover:bg-white"
-          aria-label="Previous slide"
-        >
-          <span className="text-2xl  rounded-full w-full h-full mb-1  p-1 flex  items-center justify-center sm:text-3xl">
-            &#8592;
-          </span>{" "}
-          {/* Left Arrow */}
-        </button>
-        <button
-          onClick={next}
-          className="rounded-full text-center  h-8 w-8 bg-white/10  text-gray-800 shadow hover:bg-white"
-          aria-label="Next slide"
-        >
-          <span className="text-2xl  rounded-full w-full h-full mb-1  p-1 flex  items-center justify-center sm:text-3xl">
-            &#8594;
-          </span>{" "}
-          {/* Right Arrow */}
-        </button>
       </div>
       <div className="absolute bottom-4 left-0 right-0">
         <div className="flex items-center justify-center gap-2">

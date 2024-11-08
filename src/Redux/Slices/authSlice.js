@@ -6,11 +6,13 @@ export const login = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_URL_BACKEND}/api/Account/login`, { email, password });
-      const { accessToken, user } = response.data;
-
+      const { accessToken, roles } = response.data;
+      console.log(response.data);
+      
       localStorage.setItem('token', accessToken);
+      localStorage.setItem('roles', roles);
 
-      return { accessToken, user };
+      return { accessToken, roles };
     } catch (error) {
       return rejectWithValue('Login failed, please check your credentials.');
     }
@@ -21,6 +23,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     token: localStorage.getItem('token') || '',
+    roles: localStorage.getItem('roles') || '',
     user: null,
     error: '',
     loading: false,
@@ -30,6 +33,7 @@ const authSlice = createSlice({
       state.token = '';
       state.user = null;
       localStorage.removeItem('token');
+      localStorage.removeItem('roles');
     },
   },
   extraReducers: (builder) => {

@@ -14,13 +14,13 @@ const Login = () => {
     e.preventDefault();
     dispatch(login({ email, password })).then((action) => {
       if (login.fulfilled.match(action)) {
-        navigate('/articles');
+        navigate('/');
       }
     });
   };
 
   return (
-    <div>
+    <div className='mt-24'>
       <h2>Login</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>

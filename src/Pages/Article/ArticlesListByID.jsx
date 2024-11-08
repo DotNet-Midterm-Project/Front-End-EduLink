@@ -20,9 +20,8 @@ function ArticlesListByID() {
   const { selectedArticle, loading, error } = useSelector(
     (state) => state?.articles
   );
+  
   const { comments } = useSelector((state) => state?.comments);
-  console.log(selectedArticle);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -72,7 +71,7 @@ console.log(selectedArticle);
 
   return (
     <>
-      <main className="pt-8 pb-16 lg:pt-18 lg:pb-28 antialiased">
+      <main className="pt-8 pb-16 lg:pt-18 lg:pb-28 antialiased mt-12">
         <div className="flex justify-between px-4 mx-auto max-w-screen-2xl">
           <article className="mx-auto w-full max-w-4xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
             <div className="w-8 h-8">
