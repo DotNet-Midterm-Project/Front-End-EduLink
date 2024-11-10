@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchArticleById } from "../../Redux/Slices/articlesSlice";
@@ -20,15 +20,14 @@ function ArticlesListByID() {
   const { selectedArticle, loading, error } = useSelector(
     (state) => state?.articles
   );
+  
   const { comments } = useSelector((state) => state?.comments);
-  console.log(comments);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (id) {
       dispatch(fetchArticleById(id));
-      dispatch(fetchCommentsByArticle(id)); // استرجاع التعليقات عند تحميل المقالة
+      dispatch(fetchCommentsByArticle(id)); 
     }
   }, [dispatch, id]);
 
@@ -36,7 +35,7 @@ function ArticlesListByID() {
     e.preventDefault();
     dispatch(addComment({ articleID: id, commentText: commentContent }));
     Swal.fire("Success", "Comment added successfully!", "success");
-    setCommentContent(""); // إعادة تعيين محتوى التعليق
+    setCommentContent(""); 
   };
 
   const handleDeleteComment = (commentId) => {
@@ -68,21 +67,35 @@ function ArticlesListByID() {
   if (error) {
     return <ServerError />;
   }
+console.log(selectedArticle);
 
   return (
     <>
-      <main className="pt-8 pb-16 lg:pt-18 lg:pb-28 antialiased">
+      <main className="pt-8 pb-16 lg:pt-18 lg:pb-28 antialiased mt-12">
         <div className="flex justify-between px-4 mx-auto max-w-screen-2xl">
           <article className="mx-auto w-full max-w-4xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
+            <div className="w-8 h-8">
+            <Link to={"/articles"} >
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120.14 75.05"><defs></defs><path class="cls-1" d="M554.58,574.75a7.6,7.6,0,0,1,1.66,1q7.82,7.74,15.55,15.54A7.49,7.49,0,0,1,567.24,604a6.94,6.94,0,0,1-5.94-2q-15.13-15.09-30.21-30.22a7.21,7.21,0,0,1,.06-10.44q15-15.1,30.09-30.09a7.47,7.47,0,0,1,10.6,10.52c-5.11,5.25-10.34,10.39-15.51,15.57-.45.45-.88.92-1.7,1.78H557q41.67,0,83.35,0a12.09,12.09,0,0,1,3.8.47,7.3,7.3,0,0,1,4.82,7.89A7.38,7.38,0,0,1,642,574c-.76,0-1.52,0-2.29,0H555.17Z" transform="translate(-528.89 -529)"/></svg>
+            </Link>
+            </div>
             <figure>
               <img
-                className="w-full"
-                src="https://flowbite.s3.amazonaws.com/typography-plugin/typography-image-1.png"
-                alt=""
+                className="w-full h-80 rounded-2xl"
+                src={`${import.meta.env.VITE_URL_BACKEND}/Resources/${
+                  selectedArticle?.articleFile
+                }`}
+                style={{ borderRadius: "0px 20px 20px 20px" }}
+                alt={selectedArticle?.title}
               />
             </figure>
-            <p className="lead mt-8">{selectedArticle?.articleContent}</p>
 
+            <h1 className="font-bold mt-4 text-[#0B102F]">
+              {selectedArticle?.title}
+            </h1>
+            <div className="">
+              <p className="lead mt-4">{selectedArticle?.articleContent}</p>
+            </div>
             <section className="not-format mt-12">
               <div className="flex space-x-4">
                 <LikeButton
@@ -133,27 +146,27 @@ function ArticlesListByID() {
             )}
             <div className="mt-24">
               <h2 className="font-bold text-2xl">Comments</h2>
-              {comments.length ? (
+              {comments?.length ? (
                 comments?.map((comment) => (
                   <div
                     className="max-w-2xl px-4 rounded-lg border-2 my-4"
                     key={comment?.commentID}
                   >
                     <article className="p-6 text-base rounded-lg">
-                      <footer className="flex justify-between items-center mb-2">
+                      <footer className="flex justify-between items-center mb-1">
                         <div className="flex items-center">
                           <p className="text-sm text-black dark:text-gray-400">
                             <time>{formatDate(comment?.createdAt)}</time>
                           </p>
                         </div>
-                        <div className="mt-4">
+                        <div>
                           <button
                             onClick={() =>
-                              handleDeleteComment(comment.commentID)
+                              handleDeleteComment(comment?.commentID)
                             }
                           >
                             <svg
-                              className="h-6 w-6 text-red-500"
+                              className="h-6 w-6 text-red-600 hover:text-red-400"
                               viewBox="0 0 24 24"
                               fill="none"
                               stroke="currentColor"
@@ -170,6 +183,7 @@ function ArticlesListByID() {
                           </button>
                         </div>
                       </footer>
+                      <h2 className="font-bold">{comment?.userName}</h2>
                       <p className="text-black dark:text-black">
                         {comment?.commentText}
                       </p>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function Pagination(props) {
-    const itemsPerPage = 2;
+    const itemsPerPage = 9;
     const [currentPage, setCurrentPage] = useState(1);
 
     const handlePageChange = (pageNumber) => {

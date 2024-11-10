@@ -3,6 +3,7 @@ import {
     toggleLikeLocally,
   } from "../../Redux/Slices/LikeComment";
   import { useSelector, useDispatch } from "react-redux";
+  import { fetchArticleById } from '../../Redux/Slices/articlesSlice';
 
 function LikeButton({ articleId, like }) {
     const dispatch = useDispatch();
@@ -10,13 +11,15 @@ function LikeButton({ articleId, like }) {
       state.like.articles.find((article) => article.id === articleId)
     );
     const isLiking = useSelector((state) => state.like.loading);
-    const error = useSelector((state) => state.like.error);
-  
-    const handleLikeClick = () => {
+    const error = useSelector((state) => state.like.error);  
+    const handleLikeClick = async () => {
       dispatch(toggleLikeLocally(articleId));
-      dispatch(addLikeToArticle(articleId)).catch(() => {
+      try {
+        await dispatch(addLikeToArticle(articleId));
+        await dispatch(fetchArticleById(articleId));
+      } catch (error) {
         dispatch(toggleLikeLocally(articleId));
-      });
+      }
     };
   
     return (
@@ -28,7 +31,7 @@ function LikeButton({ articleId, like }) {
             article?.isLiked ? "bg-blue-500 text-white" : "bg-gray-200 text-black"
           } hover:scale-105 hover:shadow transition-all`}
         >
-          {article?.isLiked ? (
+          {isLiking ? (
             <>
               <svg
                 className="w-4 h-4"
@@ -62,8 +65,7 @@ function LikeButton({ articleId, like }) {
               />
             </svg>
           )}
-          {isLiking ? "Liking..." : article?.isLiked ? "Liked" : "Like"}
-          <p>{like}</p>
+          <p>{article?.likesCount || like}</p>
         </button>
         {error && <p style={{ color: "red" }}>{error}</p>}
       </>

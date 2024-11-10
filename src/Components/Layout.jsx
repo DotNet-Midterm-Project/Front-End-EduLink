@@ -1,7 +1,7 @@
 
 import PropTypes from "prop-types"; // Import PropTypes
-import Header from "../Components/Home/Header";
-import Footer from "../Components/Home/Footer";
+import Header from "../Pages/Header";
+import Footer from "../Pages/Footer";
 
 const Layout = ({ children }) => {
   return (

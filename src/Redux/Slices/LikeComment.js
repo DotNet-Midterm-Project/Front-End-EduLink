@@ -14,12 +14,9 @@ export const addLikeToArticle = createAsyncThunk(
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      console.log(response.data);
 
       return { articleId, ...response.data };
     } catch (error) {
-      console.log(error);
-
       return rejectWithValue(
         error.response ? error.response.data : { message: error.message }
       );
@@ -55,17 +52,16 @@ const likeSlice = createSlice({
           (a) => a.id === action.payload.articleId
         );
         if (article) {
-          article.isLiked = true; // Assuming like was added
-          article.likesCount += 1; // Increase the count by 1
+          article.isLiked = true;
+          article.likesCount = action.payload.likesCount;
+        }
+        if (state.selectedArticle?.id === action.payload.articleId) {
+          state.selectedArticle.isLiked = true;
+          state.selectedArticle.likesCount = action.payload.likesCount;
         }
       })
       .addCase(addLikeToArticle.rejected, (state, action) => {
         state.loading = false;
-        const article = state.articles.find((a) => a.id === action.meta.arg);
-        if (article) {
-          article.isLiked = !article.isLiked; // Revert local state
-          article.likesCount += article.isLiked ? 1 : -1; // Adjust count
-        }
         state.error = action.payload.message || "An error occurred";
       });
   },

@@ -1,12 +1,13 @@
-import Edud from  "../assets/Home/Edud.png";
+import { Link } from "react-router-dom";
+import Edud from "../assets/Home/Edud.png";
 import { useState } from "react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="bg-transparent ">
-      <div className="container mx-auto px-4 fixed z-30">
+    <header className="absolute w-full z-50 px-8">
+      <div className="z-30">
         <div className="flex items-center justify-between h-20 font-bold">
           {/* Logo */}
           <div className="flex items-center space-x-2">
@@ -14,7 +15,7 @@ export default function Header() {
               <img
                 src={Edud}
                 alt="EduLink Logo"
-                className="w-full h-full object-cover "
+                className="w-full h-full object-cover"
               />
             </div>
             <span className="text-2xl font-bold text-white">
@@ -22,43 +23,26 @@ export default function Header() {
             </span>
           </div>
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center duration-300  space-x-8 text-xl">
-            <a
-              href="/"
-              className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
-
-
-            >
-             <span> Home</span>
+          <nav className="hidden md:flex items-center duration-300 space-x-8 text-xl">
+            <a href="/" className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105">
+              Home
             </a>
-            <a
-              href="/about"
-              className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
-
-            >
+            <a href="/about" className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105">
               About us
             </a>
-            <a
-              href="/articles"
-              className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
-
-            >
+            <a href="/articles" className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105">
               Articles
             </a>
-            <a
-              href="/contact"
-              className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
-
-            >
+            <a href="/contact" className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105">
               Contact us
             </a>
           </nav>
 
           {/* Login Button */}
           <div className="hidden md:block">
-            <button className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-full font-medium transition-colors">
+            <Link to={"/login"} className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-full font-medium transition-colors">
               Login
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -91,28 +75,16 @@ export default function Header() {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-orange-500">
-              <a
-                href="/"
-                className="block px-3 py-2 text-gray-200 hover:text-white transition-colors"
-              >
+              <a href="/" className="block px-3 py-2 text-gray-200 hover:text-white transition-colors">
                 Home
               </a>
-              <a
-                href="/about"
-                className="block px-3 py-2 text-gray-200 hover:text-white transition-colors"
-              >
+              <a href="/about" className="block px-3 py-2 text-gray-200 hover:text-white transition-colors">
                 About us
               </a>
-              <a
-                href="/articles"
-                className="block px-3 py-2 text-gray-200 hover:text-white transition-colors"
-              >
+              <a href="/articles" className="block px-3 py-2 text-gray-200 hover:text-white transition-colors">
                 Articles
               </a>
-              <a
-                href="/contact"
-                className="block px-3 py-2 text-gray-200 hover:text-whitetransition-colors"
-              >
+              <a href="/contact" className="block px-3 py-2 text-gray-200 hover:text-white transition-colors">
                 Contact us
               </a>
               <button className="w-full bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-full font-medium transition-colors mt-4">
