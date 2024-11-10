@@ -1,22 +1,19 @@
 import React from 'react';
-import Login from './Components/Login';
-import { useSelector } from 'react-redux';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import CardArticl from "./Components/Card";
-import ArticlesList from './Pages/Article/ArticlesList';
+import { Routes, Route } from 'react-router-dom';
+import Login from './Pages/Auth/Login';
+import Register from './Pages/Auth/Register';
+import VerifyEmailPage from './Components/Common/verifyEmail';
 
-const App = () => {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
+function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/login' element={<Login />} />
-        {/* <Route path='/' element={<CardArticl/>} />  */}
-        <Route path='/' element={<ArticlesList/>} /> 
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+     
+      <Route path="/login" element={<Login/>} />
+      <Route path="/register" element={<Register/>} />
+      <Route path="/verify" element={<VerifyEmailPage/>} />
+    
+    </Routes>
   );
-};
+}
 
 export default App;
