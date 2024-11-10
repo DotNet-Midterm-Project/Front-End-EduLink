@@ -6,14 +6,18 @@ export const login = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_URL_BACKEND}/api/Account/login`, { email, password });
-      const { accessToken, roles } = response.data;
+      const data = response.data;
       console.log(response.data);
       
-      localStorage.setItem('token', accessToken);
-      localStorage.setItem('roles', roles);
+      localStorage.setItem('token', data.accessToken);
+      localStorage.setItem('roles', JSON.stringify(data.roles));
+      localStorage.setItem('userName', data.userName);
+      localStorage.setItem('email', data.email);
 
-      return { accessToken, roles };
+      return { data };
     } catch (error) {
+      console.log(error);
+      
       return rejectWithValue('Login failed, please check your credentials.');
     }
   }
@@ -23,17 +27,29 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     token: localStorage.getItem('token') || '',
-    roles: localStorage.getItem('roles') || '',
-    user: null,
+    roles: (() => {
+      try {
+        return JSON.parse(localStorage.getItem('roles')) || [];
+      } catch (e) {
+        console.error("Error parsing roles from localStorage", e);
+        return [];
+      }
+    })(),
+    user: localStorage.getItem('userName') || '',
+    email: localStorage.getItem('email') || '',
     error: '',
     loading: false,
   },
   reducers: {
     logout: (state) => {
       state.token = '';
-      state.user = null;
+      state.user = '';
+      state.email = '';
+      state.roles = '';
       localStorage.removeItem('token');
       localStorage.removeItem('roles');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('email');
     },
   },
   extraReducers: (builder) => {
@@ -44,8 +60,11 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload.accessToken;
-        state.user = action.payload.user;
+        const { accessToken, userName, roles, email } = action.payload.data;
+        state.token = accessToken;
+        state.user = userName;
+        state.roles = roles;
+        state.email = email;
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
