@@ -45,7 +45,7 @@ export default function Component() {
   return (
     <div className="relative h-screen w-full overflow-hidden z-20">
       <div className="absolute left-1/2 top-1/2 z-10 flex h-2/3 w-11/12 -translate-x-1/2 -translate-y-1/2 flex-col justify-between text-white sm:h-2/3 sm:w-2/3 md:left-10 md:w-1/2 md:translate-x-0 ">
-        <h1 className="text-center text-[40px] mt-24 font-bold tracking-wider sm:text-left sm:text-[40px] md:text-[60px] lg:text-[75px]">
+        <h1 className="text-center text-[40px] mt-24 font-bold tracking-wider sm:text-left  sm:text-[40px] md:text-[60px] lg:text-[75px]">
           EduLink
         </h1>
         <p
