@@ -37,10 +37,12 @@ export default function Register() {
     data.departmentID = parseInt(data.departmentID);
 
     try {
-      await registerUser(data);
+       await registerUser(data);
       toast.success("Registration successful! Please verify your email.");
+ 
       navigate("/verify");
       registerReference.current.reset();
+    
     } catch (error) {
       console.error("Error during registration:", error);
       toast.error(error.message || "An error occurred during registration.");

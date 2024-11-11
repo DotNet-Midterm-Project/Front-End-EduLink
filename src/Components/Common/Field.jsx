@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Field = ({ label, type, name, placeholder }) => {
+const Field = ({ label, type, name, placeholder, onChange }) => {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
   const handleTogglePasswordVisibility = () => {
@@ -19,12 +19,15 @@ const Field = ({ label, type, name, placeholder }) => {
           placeholder={placeholder || `Enter your ${name}`}
           name={name}
           required
+          onChange={onChange}
          className="w-full p-2 bg-white bg-opacity-20 text-black border border-white border-opacity-50 rounded-md focus:ring-2 focus:ring-blue-500 placeholder-gray-800"
         />
         {type === "password" && (
           <button
+
             type="button"
             onClick={handleTogglePasswordVisibility}
+            
             className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 "
           >
             {isPasswordVisible ? (

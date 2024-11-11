@@ -6,24 +6,38 @@ import { InputTypes } from "../../utils/constatnts";
 import { motion } from "framer-motion";
 import eduLinkLogo from "../../assets/eduLinkLogo.png";
 import bg from "../../assets/bg.mp4";
-import { Dialog } from '@headlessui/react'
+import { Dialog } from '@headlessui/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../Redux/Slices/authSlice';
 
 export default function Login() {
-  const loginReference = useRef(null);
-  const { loginUser } = useAuth();
+  const { forgotPassword } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [userType, setUserType] = useState("");
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [email, setEmail] = useState("");
-  const [resetStatus] = useState({ type: '', message: '' });
+  const [resetStatus, setResetStatus] = useState({ type: '', message: '' });
+  const [email, setEmail] = useState('');
+  const [resetEmail, setResetEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const { error, loading } = useSelector((state) => state.auth);
+
+  const handleSubmit = (e) => {
+    console.log(email, password);
+    e.preventDefault();
+    dispatch(login({ email, password })).then((action) => {
+      if (login.fulfilled.match(action)) {
+        navigate('/');
+      }
+    });
+  };
 
   useEffect(() => {
     document.body.classList.add('has-video-bg');
     const params = new URLSearchParams(location.search);
     const type = params.get('userType');
     if (type) {
-      setUserType(type);
       console.log(type);
     }
     return () => {
@@ -31,49 +45,24 @@ export default function Login() {
     };
   }, [location.search]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(loginReference.current);
-    const data = Object.fromEntries(formData);
-    data.userType = userType;
-
-    console.log(userType); // Debugging
-
-    try {
-      const response = await loginUser(data);
-      console.log(response); // Debugging
-
-      if (response.data.success) {
-        localStorage.setItem("Email", data.Email);
-        loginReference.current.reset();
-        navigate("/");
-      } else {
-        console.error("Login failed");
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
-  };
-
   const handleForgotPassword = async (e) => {
     e.preventDefault();
-    // try {
-    //   // Assuming you have a forgotPassword function in your auth context
-    //   const response = await forgotPassword(email);
-    //   setResetStatus({
-    //     type: 'success',
-    //     message: 'Reset link sent to your email!'
-    //   });
-    //   setTimeout(() => {
-    //     setIsModalOpen(false);
-    //     setResetStatus({ type: '', message: '' });
-    //   }, 2000);
-    // } catch (error) {
-    //   setResetStatus({
-    //     type: 'error',
-    //     message: 'Failed to send reset link. Please try again.'
-    //   });
-    // }
+    try {
+      const res= await forgotPassword(resetEmail);
+      setResetStatus({
+        type: 'success',
+        message: 'Reset link sent to your email!'
+      });
+      setTimeout(() => {
+        setIsModalOpen(false);
+        setResetStatus({ type: '', message: '' });
+      }, 2000);
+    } catch (error) {
+      setResetStatus({
+        type: 'error',
+        message: 'Failed to send reset link. Please try again.'
+      });
+    }
   };
 
   return (
@@ -89,21 +78,21 @@ export default function Login() {
       </video>
       <div className="absolute inset-0 bg-black opacity-40 z-10"></div>
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="w-full max-w-md p-8 bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-2xl z-20"
       >
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
           className="flex justify-center mb-8"
         >
-          <motion.img 
-            src={eduLinkLogo} 
-            alt="EduLink Logo" 
+          <motion.img
+            src={eduLinkLogo}
+            alt="EduLink Logo"
             className="w-40 h-auto"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -114,14 +103,24 @@ export default function Login() {
           Welcome Back
         </h1>
 
-        <form
-          className="space-y-6"
-          onSubmit={handleSubmit}
-          ref={loginReference}
-        >
-          <Field label="Email" type={InputTypes.EMAIL} name="Email" required />
-          <Field label="Password" type={InputTypes.PASSWORD} name="Password" required />
-          
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <Field
+            label="Email"
+            type={InputTypes.EMAIL}
+            name="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <Field
+            label="Password"
+            type={InputTypes.PASSWORD}
+            name="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
           <div className="flex justify-between items-center">
             <button
               type="button"
@@ -145,21 +144,15 @@ export default function Login() {
         </form>
 
         <p className="mt-8 text-center text-white">
-          Dont have an account?{" "}
+          Don't have an account?{" "}
           <Link to="/register" className="text-blue-500 hover:text-blue-400 font-medium transition-colors duration-300">
             Register
           </Link>
         </p>
       </motion.div>
 
-      {/* Forgot Password Modal */}
-      <Dialog
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        className="relative z-20"
-      >
+      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} className="relative z-20">
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" aria-hidden="true" />
-        
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
             <Dialog.Title className="text-xl font-medium leading-6 text-gray-900 mb-4">
@@ -173,8 +166,8 @@ export default function Login() {
                 </label>
                 <input
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   required
                 />

@@ -6,6 +6,11 @@ export default {
   ],
   theme: {
     extend: {},
+    screens: {
+      'xs': '400px', // Custom extra small breakpoint
+      ...require('tailwindcss/defaultTheme').screens, // Include default breakpoints
+    }
   },
   plugins: [],
+  
 }

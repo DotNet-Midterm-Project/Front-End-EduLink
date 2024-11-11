@@ -17,11 +17,13 @@ export const fetchAllArticles = createAsyncThunk(
 
 export const fetchArticleById = createAsyncThunk(
     'articles/fetchArticleById',
-    async (id, { rejectWithValue }) => {
+    async (id, { rejectWithValue }) => {        
         try {
             const response = await axios.get(`${import.meta.env.VITE_URL_BACKEND}/api/Common/ArticleById/${id}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            });
+            });            
+            console.log(response.data);
+            
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : { message: "An error occurred" });
@@ -51,14 +53,18 @@ const articlesSlice = createSlice({
         .addCase(fetchAllArticles.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload.message;
-        }).addCase(fetchArticleById.fulfilled, (state, action) => {
+        }).addCase(fetchArticleById.pending, (state)=>{
+            state.loading = true;
+            state. error = '';
+        })
+        .addCase(fetchArticleById.fulfilled, (state, action) => {
             state.selectedArticle = action.payload;
             state.loading = false;
         })
         .addCase(fetchArticleById.rejected, (state, action) => {
             state.error = action.payload.message;
             state.loading = false;
-        });
+        })
     }
 })
 

@@ -9,7 +9,7 @@ const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
 
-  const apiUrlRegister = `${apiBaseUrl}/Account/register-student`;
+  const apiUrlRegister = `${apiBaseUrl}/api/Account/register-student`;
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -34,40 +34,26 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const loginUser = async (userData) => {
-    const apiUrlLogin = `${apiBaseUrl}/${userData.userType}/login`;
-    try {
-      const res = await axios.post(apiUrlLogin, userData);
-      if (res.data) {
-        setToken(res.data.token);
-        localStorage.setItem("token", res.data.token);
-
-        toast.success("Login successful!");
-        return res;
-      } else {
-        toast.error(res.data.msg || "Login failed.");
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.msg || "Login failed.");
-    }
-  };
+  
 
   const forgotPassword = async (email) => {
+    console.log(email);
     try {
       const res = await axios.post(`${apiBaseUrl}/api/Account/forgot-password`, { email });
+      console.log(res);
       if (res.data) {
-        setToken(res.data.token);
-        localStorage.setItem("token", res.data.token);
   
-        toast.success("Login successful!");
-        return res;
+        toast.success("check your Email");
+        return result;
       } else {
         toast.error(res.data.msg || "Login failed.");
       }
     } catch (error) {
-      toast.error(error.response?.data?.msg || "Login failed.");
+      toast.error(error.response?.data?.msg || "reset passowrd  failed.");
     }
   };
+
+ 
   const logoutUser = () => {
     setToken(null);
     localStorage.removeItem("token");
@@ -78,7 +64,6 @@ export const AuthProvider = ({ children }) => {
   const contextData = {
     token,
     forgotPassword,
-    loginUser,
     registerUser,
     logoutUser,
   };
