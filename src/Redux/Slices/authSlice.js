@@ -1,14 +1,15 @@
+// Import required modules
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+// Login async action
 export const login = createAsyncThunk(
   'auth/login',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_URL_BACKEND}/api/Account/login`, { email, password });
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/Account/login`, { email, password });
       const data = response.data;
-      console.log(response.data);
-      
+
       localStorage.setItem('token', data.accessToken);
       localStorage.setItem('roles', JSON.stringify(data.roles));
       localStorage.setItem('userName', data.userName);
@@ -16,9 +17,20 @@ export const login = createAsyncThunk(
 
       return { data };
     } catch (error) {
-      console.log(error);
-      
       return rejectWithValue('Login failed, please check your credentials.');
+    }
+  }
+);
+
+// Reset password async action
+export const resetPassword = createAsyncThunk(
+  'auth/resetPassword',
+  async ({ newPassword, confirmPassword,token,email}, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/Account/reset-password`, { newPassword, confirmPassword,email,token });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue('Reset password failed. Please try again.');
     }
   }
 );
@@ -39,6 +51,7 @@ const authSlice = createSlice({
     email: localStorage.getItem('email') || '',
     error: '',
     loading: false,
+    resetPasswordStatus: '', // To track the reset password status
   },
   reducers: {
     logout: (state) => {
@@ -53,6 +66,7 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // Login extra reducers
     builder
       .addCase(login.pending, (state) => {
         state.loading = true;
@@ -69,6 +83,21 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      });
+
+    // Reset password extra reducers
+    builder
+      .addCase(resetPassword.pending, (state) => {
+        state.loading = true;
+        state.resetPasswordStatus = '';
+      })
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.loading = false;
+        state.resetPasswordStatus = 'Password reset successfully. Please log in with your new password.';
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.resetPasswordStatus = action.payload;
       });
   },
 });
