@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Layout from './Components/Layout';
 import StudentPage from "./Pages/Student/StudentPage";
+import Profile from "./Pages/Profile";
 import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
 import VerifyEmailPage from "./Components/Common/verifyEmail";
@@ -28,6 +29,8 @@ const App = () => {
           <Route path="/articles/:id" element={<Layout><ArticlesListByID /></Layout>} />
           <Route path="/" element={<Home />}/>
           <Route path="/student-page" element={<Layout><StudentPage/></Layout>}/>
+          <Route path="/profile" element={<Profile/>}/>
+
 
           {/* <Router>
       <Routes>
