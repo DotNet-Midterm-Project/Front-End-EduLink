@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import { formatDate, splitDescription } from "../utils/dateUtils";
 
 function Card(props) {
-
+    console.log(props.location == 'event');
+    
     return (
         <>
             <div className="mx-3 mt-4 relative flex w-[23rem] max-w-[26rem] flex-col bg-white bg-clip-border text-gray-700 shadow-lg transition duration-300 ease-in-out hover:bg-gray-300">

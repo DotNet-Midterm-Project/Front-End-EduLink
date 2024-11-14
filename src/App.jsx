@@ -8,6 +8,8 @@ import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Layout from './Components/Layout';
 import StudentPage from "./Pages/Student/StudentPage";
+import BookingPage from "./Pages/Student/BookingPage";
+import EventPage from "./Pages/Student/EventPage";
 
 const App = () => {
   //const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -21,6 +23,9 @@ const App = () => {
           <Route path="/articles/:id" element={<Layout><ArticlesListByID /></Layout>} />
           <Route path="/" element={<Home />}/>
           <Route path="/student-page" element={<Layout><StudentPage/></Layout>}/>
+          <Route path="/booking-page" element={<Layout><BookingPage/></Layout>}/>
+          <Route path="/event-page" element={<Layout><EventPage/></Layout>}/>
+
 
           {/* <Router>
       <Routes>

@@ -7,13 +7,12 @@ import Loading from "../../Components/Loading";
 import ServerError from "../../Components/Error/ServerError";
 import NoData from "../../Components/Error/NoData";
 
-function StudentPage() {
+function VolunteerPage() {
   const roles = JSON.parse(localStorage.getItem("roles") || "[]");
   const user = localStorage.getItem("userName") || "";
   const email = localStorage.getItem("email") || "";
   const dispatch = useDispatch();
   const { courses, loading, error } = useSelector((state) => state.courses);
-console.log(roles);
 
   useEffect(() => {
     dispatch(fetchAllCourses());
@@ -54,4 +53,4 @@ console.log(roles);
   );
 }
 
-export default StudentPage;
+export default VolunteerPage;
