@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
 // import CardArticl from "./Components/Card";
 import Home from "./Pages/Home/Home";
 import Layout from './Components/Layout';
+import AboutUs from "./Pages/AboutUs";
 
 const App = () => {
   //const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -19,6 +20,8 @@ const App = () => {
           <Route path="/articles" element={<Layout><ArticlesList /></Layout>} />
           <Route path="/articles/:id" element={<Layout><ArticlesListByID /></Layout>} />
           <Route path="/" element={<Home />}/>
+          <Route path="/about-us" element={<Layout><AboutUs /></Layout>} />
+
 
           {/* <Router>
       <Routes>

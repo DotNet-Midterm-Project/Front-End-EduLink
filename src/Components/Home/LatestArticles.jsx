@@ -9,7 +9,7 @@ export default function LatestArticles()  {
 
     const latestArticles = articles
       ?.slice()
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .sort((a, b) => new Date(b?.createdAt) - new Date(a?.createdAt))
       .slice(0, 3);
 
     useEffect(() => {
@@ -35,7 +35,7 @@ export default function LatestArticles()  {
           Stay updated with the latest news, tips, and insights from our experts in the field.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {latestArticles.map((article, index) => (
+          {latestArticles?.map((article, index) => (
             <ArticleCard key={index} article={article} />
           ))}
         </div>

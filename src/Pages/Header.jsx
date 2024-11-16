@@ -31,7 +31,7 @@ export default function Header() {
               Home
             </a>
             <a
-              href="/about"
+              href="/about-us"
               className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
             >
               About us
