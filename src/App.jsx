@@ -1,13 +1,19 @@
 import React from "react";
-import Login from "./Components/Login";
+
 // import { useSelector } from "react-redux";
 import ArticlesList from "./Pages/Article/ArticlesList";
 import ArticlesListByID from "./Pages/Article/ArticlesListByID";
-import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import CardArticl from "./Components/Card";
 import Home from "./Pages/Home/Home";
 import Layout from './Components/Layout';
 import AboutUs from "./Pages/AboutUs";
+import StudentPage from "./Pages/Student/StudentPage";
+import Profile from "./Pages/Profile";
+import Login from "./Pages/Auth/Login";
+import Register from "./Pages/Auth/Register";
+import VerifyEmailPage from "./Components/Common/verifyEmail";
+import ResetPassword from "./Pages/Auth/ResetPassword";
 
 const App = () => {
   //const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -16,11 +22,16 @@ const App = () => {
     <>
       <BrowserRouter>
         <Routes>
+        <Route path="/reset-password" element={<Layout><ResetPassword /></Layout>} />
           <Route path="/login" element={<Layout><Login /></Layout>} />
+          <Route path="/register" element={<Layout><Register /></Layout>} />
+          <Route path="/verify" element={<Layout><VerifyEmailPage /></Layout>} />
           <Route path="/articles" element={<Layout><ArticlesList /></Layout>} />
           <Route path="/articles/:id" element={<Layout><ArticlesListByID /></Layout>} />
           <Route path="/" element={<Home />}/>
           <Route path="/about-us" element={<Layout><AboutUs /></Layout>} />
+          <Route path="/student-page" element={<Layout><StudentPage/></Layout>}/>
+          <Route path="/profile" element={<Profile/>}/>
 
 
           {/* <Router>
@@ -57,6 +68,6 @@ const App = () => {
       </BrowserRouter>
     </>
   );
-};
+}
 
 export default App;
