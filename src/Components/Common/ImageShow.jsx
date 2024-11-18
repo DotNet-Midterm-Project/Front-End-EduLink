@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 import { formatDate, splitDescription } from "../../utils/dateUtils";
 
-function ImageShow(props) {
-  console.log(props);
-
+function ImageShow({ props }) {
   return (
     <>
       <div
@@ -16,7 +14,9 @@ function ImageShow(props) {
         <div className="relative rounded-gl mx-auto w-full md:w-[72rem] h-60 md:h-96 opacity-90">
           <Link to={`/articles/${props?.id}`}>
             <img
-              src={`${import.meta.env.VITE_URL_BACKEND}/Resources/${props?.image}`}
+              src={`${import.meta.env.VITE_URL_BACKEND}/Resources/${
+                props?.image
+              }`}
               className="block w-full h-full object-cover"
               style={{ borderRadius: "0px 20px 20px 20px" }}
               alt={props?.title || "Image"}
@@ -34,11 +34,16 @@ function ImageShow(props) {
             </p>
 
             {/* Title */}
-            <h5 className="text-lg md:text-2xl font-bold mt-1">{props?.title}</h5>
+            <h5 className="text-lg md:text-2xl font-bold mt-1">
+              {props?.title}
+            </h5>
 
             {/* Description with reduced characters for mobile */}
             <p className="text-xs md:text-sm mt-1">
-              {splitDescription(props?.description, window.innerWidth < 768 ? 5 : 10)}
+              {splitDescription(
+                props?.description,
+                window.innerWidth < 768 ? 5 : 10
+              )}
             </p>
           </div>
         </div>
