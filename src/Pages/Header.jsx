@@ -4,21 +4,21 @@ import { useState, useEffect } from "react";
 import SideBar from "../Components/Student/SideBar";
 import { yourProfile } from "../assets";
 
-const NavLink = ({ to, children }) => {
+const NavLink = ({ link, children }) => {
   const location = useLocation();
   const currentPath = location.pathname;
 
   return (
-    <a
-      href={to}
+    <Link
+      to={link}
       className={`transition-all duration-75 transform hover:scale-105 ${
-        currentPath === to
+        currentPath === link
           ? "border-b-2 border-orange-400 font-bold" // جعل النص عريضًا عند التواجد في الصفحة
           : ""
       }`}
     >
       {children}
-    </a>
+    </Link>
   );
 };
 
@@ -36,26 +36,22 @@ export default function Header() {
 
   // Handle scroll event
   useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
     const handleStorageChange = () => {
       setIsLoggedIn(!!localStorage.getItem("token"));
       setRoles(JSON.parse(localStorage.getItem("roles") || "[]"));
     };
 
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true); // Change background when scrolled down
-      } else {
-        setIsScrolled(false); // Revert to original state when at the top
-      }
-    };
-
+    handleStorageChange(); // Initialize values on mount
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("storage", handleStorageChange);
 
-    // Cleanup the event listener on unmount
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
@@ -68,7 +64,6 @@ export default function Header() {
     >
       <div className="z-30">
         <div className="flex items-center justify-between h-20 font-semibold">
-        <div className={`flex items-center justify-between h-20 font-bold`}>
           {/* Logo */}
           <div className="flex items-center space-x-2">
             <div className="w-[60px] h-[55px]">
@@ -78,9 +73,6 @@ export default function Header() {
                 className="w-full h-full object-cover"
               />
             </div>
-            {/* <span className="text-2xl font-bold text-white">
-              <span className="text-orange-400">Edu</span>Link
-            </span> */}
           </div>
 
           {/* Desktop Navigation */}
@@ -89,72 +81,39 @@ export default function Header() {
               isScrolled ? "text-[#0B102F]" : "text-gray-200"
             }`}
           >
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="/about">About us</NavLink>
-            <NavLink to="/articles">Articles</NavLink>
-            <NavLink to="/contact">Contact us</NavLink>
-          <nav className="hidden md:flex items-center duration-300 space-x-8 text-xl">
             {!isLoggedIn && !roles.includes("Student") ? (
               <>
+                <NavLink link="/">Home</NavLink>
+                <NavLink link="/about">About us</NavLink>
+                <NavLink link="/articles">Articles</NavLink>
+                <NavLink link="/contact">Contact us</NavLink>
+              </>
+            ) : (
+              <div className="space-x-4">
+                <Link
+                  to="/profile"
+                  className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
+                >
+                  Profile Settings
+                </Link>
                 <Link
                   to="/"
                   className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
                 >
-                  Home
+                  Home page
                 </Link>
-                <Link
-                  to="/about"
-                  className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
-                >
-                  About us
-                </Link>
-                <Link
-                  to="/articles"
-                  className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
-                >
-                  Articles
-                </Link>
-                <Link
-                  to="/contact"
-                  className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
-                >
-                  Contact us
-                </Link>
-              </>
-            ) : (
-              <div className="relativ space-x-4">
-                <div className="absolute top-6 ml-44 space-x-4">
-                  <Link
-                    to="/profile"
-                    className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
-                  >
-                    Profile Settings
-                  </Link>
-                  <Link
-                    to="/"
-                    className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
-                  >
-                    Home page
-                  </Link>
-                </div>
               </div>
             )}
           </nav>
 
           {/* Login Button */}
-          <div className="hidden md:block">
-            <Link
-              to={"/login"}
-
-              className="bg-orange-400 hover:bg-orange-500 text-white px-8 py-1 rounded-[10px] font-medium transition-colors"
-            >
-              Login
-            </Link>
+          <div className="hidden md:flex items-center space-x-4">
             {isLoggedIn && roles.includes("Student") ? (
               <>
                 <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                   <img
                     src={yourProfile}
+                    alt="Profile"
                     className="h-8 w-8 align-middle hover:text-[#F28E33]"
                   />
                 </button>
@@ -173,7 +132,7 @@ export default function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden bg-gradient-to-r from-orange-500 to-orange-600 shadow-md rounded-md">
+          <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="text-white p-2 transition-transform duration-300 ease-in-out transform hover:scale-105"
@@ -202,17 +161,19 @@ export default function Header() {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg rounded-md">
-              <NavLink to="/">Home</NavLink>
-              <NavLink to="/about">About us</NavLink>
-              <NavLink to="/articles">Articles</NavLink>
-              <NavLink to="/contact">Contact us</NavLink>
-              <button className="w-full bg-orange-400 hover:bg-orange-600 text-white px-6 py-2 rounded-full font-medium transition-colors duration-300 mt-4 shadow-md">
+              <NavLink link="/">Home</NavLink>
+              <NavLink link="/about">About us</NavLink>
+              <NavLink link="/articles">Articles</NavLink>
+              <NavLink link="/contact">Contact us</NavLink>
+              <Link
+                to="/login"
+                className="block bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-full font-medium transition-colors duration-300 mt-4"
+              >
                 Login
-              </button>
+              </Link>
             </div>
           </div>
         )}
-        
       </div>
     </header>
   );
