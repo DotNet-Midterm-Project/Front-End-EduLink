@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function NoData() {
+function NoData(props) {
   return (
     <div className="w-full flex items-center flex-wrap justify-center gap-10">
       <div className="grid gap-4 w-60">
@@ -83,17 +83,26 @@ function NoData() {
         </svg>
         <div>
           <h2 className="text-center text-black text-xl font-semibold leading-loose pb-2">
-            There’s no articles here
+            {props?.location == "event"
+              ? "There No Event try again"
+              : "There’s no articles here"}
           </h2>
           <p className="text-center text-black text-base font-normal leading-relaxed pb-4">
-          Complete your browse to see  <br /> 
-           more on our website.{" "}
+            Complete your browse to see <br />
+            more..{" "}
           </p>
-          <div className="flex gap-3 text-center">
-            <Link to={'/'} className="w-full px-3 py-2 bg-blue-600 hover:bg-blue-700 transition-all duration-500 rounded-full text-white text-xs font-semibold leading-4">
-              Go To Home{" "}
-            </Link>
-          </div>
+          {props?.location == "event" ? (
+            ""
+          ) : (
+            <div className="flex gap-3 text-center">
+              <Link
+                to={"/"}
+                className="w-full px-3 py-2 bg-blue-600 hover:bg-blue-700 transition-all duration-500 rounded-full text-white text-xs font-semibold leading-4"
+              >
+                Go To Home{" "}
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>

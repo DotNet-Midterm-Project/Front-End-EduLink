@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { formatDate, splitDescription } from "../../utils/dateUtils";
 
-function ImageShow({ props }) {
+function ImageShow(props) {
+  console.log(props);
+  
   return (
     <>
       <div
