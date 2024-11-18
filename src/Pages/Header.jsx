@@ -59,6 +59,9 @@ export default function Header() {
                 className="w-full h-full object-cover"
               />
             </div>
+            {/* <span className="text-2xl font-bold text-white">
+              <span className="text-orange-400">Edu</span>Link
+            </span> */}
           </div>
 
           {/* Desktop Navigation */}
@@ -77,6 +80,7 @@ export default function Header() {
           <div className="hidden md:block">
             <Link
               to={"/login"}
+
               className="bg-orange-400 hover:bg-orange-500 text-white px-8 py-1 rounded-[10px] font-medium transition-colors"
             >
               Login
@@ -123,6 +127,7 @@ export default function Header() {
             </div>
           </div>
         )}
+        
       </div>
     </header>
   );
