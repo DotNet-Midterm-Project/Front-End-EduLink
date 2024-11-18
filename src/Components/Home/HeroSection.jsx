@@ -70,7 +70,7 @@ export default function Component() {
           {texts[currentIndex]}
         </p>
         
-        <button className="mt-6 h-10 w-48 text-[20px] font-normal bg-[#F28E33] rounded-lg hover:bg-[#F07E12] hover:shadow-lg transition-all">
+        <button className="mt-6 h-10 w-48 text-[2px] font-normal bg-[#F28E33] rounded-lg hover:bg-[#F07E12] hover:shadow-lg transition-all">
           Get Started Now
         </button>
       </div>

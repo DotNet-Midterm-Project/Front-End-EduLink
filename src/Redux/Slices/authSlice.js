@@ -7,7 +7,7 @@ export const login = createAsyncThunk(
   'auth/login',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/Account/login`, { email, password });
+      const response = await axios.post(`${import.meta.env.VITE_URL_BACKEND}/api/Account/login`, { email, password });
       const data = response.data;
 
       localStorage.setItem('token', data.accessToken);
@@ -27,7 +27,7 @@ export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
   async ({ newPassword, confirmPassword,token,email}, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/Account/reset-password`, { newPassword, confirmPassword,email,token });
+      const response = await axios.post(`${import.meta.env.VITE_URL_BACKEND}/api/Account/reset-password`, { newPassword, confirmPassword,email,token });
       return response.data;
     } catch (error) {
       return rejectWithValue('Reset password failed. Please try again.');
