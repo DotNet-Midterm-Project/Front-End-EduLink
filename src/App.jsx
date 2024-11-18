@@ -4,6 +4,7 @@ import ArticlesListByID from "./Pages/Article/ArticlesListByID";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Layout from './Components/Layout';
+import AboutUs from "./Pages/AboutUs";
 import StudentPage from "./Pages/Student/StudentPage";
 import Profile from "./Pages/Profile";
 import Login from "./Pages/Auth/Login";
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/articles" element={<Layout><ArticlesList /></Layout>} />
           <Route path="/articles/:id" element={<Layout><ArticlesListByID /></Layout>} />
           <Route path="/" element={<Home />}/>
+          <Route path="/about-us" element={<Layout><AboutUs /></Layout>} />
           <Route path="/student-page" element={<Layout><StudentPage/></Layout>}/>
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/booking-page" element={<Layout><BookingPage/></Layout>}/>
