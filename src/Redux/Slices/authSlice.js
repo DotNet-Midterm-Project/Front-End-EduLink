@@ -9,7 +9,8 @@ export const login = createAsyncThunk(
     try {
       const response = await axios.post(`${import.meta.env.VITE_URL_BACKEND}/api/Account/login`, { email, password });
       const data = response.data;
-
+      console.log(data);
+      
       localStorage.setItem('token', data.accessToken);
       localStorage.setItem('roles', JSON.stringify(data.roles));
       localStorage.setItem('userName', data.userName);
