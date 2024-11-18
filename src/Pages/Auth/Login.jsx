@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../Context/auth";
 import Field from "../../Components/Common/Field";
@@ -9,6 +9,8 @@ import bg from "../../assets/bg.mp4";
 import { Dialog } from '@headlessui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../Redux/Slices/authSlice';
+import Swal from 'sweetalert2';
+
 
 export default function Login() {
   const { forgotPassword } = useAuth();
@@ -24,11 +26,22 @@ export default function Login() {
   const { error, loading } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
-    console.log(email, password);
     e.preventDefault();
+  
     dispatch(login({ email, password })).then((action) => {
       if (login.fulfilled.match(action)) {
-        navigate('/');
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successful',
+          text: 'You will be redirected shortly...',
+          showConfirmButton: false, 
+          timer: 3000, 
+          timerProgressBar: true, 
+        });
+  
+        setTimeout(() => {
+          navigate('/student-page');
+        }, 2000);
       }
     });
   };

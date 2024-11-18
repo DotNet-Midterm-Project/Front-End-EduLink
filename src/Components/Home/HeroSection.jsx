@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-
 import Cybersecurity_Professional_Analyzing_Global_Data from "../../assets/Home/Cybersecurity_Professional_Analyzing_Global_Data.jpeg";
 import Industrial_Control_Room from "../../assets/Home/Industrial_Control_Room.jpeg";
 import Studious_Girls_in_Classroom from "../../assets/Home/Studious_Girls_in_Classroom.jpeg";
@@ -31,29 +30,15 @@ export default function Component() {
     const [selectedSlide] = reorderedSlides.splice(index, 1);
     const [selectedText] = reorderedTexts.splice(index, 1);
 
-    // Add the selected slide and text to the beginning of the arrays
     reorderedSlides.unshift(selectedSlide);
     reorderedTexts.unshift(selectedText);
 
-    // Update the state with the new order
     setSlides(reorderedSlides);
     setTexts(reorderedTexts);
-    setCurrentIndex(0); // Reset to the first image after reordering
+    setCurrentIndex(0);
   };
 
   return (
-    <div className="relative h-screen w-full overflow-hidden z-20">
-      <div className="absolute left-1/2 top-1/2 z-10 flex h-2/3 w-11/12 -translate-x-1/2 -translate-y-1/2 flex-col justify-between text-white sm:h-2/3 sm:w-2/3 md:left-10 md:w-1/2 md:translate-x-0 ">
-        <h1 className="text-center text-[40px] mt-24 font-bold tracking-wider sm:text-left  sm:text-[40px] md:text-[60px] lg:text-[75px]">
-          EduLink
-        </h1>
-        <p
-          className={`absolute text-2xl mt-12 transition-all duration-300 sm:text-3xl md:text-4xl ${
-            fadeIn ? "translate-y-48 opacity-0" : "translate-y-36 opacity-90"
-          }`}
-        >
-          {texts[curr]}
-
     <div
       className="relative h-screen w-full flex"
       style={{
@@ -78,10 +63,8 @@ export default function Component() {
       {/* Left Column */}
       <div className="relative z-10 flex flex-col justify-center items-start px-10 w-1/2 text-white">
         <h1 className="text-[75px] font-bold tracking-wide">EduLink</h1>
-        <p className="text-[24px] mt-4 leading-relaxed">
-          {texts[currentIndex]}
-        </p>
-        
+        <p className="text-[24px] mt-4 leading-relaxed">{texts[currentIndex]}</p>
+
         <button className="mt-6 h-10 w-48 text-[22px] font-normal bg-[#F28E33] rounded-lg hover:bg-[#F07E12] hover:shadow-lg transition-all">
           Get Started Now
         </button>
@@ -96,8 +79,8 @@ export default function Component() {
               src={slide}
               alt={`Slide ${index + 1}`}
               style={{
-                width: index === currentIndex ? "180px" : "163px", // Image size changes here
-                height: index === currentIndex ? "270px" : "225px", // Adjust height accordingly
+                width: index === currentIndex ? "180px" : "163px",
+                height: index === currentIndex ? "270px" : "225px",
               }}
               className={`object-cover rounded-lg transition-all duration-300 cursor-pointer ${
                 index === currentIndex

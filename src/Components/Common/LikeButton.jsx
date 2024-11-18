@@ -1,7 +1,7 @@
 import {
     addLikeToArticle,
     toggleLikeLocally,
-  } from "../../Redux/Slices/LikeComment";
+  } from "../../Redux/Slices/Like";
   import { useSelector, useDispatch } from "react-redux";
   import { fetchArticleById } from '../../Redux/Slices/articlesSlice';
 

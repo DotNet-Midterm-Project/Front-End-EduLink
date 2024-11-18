@@ -7,7 +7,7 @@ import Loading from "../../Components/Loading";
 import ServerError from "../../Components/Error/ServerError";
 import NoData from "../../Components/Error/NoData";
 
-function StudentPage() {
+function VolunteerPage() {
   const roles = JSON.parse(localStorage.getItem("roles") || "[]");
   const user = localStorage.getItem("userName") || "";
   const email = localStorage.getItem("email") || "";
@@ -25,27 +25,22 @@ function StudentPage() {
   if (error) {
     return <ServerError error={error} />;
   }
-console.log("this is the courses",courses);
-
 
   return (
     <>
       <ImageShow user={user} email={email} />
       <h1 className="text-2xl font-bold m-8 mt-24 text-[#0B102F]">
-        Courses in your department
+        All Courses
       </h1>
 
-      <div className="flex flex-wrap justify-start gap-8 mx-8 my-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {
         courses?.length > 0 ? (
           courses?.map((course) => (
             <CourseCard
-            location="volinteer"
               key={course?.courseId}
-              id={course?.courseId}
               name={course?.course_Name}
-              description={course?.courseDescription}
-              count={course?.volunteerCount}
+              id={course?.courseId}
             />
           ))
         ) : (
@@ -58,4 +53,4 @@ console.log("this is the courses",courses);
   );
 }
 
-export default StudentPage;
+export default VolunteerPage;
