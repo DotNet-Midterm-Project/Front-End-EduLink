@@ -39,7 +39,7 @@ function VolunteerPage() {
           courses?.map((course) => (
             <CourseCard
               key={course?.courseId}
-              course_Name={course?.course_Name}
+              name={course?.course_Name}
               id={course?.courseId}
             />
           ))

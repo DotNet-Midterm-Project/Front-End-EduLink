@@ -9,6 +9,7 @@ import courses from './icons/courses.svg';
 import yourProfile from './icons/yourProfile.svg';
 import close from './icons/close.svg';
 import arrow_left from './icons/arrow_left.svg';
+import imagesecation from './imagesecation.png';
 
 export {
     log_out,
@@ -21,4 +22,5 @@ export {
     yourProfile,
     close,
     arrow_left,
+    imagesecation,
 }

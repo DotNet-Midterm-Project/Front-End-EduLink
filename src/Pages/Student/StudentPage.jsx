@@ -13,7 +13,6 @@ function StudentPage() {
   const email = localStorage.getItem("email") || "";
   const dispatch = useDispatch();
   const { courses, loading, error } = useSelector((state) => state.courses);
-console.log(roles);
 
   useEffect(() => {
     dispatch(fetchAllCourses());
@@ -26,22 +25,27 @@ console.log(roles);
   if (error) {
     return <ServerError error={error} />;
   }
+console.log("this is the courses",courses);
+
 
   return (
     <>
       <ImageShow user={user} email={email} />
       <h1 className="text-2xl font-bold m-8 mt-24 text-[#0B102F]">
-        All Courses
+        Courses in your department
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="flex flex-wrap justify-start gap-8 mx-8 my-12">
         {
         courses?.length > 0 ? (
           courses?.map((course) => (
             <CourseCard
+            location="volinteer"
               key={course?.courseId}
-              course_Name={course?.course_Name}
               id={course?.courseId}
+              name={course?.course_Name}
+              description={course?.courseDescription}
+              count={course?.volunteerCount}
             />
           ))
         ) : (

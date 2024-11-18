@@ -8,12 +8,23 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const roles = JSON.parse(localStorage.getItem("roles") || "[]");
+  const [roles, setRoles] = useState([]);
 
   useEffect(() => {
     setIsLoggedIn(!!localStorage.getItem("token"));
-  }, []);  
+    setRoles(JSON.parse(localStorage.getItem("roles") || "[]"));
+  }, [localStorage.getItem("token"), localStorage.getItem("roles")]);
 
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setIsLoggedIn(!!localStorage.getItem("token"));
+      setRoles(JSON.parse(localStorage.getItem("roles") || "[]"));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+  
   return (
     <header className="absolute w-full z-50 px-8">
       <div className="z-30">
@@ -65,7 +76,7 @@ export default function Header() {
               <div className="relativ space-x-4">
                 <div className="absolute top-6 ml-44 space-x-4">
                   <Link
-                    to="/student-page"
+                    to="/profile"
                     className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
                   >
                     Profile Settings
@@ -84,12 +95,14 @@ export default function Header() {
           {/* Login Button or SideBar Icon */}
           <div className="hidden md:block">
             {isLoggedIn && roles.includes("Student") ? (
-              <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-                <img
-                  src={yourProfile}
-                  className=" h-8 w-8 align-middle hover:text-[#F28E33]"
-                />
-              </button>
+              <>
+                <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                  <img
+                    src={yourProfile}
+                    className="h-8 w-8 align-middle hover:text-[#F28E33]"
+                  />
+                </button>
+              </>
             ) : (
               <Link
                 to="/login"
@@ -98,7 +111,7 @@ export default function Header() {
                 Login
               </Link>
             )}
-            {isSidebarOpen && (
+            {isLoggedIn && roles.includes("Student") && isSidebarOpen && (
               <SideBar onClose={() => setIsSidebarOpen(false)} />
             )}
           </div>
