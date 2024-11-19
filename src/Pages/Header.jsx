@@ -13,7 +13,7 @@ const NavLink = ({ link, children }) => {
       to={link}
       className={`transition-all duration-75 transform hover:scale-105 ${
         currentPath === link
-          ? "border-b-2 border-orange-400 font-bold" // جعل النص عريضًا عند التواجد في الصفحة
+          ? "border-b-2 border-orange-400 font-bold"
           : ""
       }`}
     >
@@ -55,7 +55,6 @@ export default function Header() {
     };
   }, []);
 
-  
   return (
     <header
       className={`fixed w-full z-50 px-8 transition-all duration-300 top-0 left-0 right-0 ${

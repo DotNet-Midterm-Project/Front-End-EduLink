@@ -16,6 +16,14 @@ import EventPage from "./Pages/Student/EventPage";
 import EventContentPage  from "./Pages/Student/EventContentPage";
 import ShowVolunteerByCourse from "./Components/Student/ShowVolunteerByCourse";
 
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+
+// Add all icons to the library
+library.add(fas, fab);
+
+
 const App = () => {
   
   return (
