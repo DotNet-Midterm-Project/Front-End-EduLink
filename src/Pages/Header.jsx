@@ -62,6 +62,12 @@ export default function Header() {
     };
   }, []);
 
+  // Get the current path
+  const location = useLocation();
+
+  // Check if the current page is "About Us"
+  const isAboutPage = location.pathname === "/about-us";
+
   return (
     <header
       className={`fixed w-full z-50 px-8 transition-all duration-300 top-0 left-0 right-0 ${
