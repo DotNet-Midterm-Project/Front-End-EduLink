@@ -34,7 +34,7 @@ export default function Header() {
   const isSpecialPage =
     location.pathname === "/contact-us" ||
     location.pathname === "/articles" ||
-    location.pathname === "/about";
+    location.pathname === "/about-us";
 
   useEffect(() => {
     setIsLoggedIn(!!localStorage.getItem("token"));
@@ -63,7 +63,7 @@ export default function Header() {
   }, []);
 
   // Get the current path
-  const location = useLocation();
+  // const location = useLocation();
 
   // Check if the current page is "About Us"
   const isAboutPage = location.pathname === "/about-us";
@@ -102,7 +102,7 @@ export default function Header() {
             {!isLoggedIn && !roles.includes("Student") ? (
               <>
                 <NavLink link="/" className={isSpecialPage ? "text-[#0B102F]" : ""}>Home</NavLink>
-                <NavLink link="/about" className={isSpecialPage ? "text-[#0B102F]" : ""}>About us</NavLink>
+                <NavLink link="/about-us" className={isSpecialPage ? "text-[#0B102F]" : ""}>About us</NavLink>
                 <NavLink link="/articles" className={isSpecialPage ? "text-[#0B102F]" : ""}>Articles</NavLink>
                 <NavLink link="/contact-us" className={isSpecialPage ? "text-[#0B102F]" : ""}>Contact us</NavLink>
               </>
@@ -180,7 +180,7 @@ export default function Header() {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg rounded-md">
               <NavLink link="/" className={isSpecialPage ? "text-[#0B102F]" : ""}>Home</NavLink>
-              <NavLink link="/about" className={isSpecialPage ? "text-[#0B102F]" : ""}>About us</NavLink>
+              <NavLink link="/about-us" className={isSpecialPage ? "text-[#0B102F]" : ""}>About us</NavLink>
               <NavLink link="/articles" className={isSpecialPage ? "text-[#0B102F]" : ""}>Articles</NavLink>
               <NavLink link="/contact-us" className={isSpecialPage ? "text-[#0B102F]" : ""}>Contact us</NavLink>
               <Link
