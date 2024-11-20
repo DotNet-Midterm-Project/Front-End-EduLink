@@ -70,6 +70,37 @@ export const fetchEventsByVolunteerAndCourse = createAsyncThunk(
   }
 );
 
+// Async thunk to book a workshop
+export const bookAnEvent = createAsyncThunk(
+  "workshop/bookWorkshop",
+  async (workshopID, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_URL_BACKEND}/api/Student/book-workshop`,
+        null,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          params: { workshopID },
+        }
+      );
+      console.log("this is ", response.data);
+
+      return response.data;
+    } catch (error) {
+        console.log(error);
+        
+      if (error.response && error.response.status === 400) {
+        if (error.response.data.includes("already booked")) {
+          return rejectWithValue("You have already booked this event.");
+        }
+      }
+      return rejectWithValue(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
+    }
+  }
+);
+
 const bookinEventgSlice = createSlice({
   name: "events",
   initialState: {
@@ -77,11 +108,16 @@ const bookinEventgSlice = createSlice({
     eventContent: [],
     selectedEvent: null,
     loading: false,
+    successMessage: null,
     error: "",
   },
   reducers: {
     clearSelectedEvent: (state) => {
       state.selectedEvent = null;
+    },
+    clearMessages: (state) => {
+      state.successMessage = null;
+      state.errorMessage = null;
     },
   },
   extraReducers: (builder) => {
@@ -123,9 +159,23 @@ const bookinEventgSlice = createSlice({
       .addCase(fetchEventsByVolunteerAndCourse.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload.message;
+      })
+      // Handle booking event
+      .addCase(bookAnEvent.pending, (state) => {
+        state.loading = true;
+        state.successMessage = null;
+        state.error = null;
+      })
+      .addCase(bookAnEvent.fulfilled, (state, action) => {
+        state.loading = false;
+        state.successMessage = action.payload;
+      })
+      .addCase(bookAnEvent.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
 
-export const { clearSelectedEvent } = bookinEventgSlice.actions;
+export const { clearSelectedEvent, clearMessages } = bookinEventgSlice.actions;
 export default bookinEventgSlice.reducer;
