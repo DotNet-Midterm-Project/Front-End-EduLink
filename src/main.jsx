@@ -7,6 +7,12 @@ import './index.css';
 import { AuthProvider } from './Context/auth';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter } from 'react-router-dom';
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+
+// Add all icons to the library
+library.add(fas, fab);
 
 const queryClient = new QueryClient({
   defaultOptions: {

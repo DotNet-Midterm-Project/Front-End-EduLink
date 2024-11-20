@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 const AuthContext = createContext();
 
-const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
+const apiBaseUrl = import.meta.env.VITE_URL_BACKEND;
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);

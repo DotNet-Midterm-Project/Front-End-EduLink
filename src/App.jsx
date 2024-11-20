@@ -17,6 +17,16 @@ import EventContentPage  from "./Pages/Student/EventContentPage";
 import ShowVolunteerByCourse from "./Components/Student/ShowVolunteerByCourse";
 import YourEvent from "./Pages/Student/YourEvent";
 
+
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import Contact from "./Pages/contactUS/Contact";
+
+// Add all icons to the library
+library.add(fas, fab);
+
+
 const App = () => {
   
   return (
@@ -38,6 +48,7 @@ const App = () => {
           <Route path="/event-content/:eventId" element={<EventContentPage />} />
           <Route path="/volunteers/:courseId" element={<ShowVolunteerByCourse />} />
           <Route path="/your-event-page" element={<Layout><YourEvent/></Layout>} />
+          <Route path="/contact-us" element={<Layout><Contact/></Layout>}/>
         </Routes>
       </BrowserRouter>
     </>
