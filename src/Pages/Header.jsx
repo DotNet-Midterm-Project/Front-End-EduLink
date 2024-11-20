@@ -84,7 +84,7 @@ export default function Header() {
             {!isLoggedIn && !roles.includes("Student") ? (
               <>
                 <NavLink link="/">Home</NavLink>
-                <NavLink link="/about">About us</NavLink>
+                <NavLink link="/about-us">About us</NavLink>
                 <NavLink link="/articles">Articles</NavLink>
                 <NavLink link="/contact">Contact us</NavLink>
               </>

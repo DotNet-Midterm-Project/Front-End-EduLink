@@ -5,13 +5,13 @@ import {
   register,
   viewArticles,
   events,
-  courses,
   yourProfile,
   close,
 } from "../../assets";
 import LogoutButton from "../LogoutButton";
 import RegisterModal from "./RegisterModal";
 import { useState } from "react";
+
 
 function SideBar({ onClose }) {
   const user = localStorage.getItem("userName") || "";
@@ -61,14 +61,12 @@ function SideBar({ onClose }) {
                     Book an Event
                   </Link>
                   <Link
-                    to="#"
+                    to="/your-event-page"
                     className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"
                   >
                     <img src={events} className="mr-4 h-5 w-5 align-middle" />
                     Your Events
                   </Link>
-
-                  
                   <Link
                     to="/articles"
                     className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"

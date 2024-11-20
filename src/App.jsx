@@ -15,6 +15,7 @@ import BookingPage from "./Pages/Student/BookingPage";
 import EventPage from "./Pages/Student/EventPage";
 import EventContentPage  from "./Pages/Student/EventContentPage";
 import ShowVolunteerByCourse from "./Components/Student/ShowVolunteerByCourse";
+import YourEvent from "./Pages/Student/YourEvent";
 
 const App = () => {
   
@@ -36,6 +37,7 @@ const App = () => {
           <Route path="/event-page" element={<Layout><EventPage/></Layout>}/>
           <Route path="/event-content/:eventId" element={<EventContentPage />} />
           <Route path="/volunteers/:courseId" element={<ShowVolunteerByCourse />} />
+          <Route path="/your-event-page" element={<Layout><YourEvent/></Layout>} />
         </Routes>
       </BrowserRouter>
     </>
