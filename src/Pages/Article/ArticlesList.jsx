@@ -13,9 +13,10 @@ const ArticlesList = () => {
   const { articles, loading, error } = useSelector((state) => state?.articles);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
+
   useEffect(() => {
     dispatch(fetchAllArticles());
-  }, [dispatch]);
+  }, [dispatch, currentPage]);  // Add currentPage to trigger when it changes
 
   if (loading) {
     return <Loading />;
@@ -25,12 +26,18 @@ const ArticlesList = () => {
     return <ServerError error={error} />;
   }
 
-  const startIdx = (currentPage - 1) * itemsPerPage;
-  const currentArticles = articles.slice(startIdx, startIdx + itemsPerPage);
+  const getCurrentArticles = (articles, currentPage, itemsPerPage) => {
+    const startIdx = (currentPage - 1) * itemsPerPage;
+    return articles.slice(startIdx, startIdx + itemsPerPage);
+  };
+
+  const currentArticles = getCurrentArticles(articles, currentPage, itemsPerPage);
 
   return (
     <>
-      <div className="flex items-center justify-center text-center my-24">
+      <div className="flex items-center  justify-center text-center my-24"
+      style={{ color: "#0B102F" }}
+      >
         <div className="relative inline-block">
           <div className="mb-1 font-bold">Articles</div>
           <span className="text-2xl md:text-4xl font-bold py-12">
@@ -44,40 +51,40 @@ const ArticlesList = () => {
       </div>
 
       {articles.length > 0 ? (
-    <div className="my-6">
-      <ImageShow
-        key={articles[1]?.articleID}
-        id={articles[1]?.articleID}
-        title={articles[1]?.title}
-        auther={articles[1]?.volunteerName}
-        description={articles[1]?.articleContent}
-        date={articles[1]?.publicationDate}
-        image={articles[1]?.articleFile}
-      />
-    </div>
-  ) : (
-    <NoData />
-  )}
+        <>
+          <div className="my-6">
+            <ImageShow
+              key={articles[0]?.articleID}
+              id={articles[0]?.articleID}
+              title={articles[0]?.title}
+              auther={articles[0]?.volunteerName}
+              description={articles[0]?.articleContent}
+              date={articles[0]?.publicationDate}
+              image={articles[0]?.articleFile}
+            />
+          </div>
 
-  <div className="flex flex-wrap justify-start sm:justify-center">
-    {currentArticles?.map((article) => {
-      return (
-        <Card
-          key={article?.articleID}
-          id={article?.articleID}
-          title={article?.title}
-          auther={article?.volunteerName}
-          description={article?.articleContent}
-          date={article?.publicationDate}
-          image={article?.articleFile}
-        />
-      );
-    })}
-  </div>
+          <div className="flex flex-wrap justify-start sm:justify-center">
+            {currentArticles.map((article) => (
+              <Card
+                key={article?.articleID}
+                id={article?.articleID}
+                title={article?.title}
+                auther={article?.volunteerName}
+                description={article?.articleContent}
+                date={article?.publicationDate}
+                image={article?.articleFile}
+              />
+            ))}
+          </div>
 
-      <div className="my-6">
-        <Pagination articles={articles} onPageChange={setCurrentPage} />
-      </div>
+          <div className="my-6">
+            <Pagination articles={articles} onPageChange={setCurrentPage} />
+          </div>
+        </>
+      ) : (
+        <NoData />
+      )}
     </>
   );
 };

@@ -31,10 +31,15 @@ function ArticlesListByID() {
     }
   }, [dispatch, id]);
 
-  const handleCommentSubmit = (e) => {
+   const handleCommentSubmit = (e) => {
     e.preventDefault();
     dispatch(addComment({ articleID: id, commentText: commentContent }));
-    Swal.fire("Success", "Comment added successfully!", "success");
+    Swal.fire({
+      icon: "success",
+      title: "Comment added successfully!",
+      showConfirmButton: false,
+      timer: 2000,
+    });
     setCommentContent(""); 
   };
 
@@ -50,11 +55,18 @@ function ArticlesListByID() {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteComment(commentId)).then(() => {
-          Swal.fire("Deleted!", "Your comment has been deleted.", "success");
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your comment has been deleted.",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 2000,
+          });
         });
       }
     });
   };
+  
 
   const handleClick = () => {
     setCommentFormVisible((prev) => !prev);
@@ -94,7 +106,7 @@ console.log(selectedArticle);
               {selectedArticle?.title}
             </h1>
             <div className="">
-              <p className="lead mt-4">{selectedArticle?.articleContent}</p>
+              <p className="lead mt-4 text-justify">{selectedArticle?.articleContent}</p>
             </div>
             <section className="not-format mt-12">
               <div className="flex space-x-4">
@@ -136,7 +148,7 @@ console.log(selectedArticle);
                       />
                       <div className="flex justify-end mt-2">
                         <button className="h-12 w-[150px] bg-blue-400 text-sm text-white rounded-lg transition-all cursor-pointer hover:bg-blue-600">
-                          Submit comment
+                          Comment
                         </button>
                       </div>
                     </div>

@@ -6,29 +6,27 @@ function Pagination(props) {
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
-        const totalPages = Math?.ceil(props.articles?.length / itemsPerPage);
     };
-    const totalPages = Math?.ceil(props.articles?.length / itemsPerPage);
+
+    const totalPages = Math.ceil(props.articles?.length / itemsPerPage);
 
     return (
-        <>
-
-            <div className="flex justify-center mt-6 space-x-2">
-                {Array.from({ length: totalPages }, (_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => handlePageChange(index + 1)}
-                        className={`px-4 py-2 rounded-md font-semibold transition-colors duration-300 ${currentPage === index + 1
+        <div className="flex justify-center mt-6 space-x-2">
+            {Array.from({ length: totalPages }, (_, pageIndex) => (
+                <button
+                    key={pageIndex}
+                    onClick={() => handlePageChange(pageIndex + 1)}
+                    className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+                        currentPage === pageIndex + 1
                             ? "bg-blue-600 text-white"
-                            : "bg-gray-200 text-gray-800 hover:bg-blue-400 hover:text-white"
-                            }`}
-                    >
-                        {index + 1}
-                    </button>
-                ))}
-            </div>
-        </>
-    )
+                            : "bg-blue-100 text-blue-900"
+                    } font-semibold`}
+                >
+                    {pageIndex + 1}
+                </button>
+            ))}
+        </div>
+    );
 }
 
 export default Pagination;
