@@ -1,14 +1,15 @@
 import image from "../../assets/imagesecation.png";
 
-function ImageShow(props){
-    return(
-        <>
-        <div
+function ImageShow(props) {
+  return (
+    <>
+      <div
         className="relative"
         data-te-carousel-init
         data-te-ride="carousel"
       >
-        <div className="relative mx-auto w-full h-60 md:h-96 opacity-90">
+        {/* Adjusted height classes */}
+        <div className="relative mx-auto w-full h-40 md:h-60 opacity-90">
           <img src={image} className="block w-full h-full" alt={"image"} />
 
           <div
@@ -31,15 +32,17 @@ function ImageShow(props){
                 />
               </svg>
               <div>
-                <h5 className="text-lg md:text-2xl font-bold mt-1">{props.user}</h5>
+                <h5 className="text-lg md:text-2xl font-bold mt-1">
+                  {props.user}
+                </h5>
                 <p className="text-sm md:text-base">{props.email}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-        </>
-    )
+    </>
+  );
 }
 
 export default ImageShow;

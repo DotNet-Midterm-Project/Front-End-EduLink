@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
 import { formatDate, splitDescription } from "../../utils/dateUtils";
+import { useState } from "react";
 
 function ImageShow(props) {
-  console.log(props);
-  
+  const [showModal, setShowModal] = useState(false);
+
+  const handleImageClick = (e) => {
+    if (!props.isAuthenticated) {
+      e.preventDefault();
+      setShowModal(true);
+    }
+  };
+
   return (
     <>
       <div
@@ -14,7 +22,7 @@ function ImageShow(props) {
         data-te-ride="carousel"
       >
         <div className="relative rounded-gl mx-auto w-full md:w-[72rem] h-60 md:h-96 opacity-90">
-          <Link to={`/articles/${props?.id}`}>
+          <Link to={`/articles/${props?.id}`} onClick={handleImageClick}>
             <img
               src={`${import.meta.env.VITE_URL_BACKEND}/Resources/${
                 props?.image
@@ -50,6 +58,38 @@ function ImageShow(props) {
           </div>
         </div>
       </div>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div
+            className="w-[35rem] rounded-lg bg-[#EFEFEF] p-8 shadow-lg"
+            style={{ borderColor: "#6B6868", borderWidth: "2px" }}
+          >
+            <h2 className="mb-6 text-2xl font-bold text-[#0D47A1]">
+              Access Restricted
+            </h2>
+            <p className="mb-8 text-lg text-[#6B6868]">
+              To read this article, you need to be logged in or create an
+              account.
+            </p>
+            <div className="flex justify-end gap-6">
+              <button
+                className="rounded-lg bg-[#6B6868] px-6 py-3 text-white hover:bg-opacity-80"
+                onClick={() => setShowModal(false)}
+              >
+                Close
+              </button>
+              <Link
+                to="/register"
+                className="rounded-lg bg-[#F28E33] px-6 py-3 text-white hover:bg-opacity-80"
+              >
+                Sign Up
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
