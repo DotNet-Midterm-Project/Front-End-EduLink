@@ -1,4 +1,4 @@
-import  { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/auth";
 import Field from "../../Components/Common/Field";
@@ -28,6 +28,7 @@ export default function Register() {
       document.body.classList.remove("has-video-bg");
     };
   }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -37,12 +38,10 @@ export default function Register() {
     data.departmentID = parseInt(data.departmentID);
 
     try {
-       await registerUser(data);
+      await registerUser(data);
       toast.success("Registration successful! Please verify your email.");
- 
       navigate("/verify");
       registerReference.current.reset();
-    
     } catch (error) {
       console.error("Error during registration:", error);
       toast.error(error.message || "An error occurred during registration.");
@@ -50,107 +49,137 @@ export default function Register() {
       setIsLoading(false);
     }
   };
+
   return (
-    <section className="min-h-screen  flex items-center justify-center overflow-hidden relative">
+    <section className="min-h-screen flex flex-col items-center justify-start overflow-y-auto relative bg-gray-100 scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200">
+      {/* Background Video */}
       <video
         autoPlay
         loop
         muted
-        className="absolute z-0  min-w-full min-h-full max-w-none object-cover"
+        className="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover"
       >
         <source src={bg} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <motion.div
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="hidden lg:block absolute mt-20 left-10 z-20 text-white"
-      >
-        <motion.h2
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="text-5xl font-bold mb-4"
-        >
-          Welcome to EduLink!
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="text-2xl font-light"
-        >
-          Empower Your Learning Journey
-        </motion.p>
-      </motion.div>
+      <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-3xl p-8 bg-white bg-opacity-30  backdrop-filter backdrop-blur-lg rounded-lg shadow-2xl z-20"
-      >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="flex justify-center "
-        >
-          <motion.img
-            src={eduLinkLogo}
-            alt="EduLink Logo"
-            className="w-50 h-auto m-auto "
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          />
-        </motion.div>
-        <h1 className="text-5xl font-bold text-center text-white mb-3">
+      {/* Add Space Between Header and Form */}
+      <div className="h-20"></div>
+
+      {/* Sign-Up Box */}
+      <div className="w-full max-w-3xl p-8 bg-white bg-opacity-90 backdrop-blur-md rounded-lg shadow-lg z-20 overflow-y-auto max-h-[90vh] scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200">
+        {/* Logo */}
+        <div className="flex justify-center mb-4">
+          <img src={eduLinkLogo} alt="EduLink Logo" className="w-20 h-auto" />
+        </div>
+
+        {/* Welcome Text */}
+        <h1 className="text-2xl font-bold text-center text-[#0D47A1] mb-2">
           Join Our Community
         </h1>
+        <p className="text-sm text-center text-[#0D47A1] mb-8">
+          Empower Your Learning Journey
+        </p>
 
+        {/* Form */}
         <form
-          className=" grid grid-cols-1 md:grid-cols-2 gap-4  "
+          className="grid grid-cols-1 md:grid-cols-2 gap-4"
           onSubmit={handleSubmit}
           ref={registerReference}
         >
-          <Field
-            label="Username"
-            type={InputTypes.TEXT}
-            name="userName"
-            required
-          />
-          <Field label="Email" type={InputTypes.EMAIL} name="email" required />
-          <Field
-            label="Password"
-            type={InputTypes.PASSWORD}
-            name="password"
-            required
-          />
-          <Field
-            label="Confirm Password"
-            type={InputTypes.PASSWORD}
-            name="confirmPassword"
-            required
-          />
-          <Field
-            label="Phone Number"
-            type={InputTypes.PHONE}
-            name="phoneNumber"
-            required
-          
-          />
+          <div>
+            <label
+              htmlFor="userName"
+              className="block text-sm font-medium text-black mb-1"
+            >
+              Username
+            </label>
+            <input
+              id="userName"
+              type="text"
+              name="userName"
+              placeholder="Enter your userName"
+              required
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-black mb-1"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              required
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-black mb-1"
+            >
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              required
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-black mb-1"
+            >
+              Confirm Password
+            </label>
+            <input
+              id="confirmPassword"
+              type="password"
+              name="confirmPassword"
+              placeholder="Enter your confirmPassword"
+              required
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="phoneNumber"
+              className="block text-sm font-medium text-black mb-1"
+            >
+              Phone Number
+            </label>
+            <input
+              id="phoneNumber"
+              type="text"
+              name="phoneNumber"
+              placeholder="Enter your phoneNumber"
+              required
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+            />
+          </div>
           <div>
             <label
               htmlFor="gender"
-              className="block text-sm font-medium text-white mb-1"
+              className="block text-sm font-medium text-black mb-1"
             >
               Gender
             </label>
             <select
+              id="gender"
               name="gender"
-              className="w-full p-2 bg-white bg-opacity-20 text-gray-900 border border-white border-opacity-50 rounded-md focus:ring-2 focus:ring-blue-500"
               required
+              className="w-full p-2 bg-white bg-opacity-20 text-gray-900 border border-white border-opacity-50 rounded-md focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select Gender</option>
               <option value="male">Male</option>
@@ -158,24 +187,34 @@ export default function Register() {
               <option value="other">Other</option>
             </select>
           </div>
-          <Field
-            label="Skills"
-            type={InputTypes.TEXT}
-            name="skills"
-            required
-          
-          />
+          <div>
+            <label
+              htmlFor="skills"
+              className="block text-sm font-medium text-black mb-1"
+            >
+              Skills
+            </label>
+            <input
+              id="skills"
+              type="text"
+              name="skills"
+              placeholder="Enter your skills"
+              required
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+            />
+          </div>
           <div>
             <label
               htmlFor="departmentID"
-              className="block text-sm font-medium text-white mb-1"
+              className="block text-sm font-medium text-black mb-1"
             >
               Department
             </label>
             <select
+              id="departmentID"
               name="departmentID"
-              className="w-full p-2 bg-white bg-opacity-20 text-gray-900 border border-white border-opacity-50 rounded-md focus:ring-2 focus:ring-blue-500"
               required
+              className="w-full p-2 bg-white bg-opacity-20 text-gray-900 border border-white border-opacity-50 rounded-md focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select Department</option>
               {departments.map((dept) => (
@@ -185,31 +224,32 @@ export default function Register() {
               ))}
             </select>
           </div>
-
           <div className="col-span-2 flex justify-center mt-6">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
               disabled={isLoading}
-              className={`bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out ${
-                isLoading ? 'opacity-50 cursor-not-allowed' : ''
-              }`}>
-             {isLoading ? 'Registering...' : 'Start Your Journey'}
+              className={`bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out ${isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+            >
+              {isLoading ? "Registering..." : "Create Account"}    
             </motion.button>
           </div>
         </form>
 
-        <p className="mt-8 text-center text-white">
-          Already a member? {" "}
+
+
+        <p className="mt-6 text-sm text-center text-gray-700">
+          Already a member?{" "}
           <Link
             to="/login"
-            className="text-blue-500 hover:text-blue-400 font-bold transition-colors duration-300"
+            className="text-blue-600 hover:text-blue-500 font-medium"
           >
             LogIn
           </Link>
         </p>
-      </motion.div>
+      </div>
     </section>
   );
 }

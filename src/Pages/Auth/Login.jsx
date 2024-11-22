@@ -78,8 +78,12 @@ export default function Login() {
     };
   }, []);
 
+
+
   return (
-    <section className="min-h-screen flex items-center justify-center overflow-hidden relative">
+
+    <section className="min-h-screen flex flex-col items-center justify-center relative bg-gray-100 overflow-y-auto">
+      {/* Background Video */}
       <video
         autoPlay
         loop
@@ -89,156 +93,125 @@ export default function Login() {
         <source src={bg} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <div className="absolute inset-0 bg-black opacity-40 z-10"></div>
+      <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md p-8 bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-2xl z-20"
-      >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="flex justify-center mb-8"
-        >
-          <motion.img
+      {/* Add Scrollbar styling */}
+      <style jsx>{`
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(200, 200, 200, 0.3); /* Light gray track */
+    }
+    ::-webkit-scrollbar-thumb {
+      background: gray; /* Gray scrollbar */
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: darkgray; /* Darker gray on hover */
+    }
+  `}</style>
+
+      {/* Login Box */}
+      <div className="w-full max-w-md p-8 bg-white bg-opacity-90 backdrop-blur-md rounded-lg shadow-lg z-20">
+        {/* Logo */}
+        <div className="flex justify-center mb-4">
+          <img
             src={eduLinkLogo}
             alt="EduLink Logo"
-            className="w-40 h-auto"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="w-20 h-auto"
           />
-        </motion.div>
+        </div>
 
-        <h1 className="text-4xl font-bold text-center text-white mb-8">
-          Welcome Back
+        {/* Welcome Text */}
+        <h1 className="text-xl font-bold text-center text-[#0D47A1] mb-2">
+          Welcome to EduLink!
         </h1>
+        <p className="text-sm text-center text-[#0D47A1] mb-10">
+          Empower Your Learning Journey
+        </p>
 
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="p-4 mb-4 text-sm font-bold text-red-700 bg-red-100 border border-red-300 rounded-lg shadow-md">
-              {error || "Invalid credentials. Please try again."}
-            </div>
-          )}
+        {/* Form */}
+        <form className="space-y-5" onSubmit={handleSubmit}>
+          {/* Email Field */}
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email address
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+            />
+          </div>
 
-          <Field
-            label="Email"
-            type={InputTypes.EMAIL}
-            name="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <Field
-            label="Password"
-            type={InputTypes.PASSWORD}
-            name="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          {/* Password Field */}
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+            />
+          </div>
 
-          <div className="flex justify-between items-center">
+          {/* Remember Me and Forgot Password */}
+          <div className="flex items-center justify-between">
+            <label className="flex items-center text-sm text-gray-600">
+              <input
+                type="checkbox"
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <span className="ml-2">Remember me for 30 days</span>
+            </label>
             <button
               type="button"
               onClick={() => setIsModalOpen(true)}
-              className="text-sm font-semibold text-blue-500 hover:text-blue-400 transition-colors duration-300"
+              className="text-sm font-medium text-blue-600 hover:text-blue-500"
             >
               Forgot Password?
             </button>
           </div>
 
-          <div className="flex justify-center mt-6">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+          {/* Login Button */}
+          <div>
+            <button
               type="submit"
               disabled={loading}
-              className={`px-8 py-3 rounded-lg font-bold transition-all duration-300 ${
-                loading
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-700"
-              }`}
+              className="w-full px-4 py-2 text-sm font-bold text-white bg-blue-600 rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               {loading ? "Logging in..." : "Login"}
-            </motion.button>
+            </button>
           </div>
         </form>
 
-        <p className="mt-8 text-center text-white">
+        {/* Register Link */}
+        <p className="mt-6 text-sm text-center text-gray-600">
           Don't have an account?{" "}
           <Link
             to="/register"
-            className="text-blue-500 hover:text-blue-400 font-medium transition-colors duration-300"
+            className="text-blue-600 hover:text-blue-500 font-medium"
           >
-            Register
+            Create New Account
           </Link>
         </p>
-      </motion.div>
-
-      <Dialog
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        className="relative z-20"
-      >
-        <div
-          className="fixed inset-0 bg-black/30 backdrop-blur-sm"
-          aria-hidden="true"
-        />
-        <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-            <Dialog.Title className="text-xl font-medium leading-6 text-gray-900 mb-4">
-              Reset Password
-            </Dialog.Title>
-
-            <form onSubmit={handleForgotPassword} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  value={resetEmail}
-                  onChange={(e) => setResetEmail(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter your email"
-                  required
-                />
-              </div>
-
-              {resetStatus.message && (
-                <div
-                  className={`p-3 rounded-md font-semibold ${
-                    resetStatus.type === "success"
-                      ? "bg-green-100 text-green-700 border-green-400"
-                      : "bg-red-100 text-red-700 border-red-400"
-                  }`}
-                >
-                  {resetStatus.message}
-                </div>
-              )}
-
-              <div className="flex justify-end gap-3 mt-4">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition duration-300"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
-                >
-                  Send Reset Link
-                </button>
-              </div>
-            </form>
-          </Dialog.Panel>
-        </div>
-      </Dialog>
+      </div>
     </section>
+
+
   );
 }
