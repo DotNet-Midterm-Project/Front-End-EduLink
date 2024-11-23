@@ -5,7 +5,7 @@ function PasswordInput({ label, placeholder, name, value, onChange }) {
 
   return (
     <div>
-      <label htmlFor={name} className="block text-lg font-medium text-gray-900 mb-2">
+      <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-1">
         {label}
       </label>
       <div className="relative">
@@ -13,8 +13,8 @@ function PasswordInput({ label, placeholder, name, value, onChange }) {
           type={showPassword ? "text" : "password"}
           name={name}
           value={value}
-          onChange={onChange}  // Use onChange here
-          className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
+          onChange={onChange}
+          className="w-full px-4 py-2 bg-transparent border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
           placeholder={placeholder}
         />
         <button

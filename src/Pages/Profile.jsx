@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import HeaderProfile from "../Components/Profile/HeaderProfile";
 import ChangePassword from "../Components/Profile/ChangePassword";
 import PersonalInformation from "../Components/Profile/PersonalInformation";
 import PersonDetails from "../Components/Profile/Details";
@@ -28,7 +27,6 @@ function Profile() {
 
   return (
     <div className="min-h-screen bg-white">
-      <HeaderProfile />
       <div className="md:p-10 p-0">
         <div className="flex items-center gap-2 mb-5">
           <div className="relative group flex items-center">
@@ -49,7 +47,7 @@ function Profile() {
           <h1 className="text-lg md:2xl font-bold text-gray-800">Profile Settings</h1>
         </div>
         <div className="flex flex-col md:flex-row">
-          <aside className="w-full md:w-64 bg-gray-100 border-r border-gray-200">
+          <aside className="w-full md:w-80 bg-gray-100 border-r border-gray-200">
             <nav className="p-4 space-y-2">
               <SectionButton
                 label="Personal Information"
@@ -64,7 +62,7 @@ function Profile() {
                 section="personalInfo"
               />
               <SectionButton
-                label="Password"
+                label="Change Password"
                 description="Change your current password"
                 icon={
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -95,7 +93,7 @@ function Profile() {
             </nav>
           </aside>
 
-          <main className="flex-1 bg-gray-100">
+          <main className="flex-1 bg-gray-100 rounded-tr-lg rounded-bl-[20px]">
             {selectedSection === "personalInfo" && <PersonalInformation />}
             {selectedSection === "password" && <ChangePassword />}
             {selectedSection === "details" && <PersonDetails />}
