@@ -22,6 +22,7 @@ function EventPage() {
 
   if (loading) return <Loading />;
   if (error) return <ServerError />;
+
 console.log("this is the event from page",events);
 
   return (
@@ -33,8 +34,8 @@ console.log("this is the event from page",events);
           placeholder="Search for event..."
         />
       </div>
-      <div className="my-28 mx-8">
-        {filteredEvents?.length > 0 ? (
+      <div className="my-28 mx-8 flex">
+        {filteredEvents?.length >= 0 ? (
           filteredEvents?.map((event) => (
             <Card
               key={event?.eventID}
@@ -46,7 +47,7 @@ console.log("this is the event from page",events);
               auther={event?.volunteerName}
               description={event?.workshopDescription}
               date={event?.workshopDateTime}
-              image={event?.eventFile}
+              image={event?.eventBannerImage}
               capacity={event?.capacity}
               sessionLink={event?.sessionLink}
               location="event"

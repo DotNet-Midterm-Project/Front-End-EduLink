@@ -18,7 +18,6 @@ import Profile from "./Pages/Profile";
 import BookingPage from "./Pages/Student/BookingPage";
 import EventPage from "./Pages/Student/EventPage";
 import EventContentPage from "./Pages/Student/EventContentPage";
-import ShowVolunteerByCourse from "./Components/Student/ShowVolunteerByCourse";
 import YourEvent from "./Pages/Student/YourEvent";
 
 
@@ -38,7 +37,11 @@ library.add(fas, fab);
 
 import AdminArticles from "./Pages/Admin/AdminViewArticles";
 import AddArticle from "./Pages/Volunteer/AddArticle";
+
 import VolunteerEventPage from "./Pages/Volunteer/MyEvents";
+
+import ShowEventByCourse from "./Components/Student/ShowEventByCourse";
+
 
 
 const App = () => {
@@ -68,7 +71,7 @@ const App = () => {
           <Route path="/booking-page" element={<Layout><BookingPage/></Layout>}/>
           <Route path="/event-page" element={<Layout><EventPage/></Layout>}/>
           <Route path="/event-content/:eventId" element={<EventContentPage />} />
-          <Route path="/volunteers/:courseId" element={<ShowVolunteerByCourse />} />
+          <Route path="/event-by-course/:courseId" element={<Layout><ShowEventByCourse /></Layout>} />
           <Route path="/your-event-page" element={<Layout><YourEvent/></Layout>} />
           <Route path="/contact-us" element={<Layout><Contact/></Layout>}/>
           <Route path="/volunteers" element={<Layout><Volunteers/> </Layout>}/>

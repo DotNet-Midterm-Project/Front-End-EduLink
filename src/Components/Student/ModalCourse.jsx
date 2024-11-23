@@ -1,11 +1,12 @@
 import { useDispatch } from "react-redux";
-import { fetchAllVolunteerByCourseId } from "../../Redux/Slices/CourseSlice"; // Adjust path if needed
+import { fetchAllEvent } from "../../Redux/Slices/bookingEventSlice"; // Adjust path if needed
 import { useNavigate } from "react-router-dom";
 import { close } from "../../assets"; // Ensure the close icon is properly imported
 
 function ModalCourse({ props, onClose }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+console.log(props);
 
   const handleSeeMore = () => {
     dispatch(fetchAllVolunteerByCourseId({ CourseID: props?.id }))

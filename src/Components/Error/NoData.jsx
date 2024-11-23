@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function NoData(props) {
+function NoData({ props, message }) {
   return (
     <div className="w-full flex items-center flex-wrap justify-center gap-10">
       <div className="grid gap-4 w-60">
@@ -85,7 +85,7 @@ function NoData(props) {
           <h2 className="text-center text-black text-xl font-semibold leading-loose pb-2">
             {props?.location == "event"
               ? "There No Event try again"
-              : "There’s no articles here"}
+              : message}
           </h2>
           <p className="text-center text-black text-base font-normal leading-relaxed pb-4">
             Complete your browse to see <br />
