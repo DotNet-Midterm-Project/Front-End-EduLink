@@ -16,6 +16,7 @@ function Card(props) {
     props.location === "event"
       ? `/event-content/${props?.eventId}`
       : `/articles/${props?.id}`;
+  console.log("this is the card", props);
 
   return (
     <>
@@ -59,6 +60,24 @@ function Card(props) {
             <p className="block font-sans text-base font-light leading-relaxed text-[#0B102F] antialiased">
               {splitDescription(props?.description, 20)}
             </p>
+            {props?.location == "event" || props?.location == "YourEvent" ? (
+              <Link
+                to={`/event-content/${props?.eventId}`}
+                state={{ ...props }}
+                class="mt-12 block w-full select-none rounded-lg bg-[#171E4B] py-3.5 px-7 text-center align-middle font-sans
+             text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:bg-[#293aaa]
+              focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              >
+                More Information
+              </Link>
+            ) : (
+              <div className="group mt-8 inline-flex flex-wrap items-center gap-3">
+                <p className="border-2 border-black rounded-lg px-2">Data</p>
+                <p className="border-2 border-black rounded-lg px-2">
+                  Development
+                </p>
+              </div>
+            )}
           </div>
         </Link>
       </div>

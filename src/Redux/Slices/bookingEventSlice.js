@@ -3,14 +3,19 @@ import axios from "axios";
 
 export const fetchAllEvent = createAsyncThunk(
   "event/fetchAllEvent",
-  async (_, { rejectWithValue }) => {
+  async (CourseID, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_URL_BACKEND}/api/Common/get-all-Workshops`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
+      const url = new URL(`${import.meta.env.VITE_URL_BACKEND}/api/Common/get-all-Workshops`);
+
+      // Append CourseID to the query string if it's provided
+      if (CourseID !== undefined && CourseID !== null) {
+        url.searchParams.append("CourseID", CourseID);
+      }
+      const response = await axios.get(url.toString(), {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      console.log("this is the response",response.data);
+      
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -36,7 +41,6 @@ export const fetchEventContent = createAsyncThunk(
           },
         }
       );
-      console.log(response.data);
 
       return response.data;
     } catch (error) {
@@ -83,12 +87,10 @@ export const bookAnEvent = createAsyncThunk(
           params: { workshopID },
         }
       );
-      console.log("this is ", response.data);
-
       return response.data;
     } catch (error) {
-        console.log(error);
-        
+      console.log(error);
+
       if (error.response && error.response.status === 400) {
         if (error.response.data.includes("already booked")) {
           return rejectWithValue("You have already booked this event.");
@@ -125,11 +127,80 @@ export const addEvent = createAsyncThunk(
 );
 
 
+// This is to fetch all the event 
+export const fetchAllbookings = createAsyncThunk(
+  "event/fetchgAllbookings",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_URL_BACKEND
+        }/api/Student/get-bookings`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : { message: "An error occurred" }
+      );
+    }
+  }
+);
+
+// This is to delete the event from the Your event page
+export const deleteBooking = createAsyncThunk(
+  "event/deleteBooking",
+  async (BookingId, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_URL_BACKEND}/api/Student/delete-booking/${BookingId}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+          return rejectWithValue("You have already booked this event.");
+      }
+      return rejectWithValue(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
+    }
+  }
+);
+
+// This is handle the event session
+export const fetchAlleventSessions = createAsyncThunk(
+  "sessions/fetchAlleventSessions",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_URL_BACKEND
+        }/api/Common/get-event-sessions`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : { message: "An error occurred" }
+      );
+    }
+  }
+);
+
 const bookinEventgSlice = createSlice({
   name: "events",
   initialState: {
     events: [],
     eventContent: [],
+    allbookings: [],
+    eventSessions: [],
     selectedEvent: null,
     loading: false,
     successMessage: null,
@@ -152,7 +223,7 @@ const bookinEventgSlice = createSlice({
       })
       .addCase(fetchAllEvent.fulfilled, (state, action) => {
         state.loading = false;
-        state.events = action.payload.workshops;
+        state.events = action.payload.workshops||[];
       })
       .addCase(fetchAllEvent.rejected, (state, action) => {
         state.loading = false;
@@ -211,7 +282,51 @@ const bookinEventgSlice = createSlice({
     .addCase(addEvent.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
-    });
+      })
+       // Handle get all booking event
+       .addCase(fetchAllbookings.pending, (state) => {
+        state.loading = true;
+        state.message = null;
+        state.error = null;
+      })
+      .addCase(fetchAllbookings.fulfilled, (state, action) => {
+        state.loading = false;
+        state.allbookings = action.payload || [];
+      })
+      .addCase(fetchAllbookings.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+       // Handle deleting a booking
+      .addCase(deleteBooking.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.successMessage = null;
+      })
+      .addCase(deleteBooking.fulfilled, (state, action) => {
+        state.loading = false;
+        state.successMessage = "Booking deleted successfully!";
+        state.allbookings = state.allbookings.filter(
+          (booking) => booking.bookingId !== action.meta.arg
+        );
+      })
+      .addCase(deleteBooking.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Failed to delete the booking.";
+      })
+      .addCase(fetchAlleventSessions.pending, (state) => {
+        state.loading = true;
+        state.message = null;
+        state.error = null;
+      })
+      .addCase(fetchAlleventSessions.fulfilled, (state, action) => {
+        state.loading = false;
+        state.eventSessions = action.payload || [];
+      })
+      .addCase(fetchAlleventSessions.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
