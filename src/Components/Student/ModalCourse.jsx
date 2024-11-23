@@ -1,20 +1,21 @@
 import { useEffect } from "react";
 import { close } from "../../assets";
 import { useDispatch } from "react-redux";
-import { fetchAllVolunteerByCourseId } from "../../Redux/Slices/CourseSlice"; // Adjust path if needed
+import { fetchAllEvent } from "../../Redux/Slices/bookingEventSlice"; // Adjust path if needed
 import { useNavigate } from "react-router-dom";
 
 function ModalCourse({ props, onClose }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+console.log(props);
 
-  const handleSeeMore = () => {
+  const handleViewVolunteer = () => {
     // Dispatch the action to fetch volunteers
-    dispatch(fetchAllVolunteerByCourseId({ CourseID: props?.id }))
+    dispatch(fetchAllEvent(props?.id))
       .unwrap()
       .then(() => {
         // Navigate to the volunteers page
-        navigate(`/volunteers/${props?.id}`);
+        navigate(`/event-by-course/${props?.id}`);
       })
       .catch((error) => {
         console.error("Error fetching volunteers:", error);
@@ -56,11 +57,11 @@ function ModalCourse({ props, onClose }) {
               Cancel
             </button>
             <button
-              onClick={handleSeeMore}
+              onClick={handleViewVolunteer}
               type="button"
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              See more
+              View Volunteers
             </button>
           </div>
         </div>

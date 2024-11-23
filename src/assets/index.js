@@ -10,8 +10,12 @@ import yourProfile from './icons/yourProfile.svg';
 import close from './icons/close.svg';
 import arrow_left from './icons/arrow_left.svg';
 import imagesecation from './imagesecation.png';
+import trsh from './icons/trsh.svg';
+import download from './icons/download.svg';
 
 export {
+    download,
+    trsh,
     log_out,
     profileSttings,
     register,

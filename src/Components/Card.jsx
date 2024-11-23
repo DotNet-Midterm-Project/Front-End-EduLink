@@ -6,7 +6,7 @@ function Card(props) {
     props.location === "event"
       ? `/event-content/${props?.eventId}`
       : `/articles/${props?.id}`;
-  console.log(props);
+  console.log("this is the card", props);
 
   return (
     <>
@@ -67,10 +67,10 @@ function Card(props) {
             <p className="block font-sans text-base font-light leading-relaxed text-gray-700 antialiased">
               {splitDescription(props?.description, 20)}
             </p>
-            {props?.location == "event" ? (
+            {props?.location == "event" || props?.location == "YourEvent" ? (
               <Link
                 to={`/event-content/${props?.eventId}`}
-                state={props}
+                state={{ ...props }}
                 class="mt-12 block w-full select-none rounded-lg bg-[#171E4B] py-3.5 px-7 text-center align-middle font-sans
              text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:bg-[#293aaa]
               focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
