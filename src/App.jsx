@@ -37,7 +37,11 @@ library.add(fas, fab);
 
 import AdminArticles from "./Pages/Admin/AdminViewArticles";
 import AddArticle from "./Pages/Volunteer/AddArticle";
+
+import VolunteerEventPage from "./Pages/Volunteer/MyEvents";
+
 import ShowEventByCourse from "./Components/Student/ShowEventByCourse";
+
 
 
 const App = () => {
@@ -74,6 +78,7 @@ const App = () => {
           <Route path="/volunteerProfile" element={<Layout> <VolunteerDetails /></Layout>}/>
           <Route path = "/add-event" element={<Layout><AddEvent/></Layout>}/>
           <Route path = "/add-article" element={<Layout><AddArticle/></Layout>}/>
+          <Route path = "/my-events" element={<Layout><VolunteerEventPage/></Layout>}/>
         </Routes>
       </BrowserRouter>
     </>
