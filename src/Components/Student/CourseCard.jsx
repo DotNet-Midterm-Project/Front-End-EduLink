@@ -14,17 +14,19 @@ function CourseCard(props) {
     .map((word) => word[0])
     .join("")
     .toUpperCase();
-  // Gets initials, e.g., "CN" for "Course Name"
   console.log(props);
 
   const handleClick = () => {
     if (props?.location === "ShowVolunteerByCourse") {
       navigate("/volunteer");
+    } else if (props?.location === "ShowProfileVolunteer") {
+      navigate("/volunteerProfile", { state: { volunteer: props.volunteer } });
+
     } else {
       handleOpenModal();
     }
   };
-
+  
   return (
     <>
       <button onClick={handleClick}>

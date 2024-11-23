@@ -8,6 +8,8 @@ export const fetchAllArticles = createAsyncThunk(
             const response = await axios.get(`${import.meta.env.VITE_URL_BACKEND}/api/Common/get-all-articles`,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
             );
+            console.log(response.data);
+            
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : { message: "An error occurred" })
