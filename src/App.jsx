@@ -1,21 +1,26 @@
 import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import AdminLayout from "./AdminLayout";
+import AdminViewAllCourses from "./Pages/Admin/Admin View Courses";
+import AdminViewAllDepartments from "./Pages/Admin/AdminViewAllDepartments";
+import AdminViewAllVolunteers from "./Pages/Admin/AdminViewAllVolunteer";
 import ArticlesList from "./Pages/Article/ArticlesList";
 import ArticlesListByID from "./Pages/Article/ArticlesListByID";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home/Home";
-import Layout from './Components/Layout';
-import AboutUs from "./Pages/AboutUs";
-import StudentPage from "./Pages/Student/StudentPage";
-import Profile from "./Pages/Profile";
+import Layout from "./Components/Layout";
 import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
 import VerifyEmailPage from "./Components/Common/verifyEmail";
 import ResetPassword from "./Pages/Auth/ResetPassword";
+import AboutUs from "./Pages/AboutUs";
+import StudentPage from "./Pages/Student/StudentPage";
+import Profile from "./Pages/Profile";
 import BookingPage from "./Pages/Student/BookingPage";
 import EventPage from "./Pages/Student/EventPage";
-import EventContentPage  from "./Pages/Student/EventContentPage";
+import EventContentPage from "./Pages/Student/EventContentPage";
 import ShowVolunteerByCourse from "./Components/Student/ShowVolunteerByCourse";
 import YourEvent from "./Pages/Student/YourEvent";
+
 
 import Volunteers from "./Pages/Volunteer/Volunteers";
 import VolunteerDetails from "./Pages/Volunteer/VolunteerDetails";
@@ -30,11 +35,23 @@ import AddEvent from "./Pages/Volunteer/AddEvent";
 library.add(fas, fab);
 
 
+import Contact from "./Pages/contactUS/Contact";
+import AdminArticles from "./Pages/Admin/AdminViewArticles";
+
+
 const App = () => {
-  
   return (
+
     <>
       <BrowserRouter>
+       <Route path="/admin" element={<AdminLayout />}>
+        
+          <Route index element={<Navigate to="volunteers" replace />} /> 
+          <Route path="courses" element={<AdminViewAllCourses />} />
+          <Route path="departments" element={<AdminViewAllDepartments />} />
+          <Route path="Articles" element={<AdminArticles />} />
+          <Route path="volunteers" element={<AdminViewAllVolunteers />} />
+        </Route>
         <Routes>
           <Route path="/reset-password" element={<Layout><ResetPassword /></Layout>} />
           <Route path="/login" element={<Layout><Login /></Layout>} />
@@ -58,7 +75,8 @@ const App = () => {
         </Routes>
       </BrowserRouter>
     </>
+
   );
-}
+};
 
 export default App;

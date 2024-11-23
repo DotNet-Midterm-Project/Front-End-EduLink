@@ -1,82 +1,82 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../../Context/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../Redux/Slices/authSlice";
 import Field from "../../Components/Common/Field";
 import { InputTypes } from "../../utils/constatnts";
 import { motion } from "framer-motion";
 import eduLinkLogo from "../../assets/eduLinkLogo.png";
 import bg from "../../assets/bg.mp4";
-import { Dialog } from '@headlessui/react';
-import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../Redux/Slices/authSlice';
-import Swal from 'sweetalert2';
-
+import { Dialog } from "@headlessui/react";
+import Swal from "sweetalert2";
 
 export default function Login() {
-  const { forgotPassword } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [resetStatus, setResetStatus] = useState({ type: '', message: '' });
-  const [email, setEmail] = useState('');
-  const [resetEmail, setResetEmail] = useState('');
-  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const { error, loading } = useSelector((state) => state.auth);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [resetStatus, setResetStatus] = useState({ type: "", message: "" });
+  const [email, setEmail] = useState("");
+  const [resetEmail, setResetEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     dispatch(login({ email, password })).then((action) => {
       if (login.fulfilled.match(action)) {
         Swal.fire({
-          icon: 'success',
-          title: 'Login Successful',
-          text: 'You will be redirected shortly...',
-          showConfirmButton: false, 
-          timer: 3000, 
-          timerProgressBar: true, 
+          icon: "success",
+          title: "Login Successful",
+          text: "You will be redirected shortly...",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
         });
-  
+
         setTimeout(() => {
-          navigate('/student-page');
+          const roles = JSON.parse(localStorage.getItem("roles")) || [];
+
+          if (roles.includes("Admin")) {
+            navigate("/admin");
+          } else if (roles.includes("Student")) {
+            navigate("/student-page");
+          } else {
+            navigate("/"); // Default redirection
+          }
         }, 2000);
       }
     });
   };
 
-  useEffect(() => {
-    document.body.classList.add('has-video-bg');
-    const params = new URLSearchParams(location.search);
-    const type = params.get('userType');
-    if (type) {
-      console.log(type);
-    }
-    return () => {
-      document.body.classList.remove('has-video-bg');
-    };
-  }, [location.search]);
-
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     try {
-      const res= await forgotPassword(resetEmail);
+      // Call your forgot password API
       setResetStatus({
-        type: 'success',
-        message: 'Reset link sent to your email!'
+        type: "success",
+        message: "Reset link sent to your email!",
       });
       setTimeout(() => {
         setIsModalOpen(false);
-        setResetStatus({ type: '', message: '' });
+        setResetStatus({ type: "", message: "" });
       }, 2000);
     } catch (error) {
       setResetStatus({
-        type: 'error',
-        message: 'Failed to send reset link. Please try again.'
+        type: "error",
+        message: "Failed to send reset link. Please try again.",
       });
     }
   };
+
+  useEffect(() => {
+    document.body.classList.add("has-video-bg");
+    return () => {
+      document.body.classList.remove("has-video-bg");
+    };
+  }, []);
 
   return (
     <section className="min-h-screen flex items-center justify-center overflow-hidden relative">
@@ -117,6 +117,12 @@ export default function Login() {
         </h1>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
+          {error && (
+            <div className="p-4 mb-4 text-sm font-bold text-red-700 bg-red-100 border border-red-300 rounded-lg shadow-md">
+              {error || "Invalid credentials. Please try again."}
+            </div>
+          )}
+
           <Field
             label="Email"
             type={InputTypes.EMAIL}
@@ -138,7 +144,7 @@ export default function Login() {
             <button
               type="button"
               onClick={() => setIsModalOpen(true)}
-              className="text-sm text-blue-400 hover:text-blue-300 transition-colors duration-300"
+              className="text-sm font-semibold text-blue-500 hover:text-blue-400 transition-colors duration-300"
             >
               Forgot Password?
             </button>
@@ -149,23 +155,38 @@ export default function Login() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
-              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out"
+              disabled={loading}
+              className={`px-8 py-3 rounded-lg font-bold transition-all duration-300 ${
+                loading
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-700"
+              }`}
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </motion.button>
           </div>
         </form>
 
         <p className="mt-8 text-center text-white">
           Don't have an account?{" "}
-          <Link to="/register" className="text-blue-500 hover:text-blue-400 font-medium transition-colors duration-300">
+          <Link
+            to="/register"
+            className="text-blue-500 hover:text-blue-400 font-medium transition-colors duration-300"
+          >
             Register
           </Link>
         </p>
       </motion.div>
 
-      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} className="relative z-20">
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" aria-hidden="true" />
+      <Dialog
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        className="relative z-20"
+      >
+        <div
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm"
+          aria-hidden="true"
+        />
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
             <Dialog.Title className="text-xl font-medium leading-6 text-gray-900 mb-4">
@@ -182,14 +203,19 @@ export default function Login() {
                   value={resetEmail}
                   onChange={(e) => setResetEmail(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter your email"
                   required
                 />
               </div>
 
               {resetStatus.message && (
-                <div className={`p-3 rounded-md ${
-                  resetStatus.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                }`}>
+                <div
+                  className={`p-3 rounded-md font-semibold ${
+                    resetStatus.type === "success"
+                      ? "bg-green-100 text-green-700 border-green-400"
+                      : "bg-red-100 text-red-700 border-red-400"
+                  }`}
+                >
                   {resetStatus.message}
                 </div>
               )}
@@ -198,13 +224,13 @@ export default function Login() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition duration-300"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
                 >
                   Send Reset Link
                 </button>

@@ -11,9 +11,13 @@ function Card(props) {
   return (
     <>
       <div
-        className={`mx-3 mt-4 relative flex w-[23rem] max-w-[26rem] flex-col bg-white bg-clip-border text-gray-700 shadow-lg transition duration-300 ease-in-out ${
+        className={`mx-3 mt-4 relative flex w-[23rem] max-w-[26rem] flex-col bg-[#EFEFEF] bg-clip-border text-gray-700 shadow-lg transition duration-300 ease-in-out ${
           props.location === "event" ? "hover:bg-white" : "hover:bg-gray-300"
         }`}
+        style={{
+          borderRadius: "20px",
+          borderTopLeftRadius: "0px",
+        }}
       >
         <Link to={linkPath}>
           <div className="relative overflow-hidden hover:sky-500">
@@ -26,7 +30,9 @@ function Card(props) {
                   : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Microsoft_.NET_logo.svg/640px-Microsoft_.NET_logo.svg.png"
               }
               alt={props?.title}
-              style={{ borderRadius: "0px 20px 20px 20px" }}
+              style={{
+                borderRadius: "0px 20px 0px 0px", // الحواف المعدلة
+              }}
               className="h-56 w-full object-cover transition-opacity duration-500 hover:sky-500"
             />
 
@@ -34,10 +40,11 @@ function Card(props) {
           </div>
           <div className="p-6">
             <div className="mb-3 flex items-center justify-between">
-              <p className="block font-sans text-base font-light leading-relaxed text-gray-700 antialiased">
+              <p className="block font-sans text-base font-light leading-relaxed text-[#0B102F] antialiased">
                 {props?.auther}. {formatDate(props?.date)}
               </p>
-              <p className="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">
+              {/* السهم مع النص المنبثق */}
+              <p className="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-[#0B102F] antialiased relative group">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -49,42 +56,41 @@ function Card(props) {
                   <g id="SVGRepo_iconCarrier">
                     <path
                       d="M12 4V20M12 4L8 8M12 4L16 8"
-                      stroke="#000000"
+                      stroke="#0B102F"
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     ></path>
                   </g>
                 </svg>
+                {/* النص المنبثق */}
+                <span
+                  className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 scale-0 group-hover:scale-100 transition-transform bg-gray-800 text-white text-sm font-medium py-1 px-3 rounded-lg shadow-lg"
+                >
+                  Read More
+                </span>
               </p>
             </div>
             <div className="mb-3 flex items-center justify-between">
-              <h5 className="block font-sans text-xl font-medium leading-snug tracking-normal text-blue-gray-900 antialiased">
+              <h5 className="block font-sans text-xl font-medium leading-snug tracking-normal text-[#0B102F] antialiased">
                 {props?.title}
               </h5>
             </div>
 
-            <p className="block font-sans text-base font-light leading-relaxed text-gray-700 antialiased">
+            <p className="block font-sans text-base font-light leading-relaxed text-[#0B102F] antialiased">
               {splitDescription(props?.description, 20)}
             </p>
             {props?.location == "event" ? (
               <Link
                 to={`/event-content/${props?.eventId}`}
                 state={props}
-                class="mt-12 block w-full select-none rounded-lg bg-[#171E4B] py-3.5 px-7 text-center align-middle font-sans
+                className="mt-12 block w-full select-none rounded-lg bg-[#171E4B] py-3.5 px-7 text-center align-middle font-sans
              text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:bg-[#293aaa]
               focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               >
                 More Information
               </Link>
-            ) : (
-              <div className="group mt-8 inline-flex flex-wrap items-center gap-3">
-                <p className="border-2 border-black rounded-lg px-2">Data</p>
-                <p className="border-2 border-black rounded-lg px-2">
-                  Development
-                </p>
-              </div>
-            )}
+            ) : null}
           </div>
         </Link>
       </div>
