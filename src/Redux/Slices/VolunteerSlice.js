@@ -24,6 +24,28 @@ export const fetchAllVolunteers = createAsyncThunk(
   }
 );
 
+export const fetchAllEventsVolunteer = createAsyncThunk(
+  "volunteer/fetchAllEventsVolunteer",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_URL_BACKEND}/api/Admin/get-all-volunteers`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+     
+      return response.data;
+    } catch (error) {
+      
+
+      return rejectWithValue(
+        error.response ? error.response.data : { message: "An error occurred" }
+      );
+    }
+  }
+);
+
 // Thunk to fetch all courses for a volunteer
 export const FetchAllVolunteerCourses = createAsyncThunk(
   "courses/FetchAllVolunteerCourses",
