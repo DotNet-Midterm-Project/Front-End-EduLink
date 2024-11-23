@@ -6,9 +6,13 @@ import commentReducer from '../Redux/Slices/commentsSlice';
 import coursesReducer from '../Redux/Slices/CourseSlice';
 import event  from './Slices/bookingEventSlice';
 import registerAsVolunteerSlice from '../Redux/Slices/registerAsVolunteerSlice';
+
+import volunteerReducer from '../Redux/Slices/VolunteerSlice';
+
 import departmentSlice from '../Redux/Slices/adminDepartmentSlice';
 import volunteerSlice from '../Redux/Slices/adminVolunteersSlice';
 import adminCourseSlice from './Slices/adminCoursesSlice';
+
 
 export const store = configureStore({
   reducer: {
@@ -23,6 +27,7 @@ export const store = configureStore({
     bookingEvent: event,
 
     registerAsVolunteerSlice: registerAsVolunteerSlice,
+    volunteer: volunteerReducer,
   },
 });
 
