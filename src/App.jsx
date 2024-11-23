@@ -18,7 +18,6 @@ import Profile from "./Pages/Profile";
 import BookingPage from "./Pages/Student/BookingPage";
 import EventPage from "./Pages/Student/EventPage";
 import EventContentPage from "./Pages/Student/EventContentPage";
-import ShowVolunteerByCourse from "./Components/Student/ShowVolunteerByCourse";
 import YourEvent from "./Pages/Student/YourEvent";
 
 
@@ -38,6 +37,7 @@ library.add(fas, fab);
 
 import AdminArticles from "./Pages/Admin/AdminViewArticles";
 import AddArticle from "./Pages/Volunteer/AddArticle";
+import ShowEventByCourse from "./Components/Student/ShowEventByCourse";
 
 
 const App = () => {

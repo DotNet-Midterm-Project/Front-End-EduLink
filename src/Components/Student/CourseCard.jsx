@@ -1,11 +1,11 @@
 import image from "../../assets/imagesecation.png";
 import ModalCourse from "../../Components/Student/ModalCourse";
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function CourseCard(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleOpenModal = () => setIsModalOpen(true);
 

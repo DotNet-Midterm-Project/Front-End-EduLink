@@ -282,9 +282,6 @@ const bookinEventgSlice = createSlice({
     .addCase(addEvent.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
-    });
-        state.loading = false;
-        state.error = action.payload;
       })
        // Handle get all booking event
        .addCase(fetchAllbookings.pending, (state) => {
