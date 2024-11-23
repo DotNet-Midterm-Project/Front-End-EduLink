@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { fetchAllEvent } from "../../Redux/Slices/bookingEventSlice"; // Adjust path if needed
 import { useNavigate } from "react-router-dom";
 import { close } from "../../assets"; // Ensure the close icon is properly imported
+import { fetchAllVolunteerByCourseId } from "../../Redux/Slices/CourseSlice";
 
 function ModalCourse({ props, onClose }) {
   const dispatch = useDispatch();
