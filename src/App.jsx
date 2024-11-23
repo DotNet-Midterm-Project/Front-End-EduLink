@@ -35,8 +35,9 @@ import AddEvent from "./Pages/Volunteer/AddEvent";
 library.add(fas, fab);
 
 
-import Contact from "./Pages/contactUS/Contact";
+
 import AdminArticles from "./Pages/Admin/AdminViewArticles";
+import AddArticle from "./Pages/Volunteer/AddArticle";
 
 
 const App = () => {
@@ -44,15 +45,15 @@ const App = () => {
 
     <>
       <BrowserRouter>
-       <Route path="/admin" element={<AdminLayout />}>
-        
-          <Route index element={<Navigate to="volunteers" replace />} /> 
-          <Route path="courses" element={<AdminViewAllCourses />} />
-          <Route path="departments" element={<AdminViewAllDepartments />} />
-          <Route path="Articles" element={<AdminArticles />} />
-          <Route path="volunteers" element={<AdminViewAllVolunteers />} />
-        </Route>
         <Routes>
+        <Route path="/admin" element={<AdminLayout />}>
+        
+        <Route index element={<Navigate to="volunteers" replace />} /> 
+        <Route path="courses" element={<AdminViewAllCourses />} />
+        <Route path="departments" element={<AdminViewAllDepartments />} />
+        <Route path="Articles" element={<AdminArticles />} />
+        <Route path="volunteers" element={<AdminViewAllVolunteers />} />
+      </Route>
           <Route path="/reset-password" element={<Layout><ResetPassword /></Layout>} />
           <Route path="/login" element={<Layout><Login /></Layout>} />
           <Route path="/register" element={<Layout><Register /></Layout>} />
@@ -69,9 +70,10 @@ const App = () => {
           <Route path="/volunteers/:courseId" element={<ShowVolunteerByCourse />} />
           <Route path="/your-event-page" element={<Layout><YourEvent/></Layout>} />
           <Route path="/contact-us" element={<Layout><Contact/></Layout>}/>
-          <Route path="/volunteers" element={<Volunteers/> }/>
-          <Route path="/volunteerProfile" element={<VolunteerDetails />}/>
-          <Route path = "/add-event" element={<AddEvent/>}/>
+          <Route path="/volunteers" element={<Layout><Volunteers/> </Layout>}/>
+          <Route path="/volunteerProfile" element={<Layout> <VolunteerDetails /></Layout>}/>
+          <Route path = "/add-event" element={<Layout><AddEvent/></Layout>}/>
+          <Route path = "/add-article" element={<Layout><AddArticle/></Layout>}/>
         </Routes>
       </BrowserRouter>
     </>

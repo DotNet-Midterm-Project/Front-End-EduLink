@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllVolunteers } from "../../Redux/Slices/adminVolunteersSlice";
+
 import Loading from "../../Components/Admin/Loading";
 import ServerError from "../../Components/Error/ServerError";
 import { CheckCircleIcon, TrashIcon, UserCircleIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { fetchAllVolunteers } from "../../Redux/Slices/VolunteerSlice";
 
 const AdminViewAllVolunteers = () => {
   const [filterRequest, setFilterRequest] = useState("all");
@@ -14,7 +15,7 @@ const AdminViewAllVolunteers = () => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const dispatch = useDispatch();
-  const { volunteers, loading, error } = useSelector((state) => state.volunteers);
+  const { volunteers, loading, error } = useSelector((state) => state.volunteer);
 console.log(volunteers);
   useEffect(() => {
     dispatch(fetchAllVolunteers());
