@@ -16,17 +16,24 @@ function VolunteerDetails() {
 
   // Retrieve logged-in user's data from localStorage
   const loggedInEmail = localStorage.getItem("email");
-  
+
+  // Redux state
   const { courses, loading, error } = useSelector((state) => state.volunteer);
 
+  // Get volunteer details from location state
   const location = useLocation();
   const volunteer = location?.state?.volunteer;
 
+  // Fetch volunteer courses on component mount
   useEffect(() => {
     if (volunteer?.volunteerID) {
       dispatch(FetchAllVolunteerCourses(volunteer.volunteerID));
     }
   }, [dispatch, volunteer?.volunteerID]);
+
+  // Log data for debugging
+  console.log("Volunteer:", volunteer);
+  console.log("Courses:", courses);
 
   if (!volunteer) {
     return (
@@ -72,15 +79,19 @@ function VolunteerDetails() {
           </div>
           <div className="px-4 py-5 sm:p-6 bg-gray-200">
             <ul className="space-y-2">
-              {volunteer.courses.map((course, index) => (
-                <li
-                  key={index}
-                  className="text-sm flex items-center gap-2 text-gray-800"
-                >
-                  <span className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-                  {course}
-                </li>
-              ))}
+              {courses?.length > 0 ? (
+                courses.map((course, index) => (
+                  <li
+                    key={index}
+                    className="text-sm flex items-center gap-2 text-gray-800"
+                  >
+                    <span className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                    {course.courseName} {/* عرض اسم الدورة */}
+                  </li>
+                ))
+              ) : (
+                <li className="text-sm text-gray-500">No skills available.</li>
+              )}
             </ul>
           </div>
         </div>
@@ -95,12 +106,12 @@ function VolunteerDetails() {
           ) : courses?.length > 0 ? (
             courses.map((course) => (
               <CourseCard
-                key={course?.courseId || Math.random()}
-                id={course?.courseID}
-                name={course?.courseName || "Unnamed Course"}
-                count={course?.volunteerCount}
+                key={course.courseID}
+                id={course.courseID}
+                name={course.courseName || "Unnamed Course"}
+                count={course.volunteerCount}
                 description={
-                  course?.courseDescription || "No description available."
+                  course.courseDescription || "No description available."
                 }
               />
             ))

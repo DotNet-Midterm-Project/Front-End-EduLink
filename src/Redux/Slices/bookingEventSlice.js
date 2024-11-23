@@ -111,7 +111,7 @@ export const addEvent = createAsyncThunk(
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
+           "Content-Type": "multipart/form-data",
           },
         }
       );

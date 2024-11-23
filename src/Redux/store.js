@@ -10,13 +10,11 @@ import registerAsVolunteerSlice from '../Redux/Slices/registerAsVolunteerSlice';
 import volunteerReducer from '../Redux/Slices/VolunteerSlice';
 
 import departmentSlice from '../Redux/Slices/adminDepartmentSlice';
-import volunteerSlice from '../Redux/Slices/adminVolunteersSlice';
 import adminCourseSlice from './Slices/adminCoursesSlice';
 
 
 export const store = configureStore({
   reducer: {
-    volunteers:volunteerSlice,
     departments: departmentSlice,
     adminCourses: adminCourseSlice,
     auth: authReducer,

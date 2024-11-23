@@ -37,6 +37,7 @@ export const FetchAllVolunteerCourses = createAsyncThunk(
           },
         }
       );
+console.log(response.data);
 
       return response.data;
     } catch (error) {
