@@ -1,15 +1,17 @@
 import image from "../../assets/imagesecation.png";
 
-function ImageShow(props){
-    return(
-        <>
-        <div
-        className="relative"
-        data-te-carousel-init
-        data-te-ride="carousel"
-      >
+function ImageShow(props) {
+  return (
+    <>
+      <div className="relative" data-te-carousel-init data-te-ride="carousel">
         <div className="relative mx-auto w-full h-60 md:h-96 opacity-90">
-          <img src={image} className="block w-full h-full" alt={"image"} />
+          <img
+            src={`${import.meta.env.VITE_URL_BACKEND}/Resources/${
+              props.image || image
+            }`}
+            className="block w-full h-full"
+            alt="image"
+          />
 
           <div
             className="ml-8 mt-42 absolute shadow-lg shadow-blue-500/50 bottom-[-40px] p-2 md:p-5 h-32 md:h-36 flex items-center text-left text-black bg-[#E0D9D9CC] bg-opacity-90"
@@ -31,15 +33,17 @@ function ImageShow(props){
                 />
               </svg>
               <div>
-                <h5 className="text-lg md:text-2xl font-bold mt-1">{props.user}</h5>
+                <h5 className="text-lg md:text-2xl font-bold mt-1">
+                  {props.user}
+                </h5>
                 <p className="text-sm md:text-base">{props.email}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-        </>
-    )
+    </>
+  );
 }
 
 export default ImageShow;

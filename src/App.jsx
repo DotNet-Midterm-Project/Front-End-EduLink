@@ -17,11 +17,14 @@ import EventContentPage  from "./Pages/Student/EventContentPage";
 import ShowVolunteerByCourse from "./Components/Student/ShowVolunteerByCourse";
 import YourEvent from "./Pages/Student/YourEvent";
 
+import Volunteers from "./Pages/Volunteer/Volunteers";
+import VolunteerDetails from "./Pages/Volunteer/VolunteerDetails";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import Contact from "./Pages/contactUS/Contact";
+import AddEvent from "./Pages/Volunteer/AddEvent";
 
 // Add all icons to the library
 library.add(fas, fab);
@@ -49,6 +52,9 @@ const App = () => {
           <Route path="/volunteers/:courseId" element={<ShowVolunteerByCourse />} />
           <Route path="/your-event-page" element={<Layout><YourEvent/></Layout>} />
           <Route path="/contact-us" element={<Layout><Contact/></Layout>}/>
+          <Route path="/volunteers" element={<Volunteers/> }/>
+          <Route path="/volunteerProfile" element={<VolunteerDetails />}/>
+          <Route path = "/add-event" element={<AddEvent/>}/>
         </Routes>
       </BrowserRouter>
     </>

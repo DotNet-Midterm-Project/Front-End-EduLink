@@ -100,6 +100,30 @@ export const bookAnEvent = createAsyncThunk(
     }
   }
 );
+// Convert addEvent to createAsyncThunk
+export const addEvent = createAsyncThunk(
+  "event/addEvent", // Action type
+  async (eventData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_URL_BACKEND}/api/Volunteer/add-event`,
+        eventData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Event added successfully:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error adding event:", error.response?.data || error.message);
+      return rejectWithValue(error.response?.data || { message: "Failed to add event." });
+    }
+  }
+);
+
 
 const bookinEventgSlice = createSlice({
   name: "events",
@@ -173,7 +197,21 @@ const bookinEventgSlice = createSlice({
       .addCase(bookAnEvent.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })// Handle booking event
+        // Handle add event action (converted to AsyncThunk)
+    .addCase(addEvent.pending, (state) => {
+      state.loading = true;
+      state.successMessage = null;
+      state.error = null;
+    })
+    .addCase(addEvent.fulfilled, (state, action) => {
+      state.loading = false;
+      state.successMessage = action.payload;
+    })
+    .addCase(addEvent.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
   },
 });
 

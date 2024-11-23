@@ -14,20 +14,21 @@ function CourseCard(props) {
     .map((word) => word[0])
     .join("")
     .toUpperCase();
-    //  Gets initials, e.g., "CN" for "Course Name"
-    console.log(props);
-    
-    const handleClick = () => {
-      if (props?.location === "ShowVolunteerByCourse") {
-        navigate("/volunteer");
-      } else {
-        handleOpenModal();
-      }
-    };
+  //  Gets initials, e.g., "CN" for "Course Name"
+  console.log(props);
+
+  const handleClick = () => {
+    if (props?.location === "ShowVolunteerByCourse") {
+      navigate("/volunteer");
+    } else if (props?.location === "ShowProfileVolunteer") {
+      navigate("/volunteerProfile", { state: { volunteer: props.volunteer } });
+    } else {
+      handleOpenModal();
+    }
+  };
   return (
     <>
-     <button onClick={handleClick}>
-
+      <button onClick={handleClick}>
         <div className="my-6 w-full max-w-xs mx-auto" key={props?.id}>
           <div className="flex w-80 rounded-lg shadow-lg overflow-hidden h-[9rem]">
             <div
@@ -55,20 +56,23 @@ function CourseCard(props) {
             >
               {props?.location === "ShowVolunteerByCourse" ? (
                 <>
-                <h2 className="text-2xl font-bold text-gray-800 mt-1">
-                  {props?.name}
-                </h2>
-                <h3 className="text-lg font-semibold text-gray-800">
-                {props?.department}
-              </h3>
-              </>
+                  <h2 className="text-2xl font-bold text-gray-800 mt-1">
+                    {props?.name}
+                  </h2>
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {props?.department}
+                  </h3>
+                </>
               ) : (
                 <>
                   <h2 className="text-2xl font-bold text-gray-800 mt-1">
                     {props?.name}
                   </h2>
                   <h3 className="text-lg font-semibold text-gray-800">
-                    Volunteers: {props?.count}
+                    {props.location === "ShowProfileVolunteer"
+                      ? props.department
+                      : `Volunteers: ${props.count}`}
+                      
                   </h3>
                 </>
               )}
@@ -76,19 +80,20 @@ function CourseCard(props) {
           </div>
         </div>
       </button>
-      
-      { props?.location === "ShowVolunteerByCourse" ? "" :
-      isModalOpen && (
-        <ModalCourse
-          props={{
-            id: props?.id,
-            name: props?.course_Name,
-            count: props?.count,
-            description: props?.description,
-          }}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
+
+      {props?.location === "ShowVolunteerByCourse"
+        ? ""
+        : isModalOpen && (
+            <ModalCourse
+              props={{
+                id: props?.id,
+                name: props?.course_Name,
+                count: props?.count,
+                description: props?.description,
+              }}
+              onClose={() => setIsModalOpen(false)}
+            />
+          )}
     </>
   );
 }
