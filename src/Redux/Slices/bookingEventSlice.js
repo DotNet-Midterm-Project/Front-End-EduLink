@@ -89,8 +89,8 @@ export const bookAnEvent = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-        console.log(error);
-        
+      console.log(error);
+
       if (error.response && error.response.status === 400) {
         if (error.response.data.includes("already booked")) {
           return rejectWithValue("You have already booked this event.");
@@ -102,6 +102,30 @@ export const bookAnEvent = createAsyncThunk(
     }
   }
 );
+// Convert addEvent to createAsyncThunk
+export const addEvent = createAsyncThunk(
+  "event/addEvent", // Action type
+  async (eventData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_URL_BACKEND}/api/Volunteer/add-event`,
+        eventData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+           "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("Event added successfully:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error adding event:", error.response?.data || error.message);
+      return rejectWithValue(error.response?.data || { message: "Failed to add event." });
+    }
+  }
+);
+
 
 // This is to fetch all the event 
 export const fetchAllbookings = createAsyncThunk(
@@ -242,6 +266,23 @@ const bookinEventgSlice = createSlice({
         state.successMessage = action.payload;
       })
       .addCase(bookAnEvent.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })// Handle booking event
+        // Handle add event action (converted to AsyncThunk)
+    .addCase(addEvent.pending, (state) => {
+      state.loading = true;
+      state.successMessage = null;
+      state.error = null;
+    })
+    .addCase(addEvent.fulfilled, (state, action) => {
+      state.loading = false;
+      state.successMessage = action.payload;
+    })
+    .addCase(addEvent.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
         state.loading = false;
         state.error = action.payload;
       })
