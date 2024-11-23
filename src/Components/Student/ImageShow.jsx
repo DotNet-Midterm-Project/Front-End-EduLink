@@ -3,15 +3,14 @@ import image from "../../assets/imagesecation.png";
 function ImageShow(props) {
   return (
     <>
-      <div className="relative" data-te-carousel-init data-te-ride="carousel">
-        <div className="relative mx-auto w-full h-60 md:h-96 opacity-90">
-          <img
-            src={`${import.meta.env.VITE_URL_BACKEND}/Resources/${
-              props.image || image
-            }`}
-            className="block w-full h-full"
-            alt="image"
-          />
+      <div
+        className="relative"
+        data-te-carousel-init
+        data-te-ride="carousel"
+      >
+        {/* Adjusted height classes */}
+        <div className="relative mx-auto w-full h-40 md:h-60 opacity-90">
+          <img src={image} className="block w-full h-full" alt={"image"} />
 
           <div
             className="ml-8 mt-42 absolute shadow-lg shadow-blue-500/50 bottom-[-40px] p-2 md:p-5 h-32 md:h-36 flex items-center text-left text-black bg-[#E0D9D9CC] bg-opacity-90"

@@ -1,9 +1,6 @@
-import {
-    addLikeToArticle,
-    toggleLikeLocally,
-  } from "../../Redux/Slices/Like";
-  import { useSelector, useDispatch } from "react-redux";
-  import { fetchArticleById } from '../../Redux/Slices/articlesSlice';
+import { addLikeToArticle, toggleLikeLocally } from "../../Redux/Slices/Like";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchArticleById } from '../../Redux/Slices/articlesSlice';
 
 function LikeButton({ articleId, like }) {
     const dispatch = useDispatch();
@@ -11,7 +8,8 @@ function LikeButton({ articleId, like }) {
       state.like.articles.find((article) => article.id === articleId)
     );
     const isLiking = useSelector((state) => state.like.loading);
-    const error = useSelector((state) => state.like.error);  
+    const error = useSelector((state) => state.like.error);
+
     const handleLikeClick = async () => {
       dispatch(toggleLikeLocally(articleId));
       try {
@@ -21,16 +19,21 @@ function LikeButton({ articleId, like }) {
         dispatch(toggleLikeLocally(articleId));
       }
     };
-  
+
     return (
       <>
         <button
           onClick={handleLikeClick}
           disabled={isLiking}
-          className={`py-1.5 px-3 border rounded-md h-8 text-sm flex items-center gap-1 lg:gap-2 ${
+          className={`relative py-1.5 px-3 border rounded-md h-8 text-sm flex items-center gap-1 lg:gap-2 ${
             article?.isLiked ? "bg-blue-500 text-white" : "bg-gray-200 text-black"
-          } hover:scale-105 hover:shadow transition-all`}
+          } hover:scale-105 hover:shadow transition-all group`}
         >
+          {/* Tooltip */}
+          <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 hidden w-24 rounded-md bg-[#0B102F] bg-opacity-80 p-1 text-center text-xs font-medium text-white group-hover:block">
+            Like This Article
+          </span>
+
           {isLiking ? (
             <>
               <svg
@@ -72,4 +75,4 @@ function LikeButton({ articleId, like }) {
     );
   };
 
-  export default LikeButton;
+export default LikeButton;
