@@ -1,52 +1,27 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Loading from "../../Components/Admin/Loading";
+import React from "react";
 
-
-const EventSessions = ({ eventId }) => {
-  const [sessions, setSessions] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchSessions = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_URL_BACKEND}/api/Common/get-event-sessions?eventId=${eventId}`
-        );
-        setSessions(response.data);
-      } catch (error) {
-        console.error("Error fetching sessions:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSessions();
-  }, [eventId]);
-
-  if (loading) return <Loading />;
-
+const EventSessions = ({ sessions }) => {
   return (
     <div>
       {sessions.length > 0 ? (
         sessions.map((session, index) => (
-          <div key={index} className="session">
+          <div key={index} className="border-b py-2 text-sm text-gray-600">
             <p>
-              <strong>Start:</strong> {session.StartTime}
+              <strong>Start:</strong> {new Date(session.startDate).toLocaleString()}
             </p>
             <p>
-              <strong>End:</strong> {session.EndTime}
+              <strong>End:</strong> {new Date(session.endDate).toLocaleString()}
             </p>
             <p>
-              <strong>Details:</strong> {session.Details}
+              <strong>Details:</strong> {session.details}
             </p>
             <p>
-              <strong>Capacity:</strong> {session.Capacity}
+              <strong>Capacity:</strong> {session.sessionCapacity}
             </p>
           </div>
         ))
       ) : (
-        <p>No sessions available for this event.</p>
+        <p className="text-gray-500">No sessions available for this event.</p>
       )}
     </div>
   );

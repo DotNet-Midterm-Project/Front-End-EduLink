@@ -44,7 +44,7 @@ export default function AddEvent() {
   }, [dispatch, volunteerID]);
 
   const validateForm = () => {
-    if (!eventTitle) {
+    if (!eventTitle.trim()) {
       toast.error("Event title is required.");
       return false;
     }
@@ -56,7 +56,7 @@ export default function AddEvent() {
       toast.error("Event type is required.");
       return false;
     }
-    if (!eventDescription) {
+    if (!eventDescription.trim()) {
       toast.error("Event description is required.");
       return false;
     }
@@ -64,7 +64,7 @@ export default function AddEvent() {
       toast.error("Invalid start or end date.");
       return false;
     }
-    if (selectedLocation !== "Online" && !eventAddress) {
+    if (selectedLocation !== "0" && !eventAddress.trim()) {
       toast.error("Event address is required for onsite or hybrid events.");
       return false;
     }
@@ -81,22 +81,21 @@ export default function AddEvent() {
     if (validateForm()) {
       const eventData = new FormData();
 
-      eventData.append("EventDescription", eventDescription || "");
+      eventData.append("EventDescription", eventDescription);
       eventData.append("Details", eventDetails || "");
       eventData.append("EndTime", endDate || new Date().toISOString());
       eventData.append("StartTime", startDate || new Date().toISOString());
-      eventData.append("EventType", parseInt(selectedType) || 0);
+      eventData.append("EventType", parseInt(selectedType, 10));
       if (bannerImage) {
         eventData.append("EventBannerImage", bannerImage);
       }
-      eventData.append("Location", parseInt(selectedLocation) || 0);
-      eventData.append("CourseID", parseInt(selectedCourseId) || 0);
-      eventData.append("Title", eventTitle || "");
-      eventData.append("EventAddress", eventAddress || "");
-      eventData.append("Capacity", parseInt(capacity) || 0);
-      eventData.append("SessionCounts", parseInt(sessionCount) || 0);
+      eventData.append("Location", parseInt(selectedLocation, 10));
+      eventData.append("CourseID", parseInt(selectedCourseId, 10));
+      eventData.append("Title", eventTitle.trim());
+      eventData.append("EventAddress", eventAddress.trim());
+      eventData.append("Capacity", parseInt(capacity, 10) || 0);
+      eventData.append("SessionCounts", parseInt(sessionCount, 10) || 0);
 
-      // Dispatch action
       dispatch(addEvent(eventData))
         .then(() => {
           toast.success("Event added successfully!");
@@ -146,8 +145,8 @@ export default function AddEvent() {
             required
           >
             <option value="">Select Event Type</option>
-            <option value="Workshop">Workshop</option>
-            <option value="PrivateSession">Private Session</option>
+            <option value="0">Workshop</option>
+            <option value="1">Private Session</option>
           </select>
         </div>
         <div className="flex items-center">
@@ -159,12 +158,12 @@ export default function AddEvent() {
             required
           >
             <option value="">Select Location</option>
-            <option value="Online">Online</option>
-            <option value="OnSite">On-Site</option>
-            <option value="Hybrid">Hybrid</option>
+            <option value="0">Online</option>
+            <option value="1">On-Site</option>
+            <option value="2">Hybrid</option>
           </select>
         </div>
-        {selectedLocation !== "Online" && (
+        {selectedLocation !== "0" && (
           <div className="flex items-center">
             <label className="w-1/3 font-medium">Event Address:</label>
             <input
@@ -186,7 +185,7 @@ export default function AddEvent() {
           >
             <option value="">Select Course</option>
             {loading ? (
-              <Loading />
+              <option>Loading...</option>
             ) : error ? (
               <option>{error}</option>
             ) : (
@@ -226,7 +225,7 @@ export default function AddEvent() {
             onChange={(e) => setCapacity(e.target.value)}
           />
         </div>
-        {selectedType === "PrivateSession" && (
+        {selectedType === "1" && (
           <div className="flex items-center">
             <label className="w-1/3 font-medium">Session Count:</label>
             <input
