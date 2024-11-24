@@ -63,9 +63,6 @@ export default function PersonalInformation() {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log("Form submitted with data:", formData);
-      console.log("Response:", response.data);
     } catch (error) {
       console.error("Error submitting form:", error);
     } finally {

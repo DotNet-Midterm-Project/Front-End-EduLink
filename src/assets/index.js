@@ -12,8 +12,10 @@ import arrow_left from './icons/arrow_left.svg';
 import imagesecation from './imagesecation.png';
 import trsh from './icons/trsh.svg';
 import download from './icons/download.svg';
+import EduLinklogo from './icons/EduLinkLogo.svg';
 
 export {
+    EduLinklogo,
     download,
     trsh,
     log_out,

@@ -42,7 +42,7 @@ console.log(volunteers);
       : volunteers.filter((volunteer) => String(volunteer.approve) === filterRequest);
 
       const handleApprove = async (id) => {
-        console.log(`Approving volunteer with ID: ${id}`);
+        // console.log(`Approving volunteer with ID: ${id}`);
         try {
           const response = await axios.post(
             `${import.meta.env.VITE_URL_BACKEND}/api/Admin/approve-volunteer/${id}`,
@@ -50,7 +50,7 @@ console.log(volunteers);
             { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
           );
       
-          console.log("API Response:", response.data);
+          // console.log("API Response:", response.data);
       
   
           dispatch(fetchAllVolunteers());

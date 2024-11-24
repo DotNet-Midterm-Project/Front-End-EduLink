@@ -43,7 +43,7 @@ console.log("Departments:", departments);
         `${import.meta.env.VITE_URL_BACKEND}/api/Admin/delete-department/${departmentName}`,
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
-      console.log("API Response:", response.data);
+      // console.log("API Response:", response.data);
 
       dispatch(fetchAllDepartment());
 
@@ -63,7 +63,7 @@ console.log("Departments:", departments);
         newDepartment,
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
-      console.log("API Response:", response.data);
+      // console.log("API Response:", response.data);
 
  
       dispatch(fetchAllDepartment());

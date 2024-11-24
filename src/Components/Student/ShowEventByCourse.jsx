@@ -26,7 +26,7 @@ function ShowEventByCourse() {
   if (loading) return <Loading />;
   if (error) return <ServerError message={error} />;
   if (!events) return <NoData message="No workshops found for this course." />;
-  console.log("this is the show events", events);
+  // console.log("this is the show events", events);
 
   return (
     <div className=" mx-8 my-24">

@@ -14,7 +14,7 @@ function VolunteerCard(props) {
     .map((word) => word[0])
     .join("")
     .toUpperCase();
-  console.log(props);
+  // console.log(props);
 
   const handleClick = () => {
     if (props?.location === "ShowVolunteerByCourse") {

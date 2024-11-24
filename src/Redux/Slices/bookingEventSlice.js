@@ -113,7 +113,6 @@ export const addEvent = createAsyncThunk(
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-           "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -175,14 +174,14 @@ export const deleteBooking = createAsyncThunk(
 // This is handle the event session
 export const fetchAlleventSessions = createAsyncThunk(
   "sessions/fetchAlleventSessions",
-  async (_, { rejectWithValue }) => {
+  async (eventId, { rejectWithValue }) => {
     try {
       const response = await axios.get(
         `${
           import.meta.env.VITE_URL_BACKEND
-        }/api/Common/get-event-sessions`,
-        {
+        }/api/Common/get-event-sessions`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          params: { eventId },
         }
       );
       return response.data;
@@ -193,6 +192,72 @@ export const fetchAlleventSessions = createAsyncThunk(
     }
   }
 );
+
+// Handle join session
+export const joinSession = createAsyncThunk(
+  "session/joinSession",
+  async (sessionId, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_URL_BACKEND}/api/Student/book-session`,
+        {sessionId},
+        {
+          params: { sessionId: sessionId },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error adding session:", error.response?.data || error.message);
+      return rejectWithValue(error.response?.data || { message: "Failed to add session." });
+    }
+  }
+);
+
+// This is to download file from back end
+export const downloadFile = createAsyncThunk(
+  "files/downloadFile",
+  async (eventID, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_URL_BACKEND}/api/Student/download/${eventID}`,
+        {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const contentDisposition = response.headers["content-disposition"];
+      let fileName = `file-${eventID}.bin`; 
+      if (contentDisposition) {
+        const match = contentDisposition.match(/filename\*=UTF-8''(.+)|filename="?([^"]+)"?/);
+        if (match) {
+          fileName = decodeURIComponent(match[1] || match[2]);
+                }
+      }
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.remove()
+
+      return `File ${fileName} downloaded successfully!`;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : { message: "Download failed" }
+      );
+    }
+  }
+);
+
+
 
 const bookinEventgSlice = createSlice({
   name: "events",
@@ -326,6 +391,34 @@ const bookinEventgSlice = createSlice({
       .addCase(fetchAlleventSessions.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      }) // Handle join session
+      .addCase(joinSession.pending, (state) => {
+        state.loading = true;
+        state.successMessage = null;
+        state.error = null;
+      })
+      .addCase(joinSession.fulfilled, (state, action) => {
+        state.loading = false;
+        state.successMessage = "Session joined successfully!";
+        state.eventSessions = [...state.eventSessions, action.payload];
+      })
+      .addCase(joinSession.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Failed to join the session.";
+      })
+      // Handle download file
+      .addCase(downloadFile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.successMessage = null;
+      })
+      .addCase(downloadFile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.successMessage = action.payload; // Show success message
+      })
+      .addCase(downloadFile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Download failed";
       });
   },
 });

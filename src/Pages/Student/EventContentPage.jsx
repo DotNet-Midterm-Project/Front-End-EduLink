@@ -7,6 +7,10 @@ import {
   fetchEventsByVolunteerAndCourse,
   clearMessages,
   deleteBooking,
+  fetchAlleventSessions,
+  joinSession,
+  fetchEventContent,
+  downloadFile,
 } from "../../Redux/Slices/bookingEventSlice";
 import { bookAnEvent } from "../../Redux/Slices/bookingEventSlice";
 import Loading from "../../Components/Loading";
@@ -27,22 +31,27 @@ function EventContentPage() {
     setEvent(eventDetailsFromEventPAge);
   }, [eventDetailsFromEventPAge]);
 
-  const {
-    eventContent,
-    loading: eventsLoading,
-    error,
-  } = useSelector((state) => state.bookingEvent);
+  const { eventContent, loading: eventsLoading } = useSelector(
+    (state) => state.bookingEvent
+  );
+  const {selectedEvent} = useSelector(
+    (state) => state.bookingEvent
+  );
+  console.log(selectedEvent);
+
+  const eventDetails2 = eventContent?.filter(
+    (event) => event?.eventID == eventId
+  );
+
+  const { eventSessions, loading, error } = useSelector(
+    (state) => state.bookingEvent
+  );
 
   const {
     loading: bookingLoading,
     successMessage,
     error: bookingError,
   } = useSelector((state) => state.bookingEvent);
-
-  const eventDetails2 = eventContent?.filter(
-    (event) => event?.eventID == eventId
-  );
-  console.log(eventContent);
 
   useEffect(() => {
     if (event?.volunteerID && event?.courseID) {
@@ -54,6 +63,12 @@ function EventContentPage() {
       );
     }
   }, [dispatch, event]);
+
+  useEffect(() => {
+    if (eventDetails2[0]?.eventType == "PrivateSession") {
+      dispatch(fetchAlleventSessions(eventId));
+    }
+  }, [dispatch, eventId]);
 
   useEffect(() => {
     if (successMessage) {
@@ -70,9 +85,17 @@ function EventContentPage() {
     }
   }, [successMessage, bookingError, dispatch]);
 
-  const handleJoinNow = () => {
-    console.log();
+  useEffect(() => {
+    if (isYourEvent) {
+      dispatch(fetchEventContent(eventId));
+    }
+  }, [dispatch, eventId]);
 
+  const handleDownload = (eventID) => {
+    dispatch(downloadFile(eventID));
+  };
+
+  const handleJoinNow = () => {
     if (!eventDetails2[0]) {
       Swal.fire("Error", "Event details are not available.", "error");
       return;
@@ -140,12 +163,79 @@ function EventContentPage() {
     });
   };
 
+  const handleJoinSession = async (sessionId) => {
+    try {
+      const resultAction = await dispatch(joinSession(sessionId));
+
+      if (joinSession.fulfilled.match(resultAction)) {
+        Swal.fire({
+          title: "Success!",
+          text: "You have successfully joined the session.",
+          icon: "success",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#3085d6",
+        });
+      } else {
+        console.error("Failed to join session:", resultAction.payload);
+
+        Swal.fire({
+          title: "Error!",
+          text: resultAction.payload || "Failed to join the session.",
+          icon: "error",
+          confirmButtonText: "Retry",
+          confirmButtonColor: "#d33",
+        });
+      }
+    } catch (error) {
+      console.error("An error occurred while joining the session:", error);
+
+      Swal.fire({
+        title: "Unexpected Error",
+        text: "An unexpected error occurred. Please try again later.",
+        icon: "warning",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#f39c12",
+      });
+    }
+  };
+
+  const isValidURL = (string) => {
+    try {
+      const url = new URL(string);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
   const eventDetails = [
     {
       label: "Address",
-      value: isYourEvent
-        ? event?.eventAddress
-        : eventDetails2[0]?.eventAddress || "N/A",
+      value: isYourEvent ? (
+        isValidURL(event?.eventAddress) ? (
+          <a
+            href={event?.eventAddress}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 underline"
+          >
+            {event?.eventAddress}
+          </a>
+        ) : (
+          event?.eventAddress || "N/A"
+        )
+      ) : isValidURL(eventDetails2[0]?.eventAddress) ? (
+        <a
+          href={eventDetails2[0]?.eventAddress}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 underline"
+        >
+          {eventDetails2[0]?.eventAddress}
+        </a>
+      ) : (
+        eventDetails2[0]?.eventAddress || "N/A"
+      ),
     },
     {
       label: "Location",
@@ -192,11 +282,12 @@ function EventContentPage() {
         <EventDateTime dateTime={eventDetails2[0]?.endTime} /> || "N/A"
       ),
     },
-    ...(isYourEvent && event?.eventType === "PrivateSession"
-      ? [{ label: "Session", value: event?.sessionCount }]
-      : []),
+    // ...(isYourEvent && event?.eventType === "PrivateSession"
+    //   ? [{ label: "Session", value: event?.sessionCount }]
+    //   : []),
   ];
-  console.log(eventDetails2);
+
+  // console.log(event);
 
   return (
     <main className="antialiased mt-12 mx-8">
@@ -267,41 +358,42 @@ function EventContentPage() {
             </div>
           </div>
 
-          {(isYourEvent &&
-            event?.eventLocation == "Online" &&
-            event?.eventAddress != "The Event link will be sent later") ||
-          eventDetails2[0]?.eventType == "PrivateSession" ? (
-            <div
-              className={`mx-3 mt-4 relative flex w-[23rem] max-w-[26rem] flex-col
+          {eventDetails2[0]?.eventType == "PrivateSession" ? (
+            <div className="flex justify-start mt-8">
+              {eventSessions?.map((session) => (
+                <div
+                  key={session?.sessionID}
+                  className={`mx-3 mt-4 relative flex w-[23rem] max-w-[26rem] flex-col
            bg-white bg-clip-borde shadow-lg transition duration-300 ease-in-out`}
-            >
-              <div className="p-6 border-2 border-blue-900 rounded-xl">
-                <div className="mb-3 flex items-center justify-center ">
-                  <h5 className="block font-sans text-xl font-medium leading-snug tracking-normal antialiased">
-                    {event?.title} - {event?.courseName}
-                  </h5>
-                </div>
-                <p className="block font-sans text-base leading-relaxed antialiased">
-                  {event?.description}
-                </p>
-                <p className="block font-bold mt-4 text-base leading-relaxed antialiased">
-                  capacity: {event?.capacity}
-                </p>
-                <a
-                  href={event?.eventAddress}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-12 block w-full select-none rounded-lg bg-[#171E4B] py-3.5 px-7 text-center align-middle font-sans
+                >
+                  <div className="p-6 border-2 border-blue-900 rounded-xl">
+                    <div className="mb-3 flex items-center justify-center ">
+                      <h5 className="block font-sans text-xl font-medium leading-snug tracking-normal antialiased">
+                        {session?.eventTitle} - {session?.courseName}
+                      </h5>
+                    </div>
+                    <p className="block font-sans text-base leading-relaxed antialiased">
+                      {session?.eventDescription}
+                    </p>
+                    <p className="block font-bold mt-4 text-base leading-relaxed antialiased">
+                      capacity: {session?.capacity}
+                    </p>
+                    <button
+                      onClick={() => handleJoinSession(session?.sessionID)}
+                      className="mt-12 block w-full select-none rounded-lg bg-[#171E4B] py-3.5 px-7 text-center align-middle font-sans
              text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:bg-[#293aaa]
               focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                >
-                  Join
-                </a>
-              </div>
+                    >
+                      Join
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           ) : null}
         </article>
       </div>
+
       <div className="flex justify-end m-12">
         {isYourEvent ? (
           <button
@@ -321,6 +413,38 @@ function EventContentPage() {
           </button>
         ) : null}
       </div>
+
+      {selectedEvent?.map((file) => (
+
+            <div
+              key={file?.contentID}
+              className={`mx-3 mt-4 relative flex w-[23rem] max-w-[26rem] flex-col
+           bg-white bg-clip-borde shadow-lg transition duration-300 ease-in-out`}
+            >
+              <div className="p-6 border-2 border-blue-900 rounded-xl">
+                <div className="mb-3 flex items-center justify-center ">
+                  <h5 className="block font-sans text-xl font-medium leading-snug tracking-normal antialiased">
+                    {file?.contentName} 
+                  </h5>
+                </div>
+                <p className="block font-sans text-base leading-relaxed antialiased">
+                  {file?.contentAddress}
+                </p>
+                <p className="block font-bold my-4 text-base leading-relaxed antialiased">
+                  {file?.contentType}
+                </p>
+                <button
+                  onClick={() => handleDownload(file?.eventID)}
+                  className="w-full flex items-center justify-center gap-6 bg-blue-500 hover:bg-blue-700
+                   text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                  <img src={download} alt="Download Icon" />
+                  Download
+                </button>
+              </div>
+            </div>
+
+      ))}
     </main>
   );
 }

@@ -60,7 +60,7 @@ const AdminViewAllCourses = () => {
   };
 
   const handleDeleteCourse = async (courseId) => {
-    console.log(courseId);
+    // console.log(courseId);
     
     try {
       const response = await axios.delete(
@@ -80,7 +80,7 @@ const AdminViewAllCourses = () => {
   };
 
   const handleLinkCourseToDepartment = async () => {
-    console.log(selectedCourseId, selectedDepartmentId);
+    // console.log(selectedCourseId, selectedDepartmentId);
     
     if (!selectedCourseId || !selectedDepartmentId) {
       toast.error("Please select a course and a department.");

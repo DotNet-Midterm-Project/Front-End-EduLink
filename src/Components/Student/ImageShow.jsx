@@ -1,5 +1,6 @@
 import image from "../../assets/imagesecation.png";
 import Edud from "../../assets/Home/Edud.png";
+import {EduLinklogo} from "../../assets";
 
 function ImageShow(props) {
   // جلب الأدوار من localStorage
@@ -26,9 +27,9 @@ function ImageShow(props) {
            {isVolunteer && (
           <div className="absolute top-2 right-2">
             <img
-              src={Edud}
+              src={EduLinklogo}
               alt="Volunteer Logo"
-              className="w-10 h-10 md:w-12 md:h-12"
+              className="w-8 h-8 md:w-12 md:h-8"
             />
           </div>
         )}

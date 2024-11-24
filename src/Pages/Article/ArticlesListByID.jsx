@@ -78,7 +78,7 @@ function ArticlesListByID() {
   if (error) {
     return <ServerError />;
   }
-  console.log(selectedArticle);
+  // console.log(selectedArticle);
 
   return (
     <>
