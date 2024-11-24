@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   fetchEventsByVolunteerAndCourse,
   clearMessages,
@@ -11,32 +9,26 @@ import {
   joinSession,
   fetchEventContent,
   downloadFile,
+  bookAnEvent,
 } from "../../Redux/Slices/bookingEventSlice";
-import { bookAnEvent } from "../../Redux/Slices/bookingEventSlice";
+import Swal from "sweetalert2";
 import Loading from "../../Components/Loading";
-import { arrow_left } from "../../assets";
 import { EventDateTime } from "../../utils/dateUtils";
-import { trsh, download } from "../../assets";
+import { trsh, download, arrow_left } from "../../assets";
 
 function EventContentPage() {
   const { eventId } = useParams();
-  const location1 = useLocation();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location1 = useLocation();
   const [event, setEvent] = useState({});
   const eventDetailsFromEventPAge = location1?.state;
-  const dispatch = useDispatch();
   const isYourEvent = event?.location === "YourEvent";
-
-  useEffect(() => {
-    setEvent(eventDetailsFromEventPAge);
-  }, [eventDetailsFromEventPAge]);
 
   const { eventContent, loading: eventsLoading } = useSelector(
     (state) => state.bookingEvent
   );
-  const {selectedEvent} = useSelector(
-    (state) => state.bookingEvent
-  );
+  const { selectedEvent } = useSelector((state) => state.bookingEvent);
   console.log(selectedEvent);
 
   const eventDetails2 = eventContent?.filter(
@@ -47,11 +39,25 @@ function EventContentPage() {
     (state) => state.bookingEvent
   );
 
+  console.log(eventSessions);
+
   const {
     loading: bookingLoading,
     successMessage,
     error: bookingError,
   } = useSelector((state) => state.bookingEvent);
+
+  useEffect(() => {
+    setEvent(eventDetailsFromEventPAge);
+  }, [eventDetailsFromEventPAge]);
+  console.log(eventDetails2);
+
+  useEffect(() => {
+    // if (eventDetails2[0]?.eventType == "PrivateSession") {
+    // console.log(eventDetails2[0]?.eventType == "PrivateSession");
+
+    dispatch(fetchAlleventSessions(eventId));
+  }, [dispatch, eventId]);
 
   useEffect(() => {
     if (event?.volunteerID && event?.courseID) {
@@ -65,31 +71,23 @@ function EventContentPage() {
   }, [dispatch, event]);
 
   useEffect(() => {
-    if (eventDetails2[0]?.eventType == "PrivateSession") {
-      dispatch(fetchAlleventSessions(eventId));
+    if (isYourEvent) {
+      dispatch(fetchEventContent(eventId));
     }
-  }, [dispatch, eventId]);
+  }, [dispatch, eventId, isYourEvent]);
 
   useEffect(() => {
     if (successMessage) {
       Swal.fire("Success", successMessage, "success");
-      dispatch(clearMessages()); // Clear messages after showing
+      dispatch(clearMessages());
     }
     if (bookingError) {
       if (bookingError === "You have already booked this event.") {
         Swal.fire("Already Booked", bookingError, "info");
-      } else {
-        // Swal.fire("Error", bookingError, "error");
       }
       dispatch(clearMessages());
     }
   }, [successMessage, bookingError, dispatch]);
-
-  useEffect(() => {
-    if (isYourEvent) {
-      dispatch(fetchEventContent(eventId));
-    }
-  }, [dispatch, eventId]);
 
   const handleDownload = (eventID) => {
     dispatch(downloadFile(eventID));
@@ -199,6 +197,10 @@ function EventContentPage() {
     }
   };
 
+  const hasJoinedSession = (sessionId) => {
+    return eventSessions?.some((session) => session.sessionId === sessionId);
+  };
+
   const isValidURL = (string) => {
     try {
       const url = new URL(string);
@@ -210,32 +212,35 @@ function EventContentPage() {
 
   const eventDetails = [
     {
-      label: "Address",
-      value: isYourEvent ? (
-        isValidURL(event?.eventAddress) ? (
+      label:
+        eventDetails2[0]?.eventType === "PrivateSession" ? null : "Address",
+      value:
+        eventDetails2[0]?.eventType ===
+        "PrivateSession" ? null : isYourEvent ? ( // Hide the label and value if it's a "PrivateSession"
+          isValidURL(event?.eventAddress) ? (
+            <a
+              href={event?.eventAddress}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              {event?.eventAddress}
+            </a>
+          ) : (
+            event?.eventAddress || "N/A"
+          )
+        ) : isValidURL(eventDetails2[0]?.eventAddress) ? (
           <a
-            href={event?.eventAddress}
+            href={eventDetails2[0]?.eventAddress}
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-500 underline"
           >
-            {event?.eventAddress}
+            {eventDetails2[0]?.eventAddress}
           </a>
         ) : (
-          event?.eventAddress || "N/A"
-        )
-      ) : isValidURL(eventDetails2[0]?.eventAddress) ? (
-        <a
-          href={eventDetails2[0]?.eventAddress}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 underline"
-        >
-          {eventDetails2[0]?.eventAddress}
-        </a>
-      ) : (
-        eventDetails2[0]?.eventAddress || "N/A"
-      ),
+          eventDetails2[0]?.eventAddress || "N/A"
+        ),
     },
     {
       label: "Location",
@@ -282,12 +287,7 @@ function EventContentPage() {
         <EventDateTime dateTime={eventDetails2[0]?.endTime} /> || "N/A"
       ),
     },
-    // ...(isYourEvent && event?.eventType === "PrivateSession"
-    //   ? [{ label: "Session", value: event?.sessionCount }]
-    //   : []),
   ];
-
-  // console.log(event);
 
   return (
     <main className="antialiased mt-12 mx-8">
@@ -338,67 +338,127 @@ function EventContentPage() {
 
           <div className="max-w-2xl p-4">
             <div className="border-2 border-black rounded-2xl overflow-hidden">
-              {eventDetails?.map((detail, index) => (
-                <div
-                  key={detail?.label}
-                  className={`flex divide-x ${
-                    index !== eventDetails?.length - 1
-                      ? "border-b-2 border-black"
-                      : ""
-                  }`}
-                >
-                  <div className="w-1/2 p-4 font-bold text-center">
-                    {detail?.label}
+              {eventDetails
+                ?.filter((detail) => detail?.label) // Filter out rows with a null or undefined label
+                .map((detail, index) => (
+                  <div
+                    key={detail?.label}
+                    className={`flex divide-x ${
+                      index !== eventDetails.length - 1
+                        ? "border-b-2 border-black"
+                        : ""
+                    }`}
+                  >
+                    <div className="w-1/2 p-4 font-bold text-center">
+                      {detail?.label}
+                    </div>
+                    <div className="w-1/2 p-4 border-black text-center">
+                      {detail?.value}
+                    </div>
                   </div>
-                  <div className="w-1/2 p-4 border-black text-center">
-                    {detail?.value}
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
 
-          {eventDetails2[0]?.eventType == "PrivateSession" ? (
+          {eventDetails2[0]?.eventType === "PrivateSession" ? (
             <div className="flex justify-start mt-8">
-              {eventSessions?.map((session) => (
-                <div
-                  key={session?.sessionID}
-                  className={`mx-3 mt-4 relative flex w-[23rem] max-w-[26rem] flex-col
+              {eventSessions?.map((session) => {
+                console.log(session);
+                
+                const joined = hasJoinedSession(session.sessionID);
+                return (
+                  <div
+                    key={session?.sessionID}
+                    className={`mx-3 mt-4 relative flex w-[23rem] max-w-[26rem] flex-col
            bg-white bg-clip-borde shadow-lg transition duration-300 ease-in-out`}
-                >
-                  <div className="p-6 border-2 border-blue-900 rounded-xl">
-                    <div className="mb-3 flex items-center justify-center ">
-                      <h5 className="block font-sans text-xl font-medium leading-snug tracking-normal antialiased">
-                        {session?.eventTitle} - {session?.courseName}
-                      </h5>
-                    </div>
-                    <p className="block font-sans text-base leading-relaxed antialiased">
-                      {session?.eventDescription}
-                    </p>
-                    <p className="block font-bold mt-4 text-base leading-relaxed antialiased">
-                      capacity: {session?.capacity}
-                    </p>
-                    <button
-                      onClick={() => handleJoinSession(session?.sessionID)}
-                      className="mt-12 block w-full select-none rounded-lg bg-[#171E4B] py-3.5 px-7 text-center align-middle font-sans
-             text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:bg-[#293aaa]
+                  >
+                    <div className="p-6 border-2 border-blue-900 rounded-xl">
+                      <div className="mb-3 flex items-center justify-center ">
+                        <h5 className="block font-sans text-xl font-medium leading-snug tracking-normal antialiased">
+                          {session?.eventTitle} - {session?.courseName}
+                        </h5>
+                      </div>
+                      <p className="block font-sans text-base leading-relaxed antialiased">
+                        {session?.eventDetails}
+                      </p>
+                      {isYourEvent ? (
+                        <p className="block font-bold mt-4 text-base leading-relaxed antialiased">
+                          Session Link:{" "}
+                          {isYourEvent && isValidURL(session?.eventAddress) ? (
+                            <a
+                              href={session?.eventAddress}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-500 underline"
+                            >
+                              {session?.eventAddress}
+                            </a>
+                          ) : (
+                            <span>The session link will be sent later</span>
+                          )}
+                        </p>
+                      ) : null}
+
+                      <p className="block font-bold mt-4 text-base leading-relaxed antialiased">
+                        capacity: {session?.capacity}
+                      </p>
+                      {joined ? (
+                        <p className="block font-bold mt-4 text-green-600">
+                          You have joined this session
+                        </p>
+                      ) : (
+                        <button
+                          onClick={() => handleJoinSession(session.sessionID)}
+                          className="mt-12 block w-full select-none rounded-lg bg-[#171E4B] py-3.5 px-7 text-center align-middle font-sans
+              text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:bg-[#293aaa]
               focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                    >
-                      Join
-                    </button>
+                        >
+                          Join
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : null}
         </article>
       </div>
+      {selectedEvent?.map((file) => (
+        <div
+          key={file?.contentID}
+          className={`mx-3 mt-4 relative flex w-[23rem] max-w-[26rem] flex-col
+           bg-white bg-clip-borde shadow-lg transition duration-300 ease-in-out`}
+        >
+          <div className="p-6 border-2 border-blue-900 rounded-xl">
+            <div className="mb-3 flex items-center justify-center ">
+              <h5 className="block font-sans text-xl font-medium leading-snug tracking-normal antialiased">
+                {file?.contentName}
+              </h5>
+            </div>
+            <p className="block font-sans text-base leading-relaxed antialiased">
+              {file?.contentAddress}
+            </p>
+            <p className="block font-bold my-4 text-base leading-relaxed antialiased">
+              {file?.contentType}
+            </p>
+            <button
+              onClick={() => handleDownload(file?.eventID)}
+              className="w-full flex items-center justify-center gap-6 bg-[#F28E33] hover:bg-[#f28f33d1]
+                   text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              <img src={download} alt="Download Icon" />
+              Download
+            </button>
+          </div>
+        </div>
+      ))}
 
       <div className="flex justify-end m-12">
         {isYourEvent ? (
           <button
             onClick={() => handleDeleteEvent(event?.bookingId)}
-            className="flex justify-center items-center text-red-600 font-bold font-mono border border-red-600 w-48 rounded-lg py-2"
+            className="flex justify-center items-center text-red-600 font-bold font-mono border border-red-600 w-48 rounded-lg py-2 hover:bg-red-600 hover:text-white"
           >
             <img src={trsh} alt="Trash Icon" />
             <p>Delete Event</p>
@@ -413,38 +473,6 @@ function EventContentPage() {
           </button>
         ) : null}
       </div>
-
-      {selectedEvent?.map((file) => (
-
-            <div
-              key={file?.contentID}
-              className={`mx-3 mt-4 relative flex w-[23rem] max-w-[26rem] flex-col
-           bg-white bg-clip-borde shadow-lg transition duration-300 ease-in-out`}
-            >
-              <div className="p-6 border-2 border-blue-900 rounded-xl">
-                <div className="mb-3 flex items-center justify-center ">
-                  <h5 className="block font-sans text-xl font-medium leading-snug tracking-normal antialiased">
-                    {file?.contentName} 
-                  </h5>
-                </div>
-                <p className="block font-sans text-base leading-relaxed antialiased">
-                  {file?.contentAddress}
-                </p>
-                <p className="block font-bold my-4 text-base leading-relaxed antialiased">
-                  {file?.contentType}
-                </p>
-                <button
-                  onClick={() => handleDownload(file?.eventID)}
-                  className="w-full flex items-center justify-center gap-6 bg-blue-500 hover:bg-blue-700
-                   text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
-                  <img src={download} alt="Download Icon" />
-                  Download
-                </button>
-              </div>
-            </div>
-
-      ))}
     </main>
   );
 }
