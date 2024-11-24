@@ -16,7 +16,7 @@ function Card(props) {
     props.location === "event"
       ? `/event-content/${props?.eventId}`
       : `/articles/${props?.id}`;
-  console.log("this is the card", props);
+  // console.log("this is the card", props);
 
   return (
     <>

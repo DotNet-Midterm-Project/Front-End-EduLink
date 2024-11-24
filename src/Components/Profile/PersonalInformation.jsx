@@ -71,8 +71,8 @@ export default function PersonalInformation() {
         },
       });
        
-      console.log("Form submitted with data:", formData);
-      console.log("Response:", response.data);
+      // console.log("Form submitted with data:", formData);
+      // console.log("Response:", response.data);
 
       // If the response indicates success, update the state
       

@@ -9,10 +9,10 @@ function ModalCourse({ props, onClose }) {
 console.log(props);
 
   const handleSeeMore = () => {
-    dispatch(fetchAllVolunteerByCourseId({ CourseID: props?.id }))
+    dispatch(fetchAllEvent(props?.id))
       .unwrap()
       .then(() => {
-        navigate(`/volunteers/${props?.id}`);
+        navigate(`/event-by-course/${props?.id}`);
       })
       .catch((error) => {
         console.error("Error fetching volunteers:", error);
