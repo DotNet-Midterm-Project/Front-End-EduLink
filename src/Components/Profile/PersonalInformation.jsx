@@ -63,14 +63,6 @@ export default function PersonalInformation() {
           Authorization: `Bearer ${token}`,
         },
       });
-       
-      console.log("Form submitted with data:", formData);
-      console.log("Response:", response.data);
-
-      // If the response indicates success, update the state
-      
-      // Optionally, you can reset the formData or redirect
-      // setFormData(new FormData());
     } catch (error) {
       console.error("Error submitting form:", error);
     } finally {

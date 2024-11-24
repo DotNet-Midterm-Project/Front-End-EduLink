@@ -71,7 +71,7 @@ export default function Header() {
   return (
     <header
       className={`fixed w-full z-50 px-8 transition-all duration-300 top-0 left-0 right-0 ${
-        isScrolled ? "bg-white shadow-md" : "bg-transparent"
+        isScrolled ? "bg-[#0D47A1] shadow-md" : "bg-transparent"
       }`}
     >
       <div className="z-30">
@@ -132,7 +132,7 @@ export default function Header() {
                   <img
                     src={yourProfile}
                     alt="Profile"
-                    className="h-8 w-8 align-middle hover:text-[#F28E33]"
+                    className="h-8 w-8 align-middle hover:text-[#F28E33] bg-[#0B102F]"
                   />
                 </button>
               </>
