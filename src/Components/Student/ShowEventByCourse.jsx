@@ -47,7 +47,7 @@ function ShowEventByCourse() {
             auther={event?.volunteerName}
             description={event?.workshopDescription}
             date={event?.workshopDateTime}
-            image={event?.eventFile}
+            image={event?.eventBannerImage}
             capacity={event?.capacity}
             sessionLink={event?.sessionLink}
             location="event"

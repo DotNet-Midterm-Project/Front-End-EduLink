@@ -12,21 +12,26 @@ import LogoutButton from "../LogoutButton";
 import RegisterModal from "./RegisterModal";
 import { useState } from "react";
 
+
 function SideBar({ onClose }) {
   const user = localStorage.getItem("userName") || "";
   const roles = JSON.parse(localStorage.getItem("roles") || "[]"); // جلب الأدوار من localStorage
   const isVolunteer = roles.includes("Volunteer"); // التحقق إذا كان المستخدم متطوعًا
   const [openModal, setOpenModal] = useState(false);
+  const Url = import.meta.env.VITE_URL_BACKEND;
+
 
   const handleOpenModal = () => setOpenModal(true);
-
+  const avatarImage = localStorage.getItem("avatarPreview") !== "null"
+  ?`${Url}/Resources/${localStorage.getItem("avatarPreview")}` 
+  : yourProfile;
   return (
     <>
       <div className="fixed top-0 right-0 h-screen w-96 bg-[#0D47A1]">
         <div className="h-screen w-96 pb-10">
           <div className="flex h-screen flex-grow flex-col rounded-br-lg rounded-tr-lg bg-[#0D47A1] shadow-md">
             <div className="flex mt-4 items-center px-4">
-              <img src={yourProfile} className="h-10 w-10" />
+              <img src={avatarImage} className="h-10 w-10" />
               <div className="flex ml-3 flex-col">
                 <h3 className="font-medium text-white">{user}</h3>
               </div>

@@ -15,6 +15,8 @@ export const login = createAsyncThunk(
       localStorage.setItem('roles', JSON.stringify(data.roles));
       localStorage.setItem('userName', data.userName);
       localStorage.setItem('email', data.email);
+      const profileImage = data.profileImage || 'null'; 
+      localStorage.setItem('avatarPreview', profileImage);
 
       return { data };
     } catch (error) {
