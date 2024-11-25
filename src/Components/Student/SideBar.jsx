@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   booking,
@@ -10,16 +11,31 @@ import {
 } from "../../assets";
 import LogoutButton from "../LogoutButton";
 import RegisterModal from "./RegisterModal";
-import { useState } from "react";
-
 
 function SideBar({ onClose }) {
   const user = localStorage.getItem("userName") || "";
   const roles = JSON.parse(localStorage.getItem("roles") || "[]"); // جلب الأدوار من localStorage
   const isVolunteer = roles.includes("Volunteer"); // التحقق إذا كان المستخدم متطوعًا
   const [openModal, setOpenModal] = useState(false);
+  const sidebarRef = useRef(null);
+
+  const handleOpenModal = () => setOpenModal(true);
   const Url = import.meta.env.VITE_URL_BACKEND;
 
+  // إضافة مستمع حدث عند النقر خارج الشريط الجانبي
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        onClose(); // إغلاق الشريط الجانبي إذا تم النقر خارج المنيو
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
 
   const handleOpenModal = () => setOpenModal(true);
   const avatarImage = localStorage.getItem("avatarPreview") !== "null"
@@ -27,7 +43,7 @@ function SideBar({ onClose }) {
   : yourProfile;
   return (
     <>
-      <div className="fixed top-0 right-0 h-screen w-96 bg-[#0D47A1]">
+      <div className="fixed top-0 right-0 h-screen w-96 bg-[#0D47A1]" ref={sidebarRef}>
         <div className="h-screen w-96 pb-10">
           <div className="flex h-screen flex-grow flex-col rounded-br-lg rounded-tr-lg bg-[#0D47A1] shadow-md">
             <div className="flex mt-4 items-center px-4">

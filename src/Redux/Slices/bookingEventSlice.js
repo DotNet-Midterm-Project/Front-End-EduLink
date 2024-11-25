@@ -55,6 +55,8 @@ export const fetchEventContent = createAsyncThunk(
 export const fetchEventsByVolunteerAndCourse = createAsyncThunk(
   "courses/fetchEventsByVolunteerAndCourse",
   async ({ volunteerID, courseID }, { rejectWithValue }) => {
+    console.log( volunteerID, courseID );
+    
     try {
       const response = await axios.get(
         `${
@@ -65,6 +67,8 @@ export const fetchEventsByVolunteerAndCourse = createAsyncThunk(
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
+      console.log(response.data);
+      
       return response.data;
     } catch (error) {
       return rejectWithValue(
