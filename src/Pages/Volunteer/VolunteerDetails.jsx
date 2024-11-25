@@ -10,6 +10,7 @@ import NoData from "../../Components/Error/NoData";
 import Loading from "../../Components/Loading";
 import ServerError from "../../Components/Error/ServerError";
 
+
 function VolunteerDetails() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ function VolunteerDetails() {
   // Get volunteer details from location state
   const location = useLocation();
   const volunteer = location?.state?.volunteer;
+
 
   // Fetch volunteer courses on component mount
   useEffect(() => {
@@ -57,6 +59,7 @@ function VolunteerDetails() {
         image={volunteer.profile || "/default-profile.jpg"} // Fallback image
         user={volunteer.volunteerName || "Unknown Volunteer"}
         email={volunteer.email || "Email not provided"}
+        profile ={volunteer.profile || "null"}
       />
 
       {/* About and Skills Sections */}

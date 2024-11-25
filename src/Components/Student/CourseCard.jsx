@@ -3,10 +3,17 @@ import ModalCourse from "../../Components/Student/ModalCourse";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import java from "../../assets/icons/java.svg";
+import nodejs from "../../assets/icons/nodejs.svg";
+import python from "../../assets/icons/python.svg";
+import react from "../../assets/icons/react.svg";
+import ruby from "../../assets/icons/Ruby.svg";
+import php from "../../assets/icons/php.svg";
+
 function CourseCard(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-
+  const imageCourse = image;
   const handleOpenModal = () => setIsModalOpen(true);
 
   const initials = props?.name
@@ -20,13 +27,26 @@ function CourseCard(props) {
     if (props?.location === "ShowVolunteerByCourse") {
       navigate("/volunteer");
     } else if (props?.location === "ShowProfileVolunteer") {
+      
+      
       navigate("/volunteerProfile", { state: { volunteer: props.volunteer } });
 
     } else {
       handleOpenModal();
     }
   };
-  
+  const courseImages = {
+    
+    Java: java,
+    Nodejs: nodejs,
+    Python: python,
+    React: react,
+    Ruby: ruby , 
+    Php: php
+  };
+  if(courseImages[props?.name]){
+    imageCourse = courseImages[props?.name];
+  }
   return (
     <>
       <button onClick={handleClick}>
@@ -46,15 +66,15 @@ function CourseCard(props) {
             >
               {!props?.volunteer?.profile  ? (
                 <img
-                  src={image}
+                  src={imageCourse}
                   alt="Course"
-                  className="object-cover h-full w-full"
+                  className=" h-full w-full"
                   style={{
                     borderRadius: "0px 0px 0px 20px", // Matches container's radius
                   }}
                 />
               ) :   <img
-              src={import.meta.env.VITE_URL_BACKEND + props.profile}
+              src={`${import.meta.env.VITE_URL_BACKEND}/Resources/${props.profile}`}
               alt="Course"
               className="object-cover h-full w-full"
               style={{
