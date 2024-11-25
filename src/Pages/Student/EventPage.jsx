@@ -22,18 +22,20 @@ function EventPage() {
 
   if (loading) return <Loading />;
   if (error) return <ServerError />;
-console.log("this is the event from page",events);
+  console.log("this is the event from page", events);
 
   return (
     <>
-      <div className="mt-28">
+      <div className="mt-28 mx-8">
+        {/* عنوان الصفحة */}
         <Search
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           placeholder="Search for event..."
         />
+        <h1 className="text-2xl font-bold text-gray-800 mb-2 m">Book an Event</h1> {/* تقليل المسافة هنا */}
       </div>
-      <div className="my-28 mx-8">
+      <div className="my-28 mx-8 flex flex-wrap gap-4">
         {filteredEvents?.length > 0 ? (
           filteredEvents?.map((event) => (
             <Card
