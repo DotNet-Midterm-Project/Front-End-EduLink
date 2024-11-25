@@ -14,10 +14,13 @@ import RegisterModal from "./RegisterModal";
 
 function SideBar({ onClose }) {
   const user = localStorage.getItem("userName") || "";
+  const roles = JSON.parse(localStorage.getItem("roles") || "[]"); // جلب الأدوار من localStorage
+  const isVolunteer = roles.includes("Volunteer"); // التحقق إذا كان المستخدم متطوعًا
   const [openModal, setOpenModal] = useState(false);
   const sidebarRef = useRef(null);
 
   const handleOpenModal = () => setOpenModal(true);
+  const Url = import.meta.env.VITE_URL_BACKEND;
 
   // إضافة مستمع حدث عند النقر خارج الشريط الجانبي
   useEffect(() => {
@@ -34,13 +37,17 @@ function SideBar({ onClose }) {
     };
   }, [onClose]);
 
+  const handleOpenModal = () => setOpenModal(true);
+  const avatarImage = localStorage.getItem("avatarPreview") !== "null"
+  ?`${Url}/Resources/${localStorage.getItem("avatarPreview")}` 
+  : yourProfile;
   return (
     <>
       <div className="fixed top-0 right-0 h-screen w-96 bg-[#0D47A1]" ref={sidebarRef}>
         <div className="h-screen w-96 pb-10">
           <div className="flex h-screen flex-grow flex-col rounded-br-lg rounded-tr-lg bg-[#0D47A1] shadow-md">
             <div className="flex mt-4 items-center px-4">
-              <img src={yourProfile} className="h-10 w-10" />
+              <img src={avatarImage} className="h-10 w-10" />
               <div className="flex ml-3 flex-col">
                 <h3 className="font-medium text-white">{user}</h3>
               </div>
@@ -54,11 +61,11 @@ function SideBar({ onClose }) {
               <hr className="h-px mt-4 bg-white border-0 dark:bg-white" />
             </div>
             <div className="flex mt-3 flex-1 flex-col">
-              <div className="">
+              <div>
                 <nav className="flex-1">
+                  {/* الروابط العامة */}
                   <Link
                     to="/student-page"
-                    title=""
                     className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"
                   >
                     <img
@@ -82,6 +89,16 @@ function SideBar({ onClose }) {
                     Your Events
                   </Link>
                   <Link
+                    to="/volunteers"
+                    className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"
+                  >
+                    <img
+                      src={yourProfile}
+                      className="mr-4 h-5 w-5 align-middle"
+                    />
+                    View Volunteers
+                  </Link>
+                  <Link
                     to="/articles"
                     className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"
                   >
@@ -91,18 +108,71 @@ function SideBar({ onClose }) {
                     />
                     View Articles
                   </Link>
-                  <div className="relative w-[350px] inline-block mx-4">
-                    <hr className="h-px bg-white border-0 dark:bg-white" />
-                  </div>
 
+                  {/* قسم خاص بالمتطوع */}
+                  {isVolunteer && (
+                    <>
+                      <div className="relative w-[350px] inline-block mx-4">
+                        <hr className="h-px mt-4 bg-white border-0 dark:bg-white" />
+                      </div>
+                      <h4 className="text-sm px-4 text-gray-300 uppercase">
+                        Volunteer Section
+                      </h4>
+                      <Link
+                        to="/add-event"
+                        className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"
+                      >
+                        <img
+                          src={events}
+                          className="mr-4 h-5 w-5 align-middle"
+                        />
+                        Add Event
+                      </Link>
+                      <Link
+                        to="/add-article"
+                        className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"
+                      >
+                        <img
+                          src={viewArticles}
+                          className="mr-4 h-5 w-5 align-middle"
+                        />
+                        Add Article
+                      </Link>
+                      <Link
+                        to="/my-events"
+                        className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"
+                      >
+                        <img src={events} className="mr-4 h-5 w-5 align-middle" />
+                        My Events
+                      </Link>
+                      <Link
+                        to="/booking-page"
+                        className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"
+                      >
+                        <img src={booking} className="mr-4 h-5 w-5 align-middle" />
+                        Bookings
+                      </Link>
+                    </>
+                  )}
+
+
+                  {!isVolunteer && (
+                    <>
+                                      <div className="relative w-[350px] inline-block mx-4">
+                                      <hr className="h-px bg-white border-0 dark:bg-white" />
+                                    </div>
                   <button
                     onClick={handleOpenModal}
                     className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"
                   >
-                    <img src={register} className="mr-4 h-5 w-5 align-middle" />
+                    <img
+                      src={register}
+                      className="mr-4 h-5 w-5 align-middle"
+                    />
                     Register as a Volunteer
                   </button>
-
+                  </>
+                  )}
                   <div className="relative w-[350px] inline-block mx-4">
                     <hr className="h-px bg-white border-0 dark:bg-white" />
                   </div>

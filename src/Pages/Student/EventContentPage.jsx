@@ -288,6 +288,7 @@ function EventContentPage() {
       ),
     },
   ];
+
   return (
     <main className="antialiased mt-12 mx-8">
       <div className="flex justify-between px-4 w-full">
@@ -332,7 +333,6 @@ function EventContentPage() {
               style={{ borderRadius: "10px" }}
             />
           </div>
-
           <div className="mt-4 px-4">
             <h1 className="font-bold text-2xl text-[#0B102F]">
               {isYourEvent ? event?.auther : eventDetails2[0]?.volunteerName}
@@ -355,7 +355,6 @@ function EventContentPage() {
           </div>
 
           <div className="max-w-xl p-4 mt-4 bg-[#F9F9F9] shadow-lg rounded-[10px] border-2 border-gray-400 m-4 ">
-            {/* <div className="border-2 border-black rounded-2xl overflow-hidden"> */}
             {eventDetails
               ?.filter((detail) => detail?.label) // Filter out rows with a null or undefined label
               .map((detail, index) => (
@@ -376,8 +375,6 @@ function EventContentPage() {
                 </div>
               ))}
           </div>
-          {/* </div> */}
-          {/*  */}
 
           {eventDetails2[0]?.eventType == "PrivateSession" ? (
             <div className="flex justify-start mt-8">

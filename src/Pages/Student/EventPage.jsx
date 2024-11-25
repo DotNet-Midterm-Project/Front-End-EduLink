@@ -22,7 +22,6 @@ function EventPage() {
 
   if (loading) return <Loading />;
   if (error) return <ServerError />;
-  console.log("this is the event from page", events);
 
   return (
     <>
@@ -35,6 +34,7 @@ function EventPage() {
         />
         <h1 className="text-2xl font-bold text-gray-800 mb-2 m">Book an Event</h1> {/* تقليل المسافة هنا */}
       </div>
+
       <div className="my-28 mx-8 flex flex-wrap gap-4">
         {filteredEvents?.length > 0 ? (
           filteredEvents?.map((event) => (
@@ -48,7 +48,7 @@ function EventPage() {
               auther={event?.volunteerName}
               description={event?.workshopDescription}
               date={event?.workshopDateTime}
-              image={event?.eventFile}
+              image={event?.eventBannerImage}
               capacity={event?.capacity}
               sessionLink={event?.sessionLink}
               location="event"

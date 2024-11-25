@@ -7,6 +7,7 @@ import { yourProfile } from "../assets";
 const NavLink = ({ link, children, className }) => {
   const location = useLocation();
   const currentPath = location.pathname;
+  let profileImage = localStorage.getItem("avatarPreview");
 
   return (
     <Link
@@ -35,7 +36,12 @@ export default function Header() {
     location.pathname === "/contact-us" ||
     location.pathname === "/articles" ||
     location.pathname === "/about-us";
-
+    let profileImage = localStorage.getItem("avatarPreview");
+    if (!profileImage || profileImage === "null") {
+      profileImage = yourProfile; // Replace `yourProfile` with a default image URL or variable.
+    }else{
+      profileImage = `${import.meta.env.VITE_URL_BACKEND}/Resources/${profileImage}`;
+    }
   useEffect(() => {
     setIsLoggedIn(!!localStorage.getItem("token"));
     setRoles(JSON.parse(localStorage.getItem("roles") || "[]"));
@@ -71,7 +77,7 @@ export default function Header() {
   return (
     <header
       className={`fixed w-full z-50 px-8 transition-all duration-300 top-0 left-0 right-0 ${
-        isScrolled ? "bg-white shadow-md" : "bg-transparent"
+        isScrolled ? "bg-[#0D47A1] shadow-md" : "bg-transparent"
       }`}
     >
       <div className="z-30">
@@ -130,9 +136,9 @@ export default function Header() {
               <>
                 <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                   <img
-                    src={yourProfile}
+                    src={profileImage}
                     alt="Profile"
-                    className="h-8 w-8 align-middle hover:text-[#F28E33]"
+                    className="h-8 w-8 align-middle hover:text-[#F28E33] bg-[#0B102F]"
                   />
                 </button>
               </>

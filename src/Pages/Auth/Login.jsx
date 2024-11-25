@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../../Context/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../Redux/Slices/authSlice";
 import Field from "../../Components/Common/Field";
 import { InputTypes } from "../../utils/constatnts";
 import { motion } from "framer-motion";
@@ -12,17 +13,16 @@ import { login } from '../../Redux/Slices/authSlice';
 import Swal from 'sweetalert2';
 
 export default function Login() {
-  const { forgotPassword } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [resetStatus, setResetStatus] = useState({ type: '', message: '' });
-  const [email, setEmail] = useState('');
-  const [resetEmail, setResetEmail] = useState('');
-  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const { error, loading } = useSelector((state) => state.auth);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [resetStatus, setResetStatus] = useState({ type: "", message: "" });
+  const [email, setEmail] = useState("");
+  const [resetEmail, setResetEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,50 +31,52 @@ export default function Login() {
         Swal.fire({
           icon: 'success',
           title: 'Login Successful',
-          text: 'Redirecting...',
           showConfirmButton: false,
           timer: 3000,
           timerProgressBar: true,
         });
 
         setTimeout(() => {
-          navigate('/student-page');
+          const roles = JSON.parse(localStorage.getItem("roles")) || [];
+
+          if (roles.includes("Admin")) {
+            navigate("/admin");
+          } else if (roles.includes("Student")) {
+            navigate("/student-page");
+          } else {
+            navigate("/"); // Default redirection
+          }
         }, 2000);
       }
     });
   };
-
-  useEffect(() => {
-    document.body.classList.add('has-video-bg');
-    const params = new URLSearchParams(location.search);
-    const type = params.get('userType');
-    if (type) {
-      console.log(type);
-    }
-    return () => {
-      document.body.classList.remove('has-video-bg');
-    };
-  }, [location.search]);
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     try {
       const res = await forgotPassword(resetEmail);
       setResetStatus({
-        type: 'success',
-        message: 'Reset link sent to your email!'
+        type: "success",
+        message: "Reset link sent to your email!",
       });
       setTimeout(() => {
         setIsModalOpen(false);
-        setResetStatus({ type: '', message: '' });
+        setResetStatus({ type: "", message: "" });
       }, 2000);
     } catch (error) {
       setResetStatus({
-        type: 'error',
-        message: 'Failed to send reset link. Please try again.'
+        type: "error",
+        message: "Failed to send reset link. Please try again.",
       });
     }
   };
+
+  useEffect(() => {
+    document.body.classList.add("has-video-bg");
+    return () => {
+      document.body.classList.remove("has-video-bg");
+    };
+  }, []);
 
   return (
     <section className="min-h-screen flex items-center justify-center overflow-hidden relative bg-gradient-to-br from-gray-800 via-purple-900 to-black">
@@ -115,8 +117,6 @@ export default function Login() {
 </div>
        
 <br></br>
-
-
 
         {/* Form */}
         <form className="space-y-5" onSubmit={handleSubmit}>

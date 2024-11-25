@@ -1,17 +1,19 @@
 import { useDispatch } from "react-redux";
-import { fetchAllVolunteerByCourseId } from "../../Redux/Slices/CourseSlice"; // Adjust path if needed
+import { fetchAllEvent } from "../../Redux/Slices/bookingEventSlice"; // Adjust path if needed
 import { useNavigate } from "react-router-dom";
 import { close } from "../../assets"; // Ensure the close icon is properly imported
+import { fetchAllVolunteerByCourseId } from "../../Redux/Slices/CourseSlice";
 
 function ModalCourse({ props, onClose }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+console.log(props);
 
   const handleSeeMore = () => {
-    dispatch(fetchAllVolunteerByCourseId({ CourseID: props?.id }))
+    dispatch(fetchAllEvent(props?.id))
       .unwrap()
       .then(() => {
-        navigate(`/volunteers/${props?.id}`);
+        navigate(`/event-by-course/${props?.id}`);
       })
       .catch((error) => {
         console.error("Error fetching volunteers:", error);

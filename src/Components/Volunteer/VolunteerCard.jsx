@@ -3,17 +3,10 @@ import ModalCourse from "../../Components/Student/ModalCourse";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import java from "../../assets/icons/java.svg";
-import nodejs from "../../assets/icons/nodejs.svg";
-import python from "../../assets/icons/python.svg";
-import react from "../../assets/icons/react.svg";
-import ruby from "../../assets/icons/Ruby.svg";
-import php from "../../assets/icons/php.svg";
-
-function CourseCard(props) {
+function VolunteerCard(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const imageCourse = image;
+
   const handleOpenModal = () => setIsModalOpen(true);
 
   const initials = props?.name
@@ -27,26 +20,13 @@ function CourseCard(props) {
     if (props?.location === "ShowVolunteerByCourse") {
       navigate("/volunteer");
     } else if (props?.location === "ShowProfileVolunteer") {
-      
-      
       navigate("/volunteerProfile", { state: { volunteer: props.volunteer } });
 
     } else {
       handleOpenModal();
     }
   };
-  const courseImages = {
-    
-    Java: java,
-    Nodejs: nodejs,
-    Python: python,
-    React: react,
-    Ruby: ruby , 
-    Php: php
-  };
-  if(courseImages[props?.name]){
-    imageCourse = courseImages[props?.name];
-  }
+  
   return (
     <>
       <button onClick={handleClick}>
@@ -64,23 +44,25 @@ function CourseCard(props) {
                 borderRadius: "0px 0px 0px 20px", // Adjust for left side image area
               }}
             >
-              {!props?.volunteer?.profile  ? (
+              {!props.profile ? (
                 <img
-                  src={imageCourse}
+                  src={image}
                   alt="Course"
-                  className=" h-full w-full"
+                  className="object-cover h-full w-full"
                   style={{
                     borderRadius: "0px 0px 0px 20px", // Matches container's radius
                   }}
                 />
-              ) :   <img
-              src={`${import.meta.env.VITE_URL_BACKEND}/Resources/${props.profile}`}
-              alt="Course"
-              className="object-cover h-full w-full"
-              style={{
-                borderRadius: "0px 0px 0px 20px", // Matches container's radius
-              }}
-            />}
+              ) : (
+                <img
+                src={import.meta.env.VITE_URL_BACKEND + props.profile}
+                alt="Course"
+                className="object-cover h-full w-full"
+                style={{
+                  borderRadius: "0px 0px 0px 20px", // Matches container's radius
+                }}
+              />
+              )}
             </div>
 
             {/* Right section: text content */}
@@ -90,13 +72,13 @@ function CourseCard(props) {
                 borderRadius: "0px 0px 20px 20px", // Right side radius
               }}
             >
-              {props?.location === "ShowProfileVolunteer" ? (
+              {props?.location === "ShowVolunteerByCourse" ? (
                 <>
                   <h2 className="text-2xl font-bold text-gray-800 mt-1">
                     {props?.name}
                   </h2>
                   <h3 className="text-lg font-semibold text-gray-800">
-                    {props.volunteer.departmentName}
+                    {props?.department}
                   </h3>
                 </>
               ) : (
@@ -110,7 +92,7 @@ function CourseCard(props) {
                       fontSize: "14px", // Adjust font size for "Volunteers"
                     }}
                   >
-                    Volunteers: {props?.count}
+                    {props?.department}
                   </h3>
                 </>
               )}
@@ -119,23 +101,9 @@ function CourseCard(props) {
         </div>
       </button>
 
-      {props?.location === "ShowVolunteerByCourse" ? (
-        ""
-      ) : (
-        isModalOpen && (
-          <ModalCourse
-            props={{
-              id: props?.id,
-              name: props?.course_Name,
-              count: props?.count,
-              description: props?.description,
-            }}
-            onClose={() => setIsModalOpen(false)}
-          />
-        )
-      )}
+   
     </>
   );
 }
 
-export default CourseCard;
+export default VolunteerCard;

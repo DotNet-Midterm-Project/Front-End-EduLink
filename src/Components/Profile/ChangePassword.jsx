@@ -8,7 +8,7 @@ export default function ChangePassword() {
   const [loading, setLoading] = useState(false);
   
   const Url = import.meta.env.VITE_URL_BACKEND;
-  console.log("URL:", Url);
+  // console.log("URL:", Url);
   const token = localStorage.getItem("token");
 
   const [form, setForm] = useState({
