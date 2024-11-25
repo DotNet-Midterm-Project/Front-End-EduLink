@@ -8,6 +8,8 @@ import AddSessionModal from "./AddSessionModal";
 import AddEventContentModal from "./AddEventContentModal";
 import { FetchAllVolunteerEvents } from "../../Redux/Slices/VolunteerSlice";
 import EventCard from "./EventCard";
+import { Link } from "react-router-dom";
+import Breadcrumb from "../../Components/Breadcrumb";
 
 function VolunteerEventPage() {
   const dispatch = useDispatch();
@@ -37,9 +39,11 @@ function VolunteerEventPage() {
     }
   }, [dispatch, volunteerID]);
 
-  const filteredEvents = events?.filter((event) =>
-    event.workshopName?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredEvents = Array?.isArray(events)
+    ? events?.filter((event) =>
+        event?.workshopName?.toLowerCase()?.includes(searchTerm?.toLowerCase())
+      )
+    : [];
 
   const handleAddSession = (event) => {
     setSelectedEvent(event);
@@ -52,41 +56,45 @@ function VolunteerEventPage() {
   };
 
   const handleSessionAdded = () => {
-    dispatch(FetchAllVolunteerEvents(volunteerID)); // تحديث الأحداث عند إضافة جلسة
+    dispatch(FetchAllVolunteerEvents(volunteerID));
   };
+
+  console.log(events);
 
   if (loading) return <Loading />;
   if (error) return <ServerError />;
 
   return (
     <>
-      <div className="mt-28">
+     
+      <div className="mt-32">
         <Search
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           placeholder="Search for event..."
         />
       </div>
-      <div className="my-6 mx-4 flex flex-wrap  justify-center">
-  {filteredEvents?.length > 0 ? (
-    filteredEvents.map((event) => (
-      <div
-        key={event.eventID}
-        className="flex-grow sm:w-1/2 md:w-1/3 lg:w-1/4"
-      >
-        <EventCard
-          event={event}
-          onAddContent={handleAddContent}
-          onAddSession={handleAddSession}
-          onSessionAdded={handleSessionAdded}
-        />
-      </div>
-    ))
-  ) : (
-    <NoData location="event" />
-  )}
-</div>
 
+      <Breadcrumb />
+      <div className="my-6 mx-4 flex flex-wrap justify-start ">
+        {filteredEvents?.length > 0 ? (
+          filteredEvents?.map((event) => (
+            <div
+              key={event?.eventID}
+              className="sm:w-1/2 md:w-1/3 lg:w-1/4 h-full"
+            >
+              <EventCard
+                event={event}
+                onAddContent={handleAddContent}
+                onAddSession={handleAddSession}
+                onSessionAdded={handleSessionAdded}
+              />
+            </div>
+          ))
+        ) : (
+          <NoData message="No event found." location="event" />
+        )}
+      </div>
 
       {/* Modals */}
       {selectedEvent && showSessionsModal && (

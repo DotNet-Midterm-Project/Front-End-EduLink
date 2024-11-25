@@ -15,7 +15,7 @@ import ResetPassword from "./Pages/Auth/ResetPassword";
 import AboutUs from "./Pages/AboutUs";
 import StudentPage from "./Pages/Student/StudentPage";
 import Profile from "./Pages/Profile";
-import BookingPage from "./Pages/Student/BookingPage";
+import BookingPage from "./Pages/Volunteer/BookingPage";
 import EventPage from "./Pages/Student/EventPage";
 import EventContentPage from "./Pages/Student/EventContentPage";
 import YourEvent from "./Pages/Student/YourEvent";

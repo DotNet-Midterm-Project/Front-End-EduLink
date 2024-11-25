@@ -91,12 +91,38 @@ export const FetchAllVolunteerEvents = createAsyncThunk(
     }
   }
 );
+
+// Fetch bookings for Voulnteer
+export const fetchBookings = createAsyncThunk(
+  "bookings/fetchBookings",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_URL_BACKEND}/api/Volunteer/bookings`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+     console.log(response.data);
+     
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : { message: "An error occurred" }
+      );
+    }
+  }
+);
+
 const volunteerSlice = createSlice({
   name: "volunteers",
   initialState: {
     volunteers: [], // List of volunteers
     courses: [], // Courses for a specific volunteer
     events: [], // Bookings for a specific volunteer
+    bookings: [], // Bookings for volunteer
     loading: false, // General loading state
     error: "", // Error message
   },
@@ -141,6 +167,18 @@ const volunteerSlice = createSlice({
         state.events = action.payload || [];
       })
       .addCase(FetchAllVolunteerEvents.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message || "An error occurred";
+      })
+      .addCase(fetchBookings.pending, (state) => {
+        state.loading = true;
+        state.error = "";
+      })
+      .addCase(fetchBookings.fulfilled, (state, action) => {
+        state.loading = false;
+        state.bookings = action.payload || [];
+      })
+      .addCase(fetchBookings.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload.message || "An error occurred";
       });
