@@ -48,23 +48,23 @@ function Card(props) {
           </div>
           <div className="p-6">
             <div className="mb-3 flex items-center justify-between">
-              <p className="block font-sans text-base font-light leading-relaxed text-[#0B102F] antialiased">
+              <p className="block text-base font-light leading-relaxed text-[#0B102F] antialiased">
                 {props?.auther}. {formatDate(props?.date)}
               </p>
             </div>
             <div className="mb-3 flex items-center justify-between">
-              <h5 className="block font-sans text-xl font-medium leading-snug tracking-normal text-[#0B102F] antialiased">
+              <h5 className="block text-xl font-medium leading-snug tracking-normal text-[#0B102F] antialiased">
                 {props?.title}
               </h5>
             </div>
-            <p className="block font-sans text-base font-light leading-relaxed text-[#0B102F] antialiased">
+            <p className="block text-base font-light leading-relaxed text-[#0B102F] antialiased">
               {splitDescription(props?.description, 20)}
             </p>
             {props?.location == "event" || props?.location == "YourEvent" ? (
               <Link
                 to={`/event-content/${props?.eventId}`}
                 state={{ ...props }}
-                class="mt-12 block w-full select-none rounded-lg bg-[#171E4B] py-3.5 px-7 text-center align-middle font-sans
+                class="mt-12 block w-full select-none rounded-lg bg-[#171E4B] py-3.5 px-7 text-center align-middle
              text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:bg-[#293aaa]
               focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               >

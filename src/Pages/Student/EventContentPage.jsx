@@ -374,11 +374,11 @@ function EventContentPage() {
                   >
                     <div className="p-6 border-2 border-blue-900 rounded-xl">
                       <div className="mb-3 flex items-center justify-center ">
-                        <h5 className="block font-sans text-xl font-medium leading-snug tracking-normal antialiased">
+                        <h5 className="block text-xl font-medium leading-snug tracking-normal antialiased">
                           {session?.eventTitle} - {session?.courseName}
                         </h5>
                       </div>
-                      <p className="block font-sans text-base leading-relaxed antialiased">
+                      <p className="block text-base leading-relaxed antialiased">
                         {session?.eventDetails}
                       </p>
                       {isYourEvent ? (
@@ -409,7 +409,7 @@ function EventContentPage() {
                       ) : (
                         <button
                           onClick={() => handleJoinSession(session.sessionID)}
-                          className="mt-12 block w-full select-none rounded-lg bg-[#171E4B] py-3.5 px-7 text-center align-middle font-sans
+                          className="mt-12 block w-full select-none rounded-lg bg-[#171E4B] py-3.5 px-7 text-center align-middle
               text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:bg-[#293aaa]
               focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         >
@@ -432,11 +432,11 @@ function EventContentPage() {
         >
           <div className="p-6 border-2 border-blue-900 rounded-xl">
             <div className="mb-3 flex items-center justify-center ">
-              <h5 className="block font-sans text-xl font-medium leading-snug tracking-normal antialiased">
+              <h5 className="block text-xl font-medium leading-snug tracking-normal antialiased">
                 {file?.contentName}
               </h5>
             </div>
-            <p className="block font-sans text-base leading-relaxed antialiased">
+            <p className="block text-base leading-relaxed antialiased">
               {file?.contentAddress}
             </p>
             <p className="block font-bold my-4 text-base leading-relaxed antialiased">
@@ -458,7 +458,7 @@ function EventContentPage() {
         {isYourEvent ? (
           <button
             onClick={() => handleDeleteEvent(event?.bookingId)}
-            className="flex justify-center items-center text-red-600 font-bold font-mono border border-red-600 w-48 rounded-lg py-2 hover:bg-red-600 hover:text-white"
+            className="flex justify-center items-center text-red-600 font-bold border border-red-600 w-48 rounded-lg py-2 hover:bg-red-600 hover:text-white"
           >
             <img src={trsh} alt="Trash Icon" />
             <p>Delete Event</p>
@@ -466,7 +466,7 @@ function EventContentPage() {
         ) : eventDetails2[0]?.eventType === "Workshop" ? (
           <button
             onClick={handleJoinNow}
-            className="bg-[#0B102F] font-bold font-mono text-white p-2 w-48 rounded-lg"
+            className="bg-[#0B102F] font-bold text-white p-2 w-48 rounded-lg"
             disabled={bookingLoading}
           >
             {bookingLoading ? "Joining..." : "Join Now"}
