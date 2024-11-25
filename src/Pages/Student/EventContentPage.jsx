@@ -292,13 +292,32 @@ function EventContentPage() {
   return (
     <main className="antialiased mt-12 mx-8">
       <div className="flex justify-between px-4 w-full">
-        <article className="w-full format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
-          <div className="w-8 h-8">
-            <Link to={!isYourEvent ? "/event-page" : "/your-event-page"}>
-              <img src={arrow_left} alt="Back" />
-            </Link>
-          </div>
-          <div className="rounded-gl mx-auto w-full h-[27rem] opacity-90">
+        <article className="w-full">
+        <div className="min-h-screen bg-white">
+  <div className="md:p-10 p-0">
+    <div className="flex items-center gap-2 mb-5">
+      <div className="relative group flex items-center">
+        {/* Dynamic Link */}
+        <Link to={!isYourEvent ? "/event-page" : "/your-event-page"} className="flex items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 120.14 75.05"
+            className="h-6 w-6 text-gray-600 hover:text-gray-800 transition duration-200 ease-in-out"
+          >
+            <path
+              d="M554.58,574.75a7.6,7.6,0,0,1,1.66,1q7.82,7.74,15.55,15.54A7.49,7.49,0,0,1,567.24,604a6.94,6.94,0,0,1-5.94-2q-15.13-15.09-30.21-30.22a7.21,7.21,0,0,1,.06-10.44q15-15.1,30.09-30.09a7.47,7.47,0,0,1,10.6,10.52c-5.11,5.25-10.34,10.39-15.51,15.57-.45.45-.88.92-1.7,1.78H557q41.67,0,83.35,0a12.09,12.09,0,0,1,3.8.47,7.3,7.3,0,0,1,4.82,7.89A7.38,7.38,0,0,1,642,574c-.76,0-1.52,0-2.29,0H555.17Z"
+              transform="translate(-528.89 -529)"
+              fill="currentColor"
+            />
+          </svg>
+        </Link>
+      </div>
+      <h2 className="text-lg md:text-xl font-bold text-gray-800">Event Details</h2>
+    </div>
+ 
+
+          <div className="rounded-lg mx-auto w-full h-[27rem] overflow-hidden">
+            {" "}
             <img
               src={
                 !isYourEvent
@@ -311,15 +330,14 @@ function EventContentPage() {
               }
               alt={eventDetails2[0]?.title || "Event Banner"}
               className="block w-full h-full object-cover"
-              style={{ borderRadius: "0px 20px 20px 20px" }}
+              style={{ borderRadius: "10px" }}
             />
           </div>
-
-          <div className="mt-8">
-            <h1 className="font-bold mt-4">
+          <div className="mt-4 px-4">
+            <h1 className="font-bold text-2xl text-[#0B102F]">
               {isYourEvent ? event?.auther : eventDetails2[0]?.volunteerName}
             </h1>
-            <p className="lead mt-4">
+            <p className="text-lg mt-2 text-[#555]">
               {isYourEvent
                 ? event?.title
                 : eventDetails2[0]?.title || "Event Title"}{" "}
@@ -328,7 +346,7 @@ function EventContentPage() {
                 ? event?.courseName
                 : eventDetails2[0]?.courseName || "Course Name"}
             </p>
-            <p className="lead mt-4">
+            <p className="mt-4 text-[#444]">
               {isYourEvent
                 ? event?.description
                 : eventDetails2[0]?.eventDescription ||
@@ -336,35 +354,31 @@ function EventContentPage() {
             </p>
           </div>
 
-          <div className="max-w-2xl p-4">
-            <div className="border-2 border-black rounded-2xl overflow-hidden">
-              {eventDetails
-                ?.filter((detail) => detail?.label) // Filter out rows with a null or undefined label
-                .map((detail, index) => (
-                  <div
-                    key={detail?.label}
-                    className={`flex divide-x ${
-                      index !== eventDetails.length - 1
-                        ? "border-b-2 border-black"
-                        : ""
-                    }`}
-                  >
-                    <div className="w-1/2 p-4 font-bold text-center">
-                      {detail?.label}
-                    </div>
-                    <div className="w-1/2 p-4 border-black text-center">
-                      {detail?.value}
-                    </div>
+          <div className="max-w-xl p-4 mt-4 bg-[#F9F9F9] shadow-lg rounded-[10px] border-2 border-gray-400 m-4 ">
+            {eventDetails
+              ?.filter((detail) => detail?.label) // Filter out rows with a null or undefined label
+              .map((detail, index) => (
+                <div
+                  key={detail?.label}
+                  className={`flex py-4  ${
+                    index !== eventDetails.length - 1
+                      ? "border-b border-gray-300"
+                      : ""
+                  }`}
+                >
+                  <div className="w-1/2 font-semibold text-[#0B102F] text-sm border-r border-gray-300 pr-4">
+                    {detail?.label}
                   </div>
-                ))}
-            </div>
+                  <div className="w-1/2 text-[#171E4B] text-sm text-center pl-4">
+                    {detail?.value}
+                  </div>
+                </div>
+              ))}
           </div>
 
-          {eventDetails2[0]?.eventType === "PrivateSession" ? (
+          {eventDetails2[0]?.eventType == "PrivateSession" ? (
             <div className="flex justify-start mt-8">
               {eventSessions?.map((session) => {
-                console.log(session);
-                
                 const joined = hasJoinedSession(session.sessionID);
                 return (
                   <div
@@ -422,8 +436,33 @@ function EventContentPage() {
               })}
             </div>
           ) : null}
+           </div>
+           </div>
         </article>
       </div>
+
+      {/* <div className="flex justify-start m-4"> */}
+        <div class="flex justify-end m-10">
+        {isYourEvent ? (
+          <button
+            onClick={() => handleDeleteEvent(event?.bookingId)}
+            className="flex justify-center items-center text-red-600 font-bold font-mono border border-red-600 w-48 rounded-lg py-2"
+          >
+            <img src={trsh} alt="Trash Icon" />
+            <p>Delete Event</p>
+          </button>
+        ) : eventDetails2[0]?.eventType === "Workshop" ? (
+          <button
+            onClick={handleJoinNow}
+            class="bg-[#F28E33] text-white font-normal text-lg py-2 px-6 rounded-lg 
+              shadow-md hover:bg-[#D8772A] transition-all duration-300 ease-in-out w-[150px]"
+            disabled={bookingLoading}
+          >
+            {bookingLoading ? "Joining..." : "Join Now"}
+          </button>
+        ) : null}
+      </div>
+
       {selectedEvent?.map((file) => (
         <div
           key={file?.contentID}
@@ -442,14 +481,18 @@ function EventContentPage() {
             <p className="block font-bold my-4 text-base leading-relaxed antialiased">
               {file?.contentType}
             </p>
-            <button
-              onClick={() => handleDownload(file?.eventID)}
-              className="w-full flex items-center justify-center gap-6 bg-[#F28E33] hover:bg-[#f28f33d1]
+            <a
+              target="_blank"
+              href={`${
+                import.meta.env.VITE_URL_BACKEND
+              }/api/Student/download/${eventId}`}
+              // onClick={() => handleDownload(file?.eventID)}
+              className="w-full flex items-center justify-center gap-6 bg-blue-500 hover:bg-blue-700
                    text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               <img src={download} alt="Download Icon" />
               Download
-            </button>
+            </a>
           </div>
         </div>
       ))}

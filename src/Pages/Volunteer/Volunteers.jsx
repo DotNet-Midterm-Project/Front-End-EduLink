@@ -6,6 +6,8 @@ import NoData from "../../Components/Error/NoData";
 import Loading from "../../Components/Loading";
 import ServerError from "../../Components/Error/ServerError";
 import CourseCard from "../../Components/Student/CourseCard";
+import yourProfile from "../../assets/icons/yourProfile.svg";
+
 
 
 export default function Volunteers() {
@@ -55,7 +57,8 @@ console.log(volunteers)
                   key={volunteer?.volunteerID}
                   id={volunteer?.volunteerID}
                   name={volunteer?.volunteerName}
-                  volunteer = {volunteer}                  
+                  volunteer = {volunteer}   
+                  profile = {volunteer?.profile !== "null" ?volunteer?.profile : yourProfile}       
                 //  department={volunteer?.departmentName}
                  location="ShowProfileVolunteer"
                   onClick={() => setSelectedVolunteer(volunteer)} // Set the selected volunteer on click
