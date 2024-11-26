@@ -19,7 +19,7 @@ function SideBar({ onClose }) {
   const [openModal, setOpenModal] = useState(false);
   const sidebarRef = useRef(null);
 
-  const handleOpenModal = () => setOpenModal(true);
+  // const handleOpenModal = () => setOpenModal(true);
   const Url = import.meta.env.VITE_URL_BACKEND;
 
   // إضافة مستمع حدث عند النقر خارج الشريط الجانبي
