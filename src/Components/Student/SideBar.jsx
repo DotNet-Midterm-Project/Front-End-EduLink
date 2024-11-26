@@ -11,8 +11,6 @@ import {
 } from "../../assets";
 import LogoutButton from "../LogoutButton";
 import RegisterModal from "./RegisterModal";
-import { fetchProfileImage } from "../../Redux/Slices/ImageProfileSlice";
-import { useDispatch, useSelector } from "react-redux";
 
 function SideBar({ onClose }) {
   const dispatch = useDispatch();
@@ -23,9 +21,8 @@ function SideBar({ onClose }) {
   const [openModal, setOpenModal] = useState(false);
   const sidebarRef = useRef(null);
 
-  useEffect(() => {
-    dispatch(fetchProfileImage());
-  }, [dispatch]);
+  // const handleOpenModal = () => setOpenModal(true);
+  const Url = import.meta.env.VITE_URL_BACKEND;
 
   useEffect(() => {
     const handleClickOutside = (event) => {
