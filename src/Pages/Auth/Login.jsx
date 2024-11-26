@@ -8,8 +8,8 @@ import { motion } from "framer-motion";
 import EduLinkImage from "../../assets/Home/EduLinkImage.png";
 import bg from "../../assets/bg.mp4";
 import { Dialog } from '@headlessui/react';
-import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../Redux/Slices/authSlice';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { login } from '../../Redux/Slices/authSlice';
 import Swal from 'sweetalert2';
 
 export default function Login() {

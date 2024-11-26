@@ -6,6 +6,7 @@ import ServerError from "../../Components/Error/ServerError";
 import Card from "../../Components/Card";
 import Search from "../../Components/Search";
 import NoData from "../../Components/Error/NoData";
+import Breadcrumb from "../../Components/Breadcrumb";
 
 function EventPage() {
   const dispatch = useDispatch();
@@ -17,8 +18,9 @@ function EventPage() {
   }, [dispatch]);
 
   const filteredEvents = events?.filter((event) =>
-    event.workshopName?.toLowerCase().includes(searchTerm.toLowerCase())
+    event?.workshopName?.toLowerCase().includes(searchTerm?.toLowerCase())
   );
+console.log(filteredEvents);
 
   if (loading) return <Loading />;
   if (error) return <ServerError />;
@@ -26,16 +28,15 @@ function EventPage() {
   return (
     <>
       <div className="mt-28 mx-8">
-        {/* عنوان الصفحة */}
         <Search
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           placeholder="Search for event..."
         />
-        <h1 className="text-2xl font-bold text-gray-800 mb-2 m">Book an Event</h1> {/* تقليل المسافة هنا */}
+       <Breadcrumb/> 
       </div>
 
-      <div className="my-28 mx-8 flex flex-wrap gap-4">
+      <div className="my-16 mx-8 flex flex-wrap justify-start gap-4 m-auto">
         {filteredEvents?.length > 0 ? (
           filteredEvents?.map((event) => (
             <Card

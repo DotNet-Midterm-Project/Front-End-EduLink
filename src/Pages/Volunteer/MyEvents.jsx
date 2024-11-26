@@ -66,7 +66,6 @@ function VolunteerEventPage() {
 
   return (
     <>
-     
       <div className="mt-32">
         <Search
           searchTerm={searchTerm}
@@ -74,8 +73,7 @@ function VolunteerEventPage() {
           placeholder="Search for event..."
         />
       </div>
-
-      <Breadcrumb />
+        <Breadcrumb />
       <div className="my-6 mx-4 flex flex-wrap justify-start ">
         {filteredEvents?.length > 0 ? (
           filteredEvents?.map((event) => (

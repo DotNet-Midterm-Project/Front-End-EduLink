@@ -1,22 +1,20 @@
 import image from "../../assets/imagesecation.png";
 import Edud from "../../assets/Home/Edud.png";
 import { EduLinklogo } from "../../assets";
-
+ 
 function ImageShow(props) {
-  // جلب الأدوار من localStorage
+
   const roles = JSON.parse(localStorage.getItem("roles") || "[]");
   var profileImage = localStorage.getItem("avatarPreview") || "";
   const Url = import.meta.env.VITE_URL_BACKEND;
-
-  // التحقق مما إذا كان المستخدم متطوعًا
+ 
   const isVolunteer = roles.includes("Volunteer");
-  console.log("fffffffffffffffffffffffffffffff");
   console.log(props?.profile)
   if(props?.profile && props?.profile !=="null" ){
      profileImage = props?.profile;
   }
  
-
+ 
   return (
     <div
       className={`relative  rounded-lg`}
@@ -26,7 +24,7 @@ function ImageShow(props) {
       {/* الصورة الخلفية */}
       <div className="relative mx-auto w-full h-40 md:h-60 opacity-90">
         <img src={image} className="block w-full h-full" alt="background" />
-
+ 
         {/* كارت معلومات الطالب */}
         <div
           className="border-4 border-orange-500 ml-8 mt-42 absolute shadow-lg shadow-blue-500/50 bottom-[-40px] p-2 md:p-5 h-32 md:h-36 flex items-center text-left text-black bg-[#E0D9D9CC] bg-opacity-90"
@@ -48,7 +46,7 @@ function ImageShow(props) {
           >
             {profileImage != "null" ? (
               <img
-                src={`${Url}/Resources/${profileImage}`} // Dynamically load the profile image
+                src={`${Url}/Resources/${profileImage}`}
                 alt="Profile"
                 className="w-20 h-20 object-cover rounded-full border"
               />
@@ -74,11 +72,9 @@ function ImageShow(props) {
             </div>
           </div>
         </div>
-
-        {/* شعار المشروع في الزاوية إذا كان متطوعًا */}
       </div>
     </div>
   );
 }
-
+ 
 export default ImageShow;

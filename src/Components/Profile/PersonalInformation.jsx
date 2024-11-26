@@ -3,12 +3,12 @@ import Loading from "../Loading";
 import axios from "axios";
 import yourProfile from "../../assets/icons/yourProfile.svg";
 import Swal from 'sweetalert2'
-
+ 
 export default function PersonalInformation() {
   const [loading, setLoading] = useState(false);
   const Url = import.meta.env.VITE_URL_BACKEND;
   const token = localStorage.getItem("token");
-
+ 
   const [formData, setFormData] = useState({
     Name: localStorage.getItem("userName"),
     PhoneNumber: "",
@@ -17,13 +17,13 @@ export default function PersonalInformation() {
     AvatarPreview: localStorage.getItem("avatarPreview"),
     AvatarPreviewUrl: null, // For real-time preview
   });
-
+ 
   useEffect(() => {
     if (!token) {
       console.error("No token found, please log in.");
       return;
     }
-
+ 
     const fetchData = async () => {
       try {
         setFormData({
@@ -35,15 +35,15 @@ export default function PersonalInformation() {
         console.error("Error fetching data:", error);
       }
     };
-
+ 
     fetchData();
   }, [token]);
-
+ 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
-
+ 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -55,21 +55,21 @@ export default function PersonalInformation() {
       });
     }
   };
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+ 
     const form = new FormData();
     form.append("Name", formData.Name);
     form.append("PhoneNumber", formData.PhoneNumber);
     form.append("Email", formData.Email);
     form.append("DepartmentID", formData.DepartmentID);
-
+ 
     if (formData.AvatarPreview && formData.AvatarPreview instanceof File) {
       form.append("AvatarPreview", formData.AvatarPreview);
     }
-
+ 
     try {
       const response = await axios.put(`${Url}/api/Common/Edit-Profile`, form, {
         headers: {
@@ -99,7 +99,7 @@ export default function PersonalInformation() {
       setLoading(false);
     }
   };
-
+ 
   const avatarImage =
     formData.AvatarPreviewUrl && formData.AvatarPreviewUrl !== "null"
       ? formData.AvatarPreviewUrl
@@ -110,17 +110,17 @@ export default function PersonalInformation() {
   return (
     <main className="h-[550px] bg-gray-100">
       {loading && <Loading />}
-
+ 
       <div className="max-w-4xl space-y-6 mx-auto mt-3">
         <h2 className="text-xl md:text-3xl font-bold text-[#1a1a3f]">
           Personal Information
         </h2>
-
+ 
         <div>
           <h3 className="text-xl font-medium mb-4" style={{ color: "#0B102F" }}>
             Avatar
           </h3>
-
+ 
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-4">
               <h4 className="text-sm font-medium text-gray-700">Preview</h4>
@@ -131,12 +131,12 @@ export default function PersonalInformation() {
                   className="w-full h-full object-cover rounded-full border"
                 />
               </div>
-              
+             
             </div>
-
+ 
             <div className="flex items-center gap-4">
               <span className="text-sm font-medium text-gray-700">Image</span>
-
+ 
               <label className="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
                 Upload new image
                 <input
@@ -149,7 +149,7 @@ export default function PersonalInformation() {
             </div>
           </div>
         </div>
-
+ 
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -168,7 +168,7 @@ export default function PersonalInformation() {
                 className="w-full px-4 py-2 bg-transparent border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-
+ 
             <div>
               <label
                 htmlFor="PhoneNumber"
@@ -185,7 +185,7 @@ export default function PersonalInformation() {
                 className="w-full px-4 py-2 bg-transparent border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-
+ 
             <div>
               <label
                 htmlFor="Email"
@@ -203,7 +203,7 @@ export default function PersonalInformation() {
               />
             </div>
           </div>
-
+ 
           <div className="flex justify-end">
             <button
               type="submit"

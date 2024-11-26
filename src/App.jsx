@@ -19,11 +19,8 @@ import BookingPage from "./Pages/Volunteer/BookingPage";
 import EventPage from "./Pages/Student/EventPage";
 import EventContentPage from "./Pages/Student/EventContentPage";
 import YourEvent from "./Pages/Student/YourEvent";
-
-
 import Volunteers from "./Pages/Volunteer/Volunteers";
 import VolunteerDetails from "./Pages/Volunteer/VolunteerDetails";
-
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
@@ -33,16 +30,11 @@ import AddEvent from "./Pages/Volunteer/AddEvent";
 // Add all icons to the library
 library.add(fas, fab);
 
-
-
 import AdminArticles from "./Pages/Admin/AdminViewArticles";
 import AddArticle from "./Pages/Volunteer/AddArticle";
-
 import VolunteerEventPage from "./Pages/Volunteer/MyEvents";
-
 import ShowEventByCourse from "./Components/Student/ShowEventByCourse";
-
-
+import "./App.css";
 
 const App = () => {
   return (
@@ -70,12 +62,12 @@ const App = () => {
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/booking-page" element={<Layout><BookingPage/></Layout>}/>
           <Route path="/event-page" element={<Layout><EventPage/></Layout>}/>
-          <Route path="/event-content/:eventId" element={<EventContentPage />} />
+          <Route path="/event-content/:eventId" element={<Layout><EventContentPage /></Layout>} />
           <Route path="/event-by-course/:courseId" element={<Layout><ShowEventByCourse /></Layout>} />
-          <Route path="/your-event-page" element={<Layout><YourEvent/></Layout>} />
+          <Route path="/my-event" element={<Layout><YourEvent/></Layout>} />
           <Route path="/contact-us" element={<Layout><Contact/></Layout>}/>
           <Route path="/volunteers" element={<Layout><Volunteers/> </Layout>}/>
-          <Route path="/volunteerProfile" element={<Layout> <VolunteerDetails /></Layout>}/>
+          <Route path="/volunteerProfile" element={<Layout><VolunteerDetails /></Layout>}/>
           <Route path = "/add-event" element={<Layout><AddEvent/></Layout>}/>
           <Route path = "/add-article" element={<Layout><AddArticle/></Layout>}/>
           <Route path = "/my-events" element={<Layout><VolunteerEventPage/></Layout>}/>

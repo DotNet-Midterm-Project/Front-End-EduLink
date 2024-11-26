@@ -11,7 +11,7 @@ import volunteerReducer from '../Redux/Slices/VolunteerSlice';
 
 import departmentSlice from '../Redux/Slices/adminDepartmentSlice';
 import adminCourseSlice from './Slices/adminCoursesSlice';
-
+import ImageSlice from './Slices/ImageProfileSlice';
 
 export const store = configureStore({
   reducer: {
@@ -23,7 +23,7 @@ export const store = configureStore({
     comments: commentReducer,
     courses: coursesReducer,
     bookingEvent: event,
-
+    profile: ImageSlice,
     registerAsVolunteerSlice: registerAsVolunteerSlice,
     volunteer: volunteerReducer,
   },

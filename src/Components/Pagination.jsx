@@ -1,21 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-function Pagination(props) {
-    const itemsPerPage = 9;
-    const [currentPage, setCurrentPage] = useState(1);
-
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
-    const totalPages = Math.ceil(props.articles?.length / itemsPerPage);
+function Pagination({ articles, itemsPerPage, currentPage, onPageChange }) {
+    const totalPages = Math.ceil(articles?.length / itemsPerPage);
 
     return (
         <div className="flex justify-center mt-6 space-x-2">
             {Array.from({ length: totalPages }, (_, pageIndex) => (
                 <button
                     key={pageIndex}
-                    onClick={() => handlePageChange(pageIndex + 1)}
+                    onClick={() => onPageChange(pageIndex + 1)}
                     className={`w-7 h-7 rounded-lg flex items-center justify-center ${
                         currentPage === pageIndex + 1
                             ? "bg-blue-600 text-white"

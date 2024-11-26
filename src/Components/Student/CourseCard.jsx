@@ -13,7 +13,7 @@ import php from "../../assets/icons/php.svg";
 function CourseCard(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const imageCourse = image;
+  let imageCourse = image;
   const handleOpenModal = () => setIsModalOpen(true);
 
   const initials = props?.name

@@ -3,12 +3,10 @@ import Edud from "../assets/Home/Edud.png";
 import { useState, useEffect } from "react";
 import SideBar from "../Components/Student/SideBar";
 import { yourProfile } from "../assets";
-
+ 
 const NavLink = ({ link, children, className }) => {
   const location = useLocation();
-  const currentPath = location.pathname;
-  let profileImage = localStorage.getItem("avatarPreview");
-
+  const currentPath = location.pathname; 
   return (
     <Link
       to={link}
@@ -22,7 +20,7 @@ const NavLink = ({ link, children, className }) => {
     </Link>
   );
 };
-
+ 
 export default function Header() {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,7 +28,7 @@ export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [roles, setRoles] = useState([]);
-
+ 
   // Determine if the current page should use the special font color
   const isSpecialPage =
     location.pathname === "/contact-us" ||
@@ -46,34 +44,28 @@ export default function Header() {
     setIsLoggedIn(!!localStorage.getItem("token"));
     setRoles(JSON.parse(localStorage.getItem("roles") || "[]"));
   }, [localStorage.getItem("token"), localStorage.getItem("roles")]);
-
+ 
   // Handle scroll event
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
+ 
     const handleStorageChange = () => {
       setIsLoggedIn(!!localStorage.getItem("token"));
       setRoles(JSON.parse(localStorage.getItem("roles") || "[]"));
     };
-
+ 
     handleStorageChange(); // Initialize values on mount
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("storage", handleStorageChange);
-
+ 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
-
-  // Get the current path
-  // const location = useLocation();
-
-  // Check if the current page is "About Us"
-  const isAboutPage = location.pathname === "/about-us";
-
+ 
   return (
     <header
       className={`fixed w-full z-50 px-8 transition-all duration-300 top-0 left-0 right-0 ${
@@ -92,7 +84,7 @@ export default function Header() {
               />
             </div>
           </div>
-
+ 
           {/* Desktop Navigation */}
           <nav
             className={`hidden md:flex items-center duration-300 space-x-8 text-sm ${
@@ -129,7 +121,7 @@ export default function Header() {
               </div>
             )}
           </nav>
-
+ 
           {/* Login Button */}
           <div className="hidden md:flex items-center space-x-4">
             {isLoggedIn && roles.includes("Student") ? (
@@ -154,7 +146,7 @@ export default function Header() {
               <SideBar onClose={() => setIsSidebarOpen(false)} />
             )}
           </div>
-
+ 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button
@@ -180,7 +172,7 @@ export default function Header() {
             </button>
           </div>
         </div>
-
+ 
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden">

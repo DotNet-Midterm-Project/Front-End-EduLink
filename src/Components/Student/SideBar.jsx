@@ -11,35 +11,33 @@ import {
 } from "../../assets";
 import LogoutButton from "../LogoutButton";
 import RegisterModal from "./RegisterModal";
-
+ 
 function SideBar({ onClose }) {
   const user = localStorage.getItem("userName") || "";
-  const roles = JSON.parse(localStorage.getItem("roles") || "[]"); // جلب الأدوار من localStorage
-  const isVolunteer = roles.includes("Volunteer"); // التحقق إذا كان المستخدم متطوعًا
+  const roles = JSON.parse(localStorage.getItem("roles") || "[]"); 
+  const isVolunteer = roles.includes("Volunteer"); 
   const [openModal, setOpenModal] = useState(false);
   const sidebarRef = useRef(null);
-
-  const handleOpenModal = () => setOpenModal(true);
+ 
   const Url = import.meta.env.VITE_URL_BACKEND;
-
-  // إضافة مستمع حدث عند النقر خارج الشريط الجانبي
+ 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-        onClose(); // إغلاق الشريط الجانبي إذا تم النقر خارج المنيو
+        onClose(); 
       }
     };
-
+ 
     document.addEventListener("mousedown", handleClickOutside);
-
+ 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
-
+ 
   const handleOpenModal = () => setOpenModal(true);
-  const avatarImage = localStorage.getItem("avatarPreview") !== "null"
-  ?`${Url}/Resources/${localStorage.getItem("avatarPreview")}` 
+  const avatarImage = localStorage.getItem("avatarPreview") !== null
+  ?`${Url}/Resources/${localStorage.getItem("avatarPreview")}`
   : yourProfile;
   return (
     <>
@@ -108,7 +106,7 @@ function SideBar({ onClose }) {
                     />
                     View Articles
                   </Link>
-
+ 
                   {/* قسم خاص بالمتطوع */}
                   {isVolunteer && (
                     <>
@@ -154,8 +152,8 @@ function SideBar({ onClose }) {
                       </Link>
                     </>
                   )}
-
-
+ 
+ 
                   {!isVolunteer && (
                     <>
                                       <div className="relative w-[350px] inline-block mx-4">
@@ -176,7 +174,7 @@ function SideBar({ onClose }) {
                   <div className="relative w-[350px] inline-block mx-4">
                     <hr className="h-px bg-white border-0 dark:bg-white" />
                   </div>
-
+ 
                   <Link
                     to="/profile"
                     className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"
@@ -203,5 +201,5 @@ function SideBar({ onClose }) {
     </>
   );
 }
-
+ 
 export default SideBar;

@@ -35,7 +35,7 @@ console.log("this is the courses",courses);
         Courses in your department
       </h1>
 
-      <div className="flex flex-wrap justify-start gap-8 mx-8 my-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-12 my-12">
         {
         courses?.length > 0 ? (
           courses?.map((course) => (
