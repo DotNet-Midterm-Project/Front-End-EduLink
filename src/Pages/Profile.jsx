@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import HeaderProfile from "../Components/Profile/HeaderProfile";
 import ChangePassword from "../Components/Profile/ChangePassword";
 import PersonalInformation from "../Components/Profile/PersonalInformation";
 import PersonDetails from "../Components/Profile/Details";
+import { Link } from "react-router-dom";
 
 function Profile() {
   const [selectedSection, setSelectedSection] = useState("personalInfo");
@@ -27,23 +27,27 @@ function Profile() {
 
   return (
     <div className="min-h-screen bg-white">
-      <HeaderProfile />
       <div className="md:p-10 p-0">
         <div className="flex items-center gap-2 mb-5">
-          <button className="p-2 hover:bg-gray-200 rounded-full">
-            <svg
-              fill="#000000"
-              height="30px"
-              width="30px"
-              viewBox="0 0 512 512"
-            >
-              <polygon points="213.3,205.3 213.3,77.3 0,248 213.3,418.7 213.3,290.7 512,290.7 512,205.3" />
-            </svg>
-          </button>
+          <div className="relative group flex items-center">
+            <Link to="/student-page" className="flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 120.14 75.05"
+                className="h-6 w-6 text-gray-600 hover:text-gray-800 transition duration-200 ease-in-out"
+              >
+                <path
+                  d="M554.58,574.75a7.6,7.6,0,0,1,1.66,1q7.82,7.74,15.55,15.54A7.49,7.49,0,0,1,567.24,604a6.94,6.94,0,0,1-5.94-2q-15.13-15.09-30.21-30.22a7.21,7.21,0,0,1,.06-10.44q15-15.1,30.09-30.09a7.47,7.47,0,0,1,10.6,10.52c-5.11,5.25-10.34,10.39-15.51,15.57-.45.45-.88.92-1.7,1.78H557q41.67,0,83.35,0a12.09,12.09,0,0,1,3.8.47,7.3,7.3,0,0,1,4.82,7.89A7.38,7.38,0,0,1,642,574c-.76,0-1.52,0-2.29,0H555.17Z"
+                  transform="translate(-528.89 -529)"
+                  fill="currentColor"
+                />
+              </svg>
+            </Link>
+          </div>
           <h1 className="text-lg md:2xl font-bold text-gray-800">Profile Settings</h1>
         </div>
         <div className="flex flex-col md:flex-row">
-          <aside className="w-full md:w-64 bg-gray-100 border-r border-gray-200">
+          <aside className="w-full md:w-80 bg-gray-100 border-r border-gray-200">
             <nav className="p-4 space-y-2">
               <SectionButton
                 label="Personal Information"
@@ -58,7 +62,7 @@ function Profile() {
                 section="personalInfo"
               />
               <SectionButton
-                label="Password"
+                label="Change Password"
                 description="Change your current password"
                 icon={
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -89,7 +93,7 @@ function Profile() {
             </nav>
           </aside>
 
-          <main className="flex-1 bg-gray-100">
+          <main className="flex-1 bg-gray-100 rounded-tr-lg rounded-bl-[20px]">
             {selectedSection === "personalInfo" && <PersonalInformation />}
             {selectedSection === "password" && <ChangePassword />}
             {selectedSection === "details" && <PersonDetails />}

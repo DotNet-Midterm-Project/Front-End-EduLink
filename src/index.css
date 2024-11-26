@@ -1,7 +1,8 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;/* Add these styles to your existing CSS */
+@tailwind utilities;
 
+/* Video Background with Gradient Overlay */
 .has-video-bg {
   overflow: hidden;
 }
@@ -17,7 +18,7 @@
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
 }
 
-/* Красивые эффекты для полей ввода */
+/* Input Field Effects */
 input, select {
   transition: all 0.3s ease-in-out;
 }
@@ -26,3 +27,19 @@ input:focus, select:focus {
   transform: translateY(-2px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
+
+/* Default Body Background */
+body {
+  background-color: white;
+}
+
+/* Circle Animation */
+@keyframes move-circle {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+

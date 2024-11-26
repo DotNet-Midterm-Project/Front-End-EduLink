@@ -21,7 +21,7 @@ export const fetchAllCourses = createAsyncThunk(
   }
 );
 
-// Fetch all volunteers by course id
+// Fetch all volunteers by course id (Note: this function is not used in the provided code)
 export const fetchAllVolunteerByCourseId = createAsyncThunk(
   "courses/fetchAllVolunteerByCourseId",
   async ({ CourseID }, { rejectWithValue }) => {

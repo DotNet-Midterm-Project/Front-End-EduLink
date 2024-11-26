@@ -8,7 +8,7 @@ export default function ChangePassword() {
   const [loading, setLoading] = useState(false);
   
   const Url = import.meta.env.VITE_URL_BACKEND;
-  console.log("URL:", Url);
+  // console.log("URL:", Url);
   const token = localStorage.getItem("token");
 
   const [form, setForm] = useState({
@@ -63,7 +63,8 @@ export default function ChangePassword() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-100">
+    <main className="h-[550px] bg-gray-100">
+
      
       {loading && <Loading />}
       <div className="max-w-4xl mx-auto rounded-lg shadow-sm">
@@ -71,6 +72,7 @@ export default function ChangePassword() {
           <h2 className="text-xl md:text-3xl font-bold text-[#1a1a3f]">
             Change Password
           </h2>
+          <br></br>
           <form className="space-y-6" onSubmit={handleSubmit}>
             <PasswordInput
               label="Current Password"

@@ -3,10 +3,17 @@ import ModalCourse from "../../Components/Student/ModalCourse";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import java from "../../assets/icons/java.svg";
+import nodejs from "../../assets/icons/nodejs.svg";
+import python from "../../assets/icons/python.svg";
+import react from "../../assets/icons/react.svg";
+import ruby from "../../assets/icons/Ruby.svg";
+import php from "../../assets/icons/php.svg";
+
 function CourseCard(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-
+  let imageCourse = image;
   const handleOpenModal = () => setIsModalOpen(true);
 
   const initials = props?.name
@@ -14,60 +21,95 @@ function CourseCard(props) {
     .map((word) => word[0])
     .join("")
     .toUpperCase();
-    //  Gets initials, e.g., "CN" for "Course Name"
-    console.log(props);
+  // console.log(props);
+
+  const handleClick = () => {
+    if (props?.location === "ShowVolunteerByCourse") {
+      navigate("/volunteer");
+    } else if (props?.location === "ShowProfileVolunteer") {
+      
+      
+      navigate("/volunteerProfile", { state: { volunteer: props.volunteer } });
+
+    } else {
+      handleOpenModal();
+    }
+  };
+  const courseImages = {
     
-    const handleClick = () => {
-      if (props?.location === "ShowVolunteerByCourse") {
-        navigate("/volunteer");
-      } else {
-        handleOpenModal();
-      }
-    };
+    Java: java,
+    Nodejs: nodejs,
+    Python: python,
+    React: react,
+    Ruby: ruby , 
+    Php: php
+  };
+  if(courseImages[props?.name]){
+    imageCourse = courseImages[props?.name];
+  }
   return (
     <>
-     <button onClick={handleClick}>
-
+      <button onClick={handleClick}>
         <div className="my-6 w-full max-w-xs mx-auto" key={props?.id}>
-          <div className="flex w-80 rounded-lg shadow-lg overflow-hidden h-[9rem]">
+          <div
+            className="flex w-80 rounded-lg overflow-hidden h-[9rem]"
+            style={{
+              borderRadius: "0px 20px 20px 20px", // Top corners 0px, bottom corners 20px
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)", // Adding shadow
+            }}
+          >
             <div
-              className={`flex items-center justify-center w-42 h-full`}
-              style={{ borderRadius: "0px 20px 20px 0px" }}
+              className="flex items-center justify-center w-42 h-full"
+              style={{
+                borderRadius: "0px 0px 0px 20px", // Adjust for left side image area
+              }}
             >
-              {image ? (
+              {!props?.volunteer?.profile  ? (
                 <img
-                  src={image}
+                  src={imageCourse}
                   alt="Course"
-                  className="object-cover h-full w-full"
-                  style={{ borderRadius: "0px 0px 0px 20px" }}
+                  className=" h-full w-full"
+                  style={{
+                    borderRadius: "0px 0px 0px 20px", // Matches container's radius
+                  }}
                 />
-              ) : (
-                <span className="text-white text-3xl font-bold">
-                  {initials}
-                </span>
-              )}
+              ) :   <img
+              src={`${import.meta.env.VITE_URL_BACKEND}/Resources/${props.profile}`}
+              alt="Course"
+              className="object-cover h-full w-full"
+              style={{
+                borderRadius: "0px 0px 0px 20px", // Matches container's radius
+              }}
+            />}
             </div>
 
             {/* Right section: text content */}
             <div
               className="text-left bg-[#EFEFEF] w-80 p-4"
-              style={{ borderRadius: "0px 20px 20px 20px" }}
+              style={{
+                borderRadius: "0px 0px 20px 20px", // Right side radius
+              }}
             >
-              {props?.location === "ShowVolunteerByCourse" ? (
-                <>
-                <h2 className="text-2xl font-bold text-gray-800 mt-1">
-                  {props?.name}
-                </h2>
-                <h3 className="text-lg font-semibold text-gray-800">
-                {props?.department}
-              </h3>
-              </>
-              ) : (
+              {props?.location === "ShowProfileVolunteer" ? (
                 <>
                   <h2 className="text-2xl font-bold text-gray-800 mt-1">
                     {props?.name}
                   </h2>
                   <h3 className="text-lg font-semibold text-gray-800">
+                    {props.volunteer.departmentName}
+                  </h3>
+                </>
+              ) : (
+                <>
+                  <h2 className="text-2xl font-bold text-gray-800 mt-1">
+                    {props?.name}
+                  </h2>
+                  <h3
+                    className="text-lg font-semibold text-gray-800"
+                    style={{
+                      fontSize: "14px", // Adjust font size for "Volunteers"
+                    }}
+                  >
                     Volunteers: {props?.count}
                   </h3>
                 </>
@@ -76,18 +118,21 @@ function CourseCard(props) {
           </div>
         </div>
       </button>
-      
-      { props?.location === "ShowVolunteerByCourse" ? "" :
-      isModalOpen && (
-        <ModalCourse
-          props={{
-            id: props?.id,
-            name: props?.course_Name,
-            count: props?.count,
-            description: props?.description,
-          }}
-          onClose={() => setIsModalOpen(false)}
-        />
+
+      {props?.location === "ShowVolunteerByCourse" ? (
+        ""
+      ) : (
+        isModalOpen && (
+          <ModalCourse
+            props={{
+              id: props?.id,
+              name: props?.course_Name,
+              count: props?.count,
+              description: props?.description,
+            }}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )
       )}
     </>
   );

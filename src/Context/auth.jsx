@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 const AuthContext = createContext();
 
-const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
+const apiBaseUrl = import.meta.env.VITE_URL_BACKEND;
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   const registerUser = async (userData) => {
     try {
-      console.log(apiUrlRegister);
+      // console.log(apiUrlRegister);
       const res = await axios.post(apiUrlRegister, userData);
     
       if (res.data.success) {
@@ -37,10 +37,10 @@ export const AuthProvider = ({ children }) => {
   
 
   const forgotPassword = async (email) => {
-    console.log(email);
+    // console.log(email);
     try {
       const res = await axios.post(`${apiBaseUrl}/api/Account/forgot-password`, { email });
-      console.log(res);
+      // console.log(res);
       if (res.data) {
   
         toast.success("check your Email");

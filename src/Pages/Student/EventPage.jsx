@@ -6,6 +6,7 @@ import ServerError from "../../Components/Error/ServerError";
 import Card from "../../Components/Card";
 import Search from "../../Components/Search";
 import NoData from "../../Components/Error/NoData";
+import Breadcrumb from "../../Components/Breadcrumb";
 
 function EventPage() {
   const dispatch = useDispatch();
@@ -17,23 +18,25 @@ function EventPage() {
   }, [dispatch]);
 
   const filteredEvents = events?.filter((event) =>
-    event.workshopName?.toLowerCase().includes(searchTerm.toLowerCase())
+    event?.workshopName?.toLowerCase().includes(searchTerm?.toLowerCase())
   );
+console.log(filteredEvents);
 
   if (loading) return <Loading />;
   if (error) return <ServerError />;
-console.log("this is the event from page",events);
 
   return (
     <>
-      <div className="mt-28">
+      <div className="mt-28 mx-8">
         <Search
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           placeholder="Search for event..."
         />
+       <Breadcrumb/> 
       </div>
-      <div className="my-28 mx-8">
+
+      <div className="my-16 mx-8 flex flex-wrap justify-start gap-4 m-auto">
         {filteredEvents?.length > 0 ? (
           filteredEvents?.map((event) => (
             <Card
@@ -46,7 +49,7 @@ console.log("this is the event from page",events);
               auther={event?.volunteerName}
               description={event?.workshopDescription}
               date={event?.workshopDateTime}
-              image={event?.eventFile}
+              image={event?.eventBannerImage}
               capacity={event?.capacity}
               sessionLink={event?.sessionLink}
               location="event"
