@@ -62,12 +62,12 @@ const App = () => {
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/booking-page" element={<Layout><BookingPage/></Layout>}/>
           <Route path="/event-page" element={<Layout><EventPage/></Layout>}/>
-          <Route path="/event-content/:eventId" element={<EventContentPage />} />
+          <Route path="/event-content/:eventId" element={<Layout><EventContentPage /></Layout>} />
           <Route path="/event-by-course/:courseId" element={<Layout><ShowEventByCourse /></Layout>} />
-          <Route path="/your-event-page" element={<Layout><YourEvent/></Layout>} />
+          <Route path="/my-event" element={<Layout><YourEvent/></Layout>} />
           <Route path="/contact-us" element={<Layout><Contact/></Layout>}/>
           <Route path="/volunteers" element={<Layout><Volunteers/> </Layout>}/>
-          <Route path="/volunteerProfile" element={<Layout> <VolunteerDetails /></Layout>}/>
+          <Route path="/volunteerProfile" element={<Layout><VolunteerDetails /></Layout>}/>
           <Route path = "/add-event" element={<Layout><AddEvent/></Layout>}/>
           <Route path = "/add-article" element={<Layout><AddArticle/></Layout>}/>
           <Route path = "/my-events" element={<Layout><VolunteerEventPage/></Layout>}/>

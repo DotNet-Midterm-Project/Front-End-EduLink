@@ -19,7 +19,7 @@ const Breadcrumb = () => {
     <nav className="text-blue-500 ml-8 mt-24 text-lg">
       <ul className="flex space-x-2">
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/student-page">Home</Link>
         </li>
         {paths.map((path, index) => {
           const to = `/${paths.slice(0, index + 1).join("/")}`;

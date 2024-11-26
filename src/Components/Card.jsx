@@ -14,23 +14,23 @@ function Card(props) {
   };
 
   const linkPath =
-    props.location === "event"
+    props?.location === "event" || props?.location ==="YourEvent"
       ? `/event-content/${props?.eventId}`
       : `/articles/${props?.id}`;
-  // console.log("this is the card", props);
+  console.log("this is the card", linkPath);
 
   return (
     <>
       <div
         className={`mx-3 mt-4 relative flex w-[23rem] max-w-[26rem] flex-col bg-[#EFEFEF] bg-clip-border text-gray-700 shadow-lg transition duration-300 ease-in-out ${
-          props.location === "event" ? "hover:bg-white" : "hover:bg-gray-300"
+          props?.location === "event" ? "hover:bg-white" : "hover:bg-gray-300"
         }`}
         style={{
           borderRadius: "20px",
           borderTopLeftRadius: "0px",
         }}
       >
-        {props?.location == "event" || props?.location == "YourEvent" ? (
+        {props?.location == "event" || props?.location == "YourEvent" || props?.location == "ArticlesList" ? (
           <Link
             to={linkPath}
             state={{ ...props }}

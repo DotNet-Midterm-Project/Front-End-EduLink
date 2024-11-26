@@ -11,22 +11,26 @@ import {
 } from "../../assets";
 import LogoutButton from "../LogoutButton";
 import RegisterModal from "./RegisterModal";
+import { fetchProfileImage } from "../../Redux/Slices/ImageProfileSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function SideBar({ onClose }) {
+  const dispatch = useDispatch();
+  const { profileImage } = useSelector((state) => state.profile);
   const user = localStorage.getItem("userName") || "";
-  const roles = JSON.parse(localStorage.getItem("roles") || "[]"); // جلب الأدوار من localStorage
-  const isVolunteer = roles.includes("Volunteer"); // التحقق إذا كان المستخدم متطوعًا
+  const roles = JSON.parse(localStorage.getItem("roles") || "[]");
+  const isVolunteer = roles.includes("Volunteer");
   const [openModal, setOpenModal] = useState(false);
   const sidebarRef = useRef(null);
 
-  const handleOpenModal = () => setOpenModal(true);
-  const Url = import.meta.env.VITE_URL_BACKEND;
+  useEffect(() => {
+    dispatch(fetchProfileImage());
+  }, [dispatch]);
 
-  // إضافة مستمع حدث عند النقر خارج الشريط الجانبي
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-        onClose(); // إغلاق الشريط الجانبي إذا تم النقر خارج المنيو
+        onClose();
       }
     };
 
@@ -38,16 +42,25 @@ function SideBar({ onClose }) {
   }, [onClose]);
 
   const handleOpenModal = () => setOpenModal(true);
-  const avatarImage = localStorage.getItem("avatarPreview") !== "null"
-  ?`${Url}/Resources/${localStorage.getItem("avatarPreview")}` 
-  : yourProfile;
   return (
     <>
-      <div className="fixed top-0 right-0 h-screen w-96 bg-[#0D47A1]" ref={sidebarRef}>
+      <div
+        className="fixed top-0 right-0 h-screen w-96 bg-[#0D47A1]"
+        ref={sidebarRef}
+      >
         <div className="h-screen w-96 pb-10">
           <div className="flex h-screen flex-grow flex-col rounded-br-lg rounded-tr-lg bg-[#0D47A1] shadow-md">
             <div className="flex mt-4 items-center px-4">
-              <img src={avatarImage} className="h-10 w-10" />
+              <img
+                src={
+                  profileImage
+                    ? `${import.meta.env.VITE_URL_BACKEND}/Resources/${
+                        profileImage?.imageProfile
+                      }`
+                      : `${yourProfile}`
+                }
+                className="h-10 w-10 rounded-full"
+              />
               <div className="flex ml-3 flex-col">
                 <h3 className="font-medium text-white">{user}</h3>
               </div>
@@ -82,11 +95,11 @@ function SideBar({ onClose }) {
                     Book an Event
                   </Link>
                   <Link
-                    to="/your-event-page"
+                    to="/my-event"
                     className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"
                   >
                     <img src={events} className="mr-4 h-5 w-5 align-middle" />
-                    Your Events
+                    My Events
                   </Link>
                   <Link
                     to="/volunteers"
@@ -142,36 +155,41 @@ function SideBar({ onClose }) {
                         to="/my-events"
                         className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"
                       >
-                        <img src={events} className="mr-4 h-5 w-5 align-middle" />
-                        My Events
+                        <img
+                          src={events}
+                          className="mr-4 h-5 w-5 align-middle"
+                        />
+                        Mange Events
                       </Link>
                       <Link
                         to="/booking-page"
                         className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"
                       >
-                        <img src={booking} className="mr-4 h-5 w-5 align-middle" />
-                        Bookings
+                        <img
+                          src={booking}
+                          className="mr-4 h-5 w-5 align-middle"
+                        />
+                       Mange Bookings
                       </Link>
                     </>
                   )}
 
-
                   {!isVolunteer && (
                     <>
-                                      <div className="relative w-[350px] inline-block mx-4">
-                                      <hr className="h-px bg-white border-0 dark:bg-white" />
-                                    </div>
-                  <button
-                    onClick={handleOpenModal}
-                    className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"
-                  >
-                    <img
-                      src={register}
-                      className="mr-4 h-5 w-5 align-middle"
-                    />
-                    Register as a Volunteer
-                  </button>
-                  </>
+                      <div className="relative w-[350px] inline-block mx-4">
+                        <hr className="h-px bg-white border-0 dark:bg-white" />
+                      </div>
+                      <button
+                        onClick={handleOpenModal}
+                        className="flex cursor-pointer items-center border-l-[#F28E33] py-2 px-4 text-base font-medium text-white outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-[#F28E33] hover:text-gray-200 focus:border-l-4"
+                      >
+                        <img
+                          src={register}
+                          className="mr-4 h-5 w-5 align-middle"
+                        />
+                        Register as a Volunteer
+                      </button>
+                    </>
                   )}
                   <div className="relative w-[350px] inline-block mx-4">
                     <hr className="h-px bg-white border-0 dark:bg-white" />

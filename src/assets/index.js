@@ -13,8 +13,24 @@ import imagesecation from './imagesecation.png';
 import trsh from './icons/trsh.svg';
 import download from './icons/download.svg';
 import EduLinklogo from './icons/EduLinkLogo.svg';
+import StartDate  from './icons/StartDate.svg';
+import EndDate from "./icons/EndDate.svg";
+import location from './icons/location.svg';
+import eventType from './icons/eventType.svg';
+import Capacity from './icons/Capacity.svg';
+import address from './icons/address.svg';
+import status from './icons/status.svg';
+import counting from './icons/counting.svg';
 
 export {
+    counting,
+    location,
+    eventType,
+    Capacity,
+    address,
+    status,
+    EndDate,
+    StartDate,
     EduLinklogo,
     download,
     trsh,

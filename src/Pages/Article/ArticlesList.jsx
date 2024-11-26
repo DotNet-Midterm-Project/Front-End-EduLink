@@ -12,11 +12,12 @@ const ArticlesList = () => {
   const dispatch = useDispatch();
   const { articles, loading, error } = useSelector((state) => state?.articles);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 3;
 
+  // جلب المقالات مرة واحدة عند تحميل المكون
   useEffect(() => {
     dispatch(fetchAllArticles());
-  }, [dispatch, currentPage]);  // Add currentPage to trigger when it changes
+  }, [dispatch]);
 
   if (loading) {
     return <Loading />;
@@ -31,12 +32,17 @@ const ArticlesList = () => {
     return articles.slice(startIdx, startIdx + itemsPerPage);
   };
 
-  const currentArticles = getCurrentArticles(articles, currentPage, itemsPerPage);
+  const currentArticles = getCurrentArticles(
+    articles,
+    currentPage,
+    itemsPerPage
+  );
 
   return (
     <>
-      <div className="flex items-center  justify-center text-center my-24"
-      style={{ color: "#0B102F" }}
+      <div
+        className="flex items-center  justify-center text-center my-24"
+        style={{ color: "#0B102F" }}
       >
         <div className="relative inline-block">
           <div className="mb-1 font-bold">Articles</div>
@@ -50,22 +56,24 @@ const ArticlesList = () => {
         </div>
       </div>
 
-      {articles.length > 0 ? (
+      {articles?.length >= 0 && articles[0]?.articleFile ? (
         <>
-          <div className="my-6">
-            <ImageShow
-              key={articles[0]?.articleID}
-              id={articles[0]?.articleID}
-              title={articles[0]?.title}
-              auther={articles[0]?.volunteerName}
-              description={articles[0]?.articleContent}
-              date={articles[0]?.publicationDate}
-              image={articles[0]?.articleFile}
-            />
-          </div>
+          {currentPage === 1 && (
+            <div className="my-6">
+              <ImageShow
+                key={articles[0]?.articleID}
+                id={articles[0]?.articleID}
+                title={articles[0]?.title}
+                auther={articles[0]?.volunteerName}
+                description={articles[0]?.articleContent}
+                date={articles[0]?.publicationDate}
+                image={articles[0]?.articleFile}
+              />
+            </div>
+          )}
 
           <div className="flex flex-wrap justify-start sm:justify-center">
-            {currentArticles.map((article) => (
+            {currentArticles?.map((article) => (
               <Card
                 key={article?.articleID}
                 id={article?.articleID}
@@ -74,12 +82,18 @@ const ArticlesList = () => {
                 description={article?.articleContent}
                 date={article?.publicationDate}
                 image={article?.articleFile}
+                location="ArticlesList"
               />
             ))}
           </div>
 
           <div className="my-6">
-            <Pagination articles={articles} onPageChange={setCurrentPage} />
+            <Pagination
+              articles={articles}
+              itemsPerPage={itemsPerPage}
+              currentPage={currentPage}
+              onPageChange={setCurrentPage}
+            />
           </div>
         </>
       ) : (

@@ -3,10 +3,13 @@ import Loading from "../Loading";
 import axios from "axios";
 import yourProfile from "../../assets/icons/yourProfile.svg";
 import Swal from 'sweetalert2'
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProfileImage } from "../../Redux/Slices/ImageProfileSlice";
 
 export default function PersonalInformation() {
-  const [loading, setLoading] = useState(false);
-  const Url = import.meta.env.VITE_URL_BACKEND;
+  const dispatch = useDispatch();
+  const { profileImage } = useSelector((state) => state.profile);
+  const [loading1, setLoading] = useState(false);
   const token = localStorage.getItem("token");
 
   const [formData, setFormData] = useState({
@@ -14,9 +17,13 @@ export default function PersonalInformation() {
     PhoneNumber: "",
     Email: "",
     DepartmentID: "",
-    AvatarPreview: localStorage.getItem("avatarPreview"),
-    AvatarPreviewUrl: null, // For real-time preview
+    AvatarPreview: `${import.meta.env.VITE_URL_BACKEND}/Resources/${profileImage?.imageProfile}`,
+    AvatarPreviewUrl: null, 
   });
+
+  useEffect(()=>{
+    dispatch(fetchProfileImage())
+  },[dispatch])
 
   useEffect(() => {
     if (!token) {
@@ -63,15 +70,15 @@ export default function PersonalInformation() {
     const form = new FormData();
     form.append("Name", formData.Name);
     form.append("PhoneNumber", formData.PhoneNumber);
-    form.append("Email", formData.Email);
-    form.append("DepartmentID", formData.DepartmentID);
+    // form.append("Email", formData.Email);
+    // form.append("DepartmentID", formData.DepartmentID);
 
     if (formData.AvatarPreview && formData.AvatarPreview instanceof File) {
       form.append("AvatarPreview", formData.AvatarPreview);
     }
 
     try {
-      const response = await axios.put(`${Url}/api/Common/Edit-Profile`, form, {
+      const response = await axios.put(`${import.meta.env.VITE_URL_BACKEND}/api/Common/Edit-Profile`, form, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -100,16 +107,9 @@ export default function PersonalInformation() {
     }
   };
 
-  const avatarImage =
-    formData.AvatarPreviewUrl && formData.AvatarPreviewUrl !== "null"
-      ? formData.AvatarPreviewUrl
-      : formData.AvatarPreview && formData.AvatarPreview !== "null"
-      ? `${Url}/Resources/${formData.AvatarPreview}`
-      : yourProfile;
-  console.log("Avatar Image:", avatarImage);
   return (
     <main className="h-[550px] bg-gray-100">
-      {loading && <Loading />}
+      {loading1 && <Loading />}
 
       <div className="max-w-4xl space-y-6 mx-auto mt-3">
         <h2 className="text-xl md:text-3xl font-bold text-[#1a1a3f]">
@@ -126,7 +126,9 @@ export default function PersonalInformation() {
               <h4 className="text-sm font-medium text-gray-700">Preview</h4>
               <div className="w-16 h-16">
                 <img
-                  src={avatarImage}
+                  src={profileImage ? 
+                  `${import.meta.env.VITE_URL_BACKEND}/Resources/${profileImage?.imageProfile}` : `${yourProfile}`
+                }
                   alt="Avatar preview"
                   className="w-full h-full object-cover rounded-full border"
                 />

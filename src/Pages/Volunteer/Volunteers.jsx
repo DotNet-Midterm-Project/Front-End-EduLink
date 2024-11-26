@@ -23,7 +23,7 @@ export default function Volunteers() {
   useEffect(() => {
     dispatch(fetchAllVolunteers());
   }, [dispatch]);
-  console.log("//////////////////////////////")
+
 console.log(volunteers)
   // Filter volunteers based on search term
   const filteredVolunteers = volunteers?.filter((volunteer) =>

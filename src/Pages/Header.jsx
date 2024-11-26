@@ -3,19 +3,17 @@ import Edud from "../assets/Home/Edud.png";
 import { useState, useEffect } from "react";
 import SideBar from "../Components/Student/SideBar";
 import { yourProfile } from "../assets";
+import { fetchProfileImage } from "../Redux/Slices/ImageProfileSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const NavLink = ({ link, children, className }) => {
   const location = useLocation();
   const currentPath = location.pathname;
-  let profileImage = localStorage.getItem("avatarPreview");
-
   return (
     <Link
       to={link}
       className={`transition-all duration-75 transform hover:scale-105 ${className} ${
-        currentPath === link
-          ? "border-b-2 border-orange-400 font-bold"
-          : ""
+        currentPath === link ? "border-b-2 border-orange-400 font-bold" : ""
       }`}
     >
       {children}
@@ -24,6 +22,8 @@ const NavLink = ({ link, children, className }) => {
 };
 
 export default function Header() {
+  const { profileImage } = useSelector((state) => state.profile);
+  const dispatch = useDispatch();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -33,15 +33,18 @@ export default function Header() {
 
   // Determine if the current page should use the special font color
   const isSpecialPage =
+    location.pathname === "/" ||
+    location.pathname === "/student-page" ||
     location.pathname === "/contact-us" ||
     location.pathname === "/articles" ||
     location.pathname === "/about-us";
-    let profileImage = localStorage.getItem("avatarPreview");
-    if (!profileImage || profileImage === "null") {
-      profileImage = yourProfile; // Replace `yourProfile` with a default image URL or variable.
-    }else{
-      profileImage = `${import.meta.env.VITE_URL_BACKEND}/Resources/${profileImage}`;
-    }
+
+  const isHome = location.pathname === "/";
+
+  useEffect(() => {
+    dispatch(fetchProfileImage());
+  }, [dispatch]);
+
   useEffect(() => {
     setIsLoggedIn(!!localStorage.getItem("token"));
     setRoles(JSON.parse(localStorage.getItem("roles") || "[]"));
@@ -68,12 +71,6 @@ export default function Header() {
     };
   }, []);
 
-  // Get the current path
-  // const location = useLocation();
-
-  // Check if the current page is "About Us"
-  const isAboutPage = location.pathname === "/about-us";
-
   return (
     <header
       className={`fixed w-full z-50 px-8 transition-all duration-300 top-0 left-0 right-0 ${
@@ -95,36 +92,77 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav
-            className={`hidden md:flex items-center duration-300 space-x-8 text-sm ${
-              isScrolled
-                ? isSpecialPage
-                  ? "text-[#0B102F]"
-                  : "text-[#0B102F]"
-                : isSpecialPage
-                ? "text-[#0B102F]"
-                : "text-gray-200"
-            }`}
+            className={`hidden md:flex items-center duration-300 space-x-8 text-sm`}
           >
             {!isLoggedIn && !roles.includes("Student") ? (
               <>
-                <NavLink link="/" className={isSpecialPage ? "text-[#0B102F]" : ""}>Home</NavLink>
-                <NavLink link="/about-us" className={isSpecialPage ? "text-[#0B102F]" : ""}>About us</NavLink>
-                <NavLink link="/articles" className={isSpecialPage ? "text-[#0B102F]" : ""}>Articles</NavLink>
-                <NavLink link="/contact-us" className={isSpecialPage ? "text-[#0B102F]" : ""}>Contact us</NavLink>
+                <NavLink
+                  link="/"
+                  className={`${
+                    isSpecialPage || isScrolled
+                      ? "text-white"
+                      : "text-[#0B102F]"
+                  } transition-all duration-75 transform hover:scale-105`}
+                >
+                  Home
+                </NavLink>
+                <NavLink
+                  link="/about-us"
+                  className={`${
+                    isSpecialPage || isScrolled
+                      ? "text-white"
+                      : "text-[#0B102F]"
+                  } transition-all duration-75 transform hover:scale-105`}
+                >
+                  About us
+                </NavLink>
+                <NavLink
+                  link="/articles"
+                  className={`${
+                    isSpecialPage || isScrolled
+                      ? "text-white"
+                      : "text-[#0B102F]"
+                  } transition-all duration-75 transform hover:scale-105`}
+                >
+                  Articles
+                </NavLink>
+                <NavLink
+                  link="/contact-us"
+                  className={`${
+                    isSpecialPage || isScrolled
+                      ? "text-white"
+                      : "text-[#0B102F]"
+                  } transition-all duration-75 transform hover:scale-105`}
+                >
+                  Contact us
+                </NavLink>
               </>
             ) : (
               <div className="space-x-4">
-                <Link
-                  to="/profile"
-                  className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
-                >
-                  Profile Settings
-                </Link>
+               
                 <Link
                   to="/"
-                  className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
+                  className={` ${
+                    !isScrolled && isSpecialPage
+                      ? "text-white"
+                      : isScrolled
+                      ? "text-white"
+                      : ""
+                  } transition-all duration-75 transform hover:scale-105`}
                 >
                   Home page
+                </Link>
+                <Link
+                  to="/profile"
+                  className={` ${
+                    !isScrolled && isSpecialPage
+                      ? "text-white"
+                      : isScrolled
+                      ? "text-white"
+                      : ""
+                  } transition-all duration-75 transform hover:scale-105`}
+                >
+                  Profile Settings
                 </Link>
               </div>
             )}
@@ -136,9 +174,15 @@ export default function Header() {
               <>
                 <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                   <img
-                    src={profileImage}
+                    src={
+                      profileImage
+                        ? `${import.meta.env.VITE_URL_BACKEND}/Resources/${
+                            profileImage?.imageProfile
+                          }`
+                        : `${yourProfile}`
+                    }
                     alt="Profile"
-                    className="h-8 w-8 align-middle hover:text-[#F28E33] bg-[#0B102F]"
+                    className="h-8 w-8 align-middle rounded-full hover:text-[#F28E33] bg-[#0B102F]"
                   />
                 </button>
               </>
@@ -185,10 +229,30 @@ export default function Header() {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg rounded-md">
-              <NavLink link="/" className={isSpecialPage ? "text-[#0B102F]" : ""}>Home</NavLink>
-              <NavLink link="/about-us" className={isSpecialPage ? "text-[#0B102F]" : ""}>About us</NavLink>
-              <NavLink link="/articles" className={isSpecialPage ? "text-[#0B102F]" : ""}>Articles</NavLink>
-              <NavLink link="/contact-us" className={isSpecialPage ? "text-[#0B102F]" : ""}>Contact us</NavLink>
+              <NavLink
+                link="/"
+                className={isSpecialPage ? "text-[#0B102F]" : ""}
+              >
+                Home
+              </NavLink>
+              <NavLink
+                link="/about-us"
+                className={isSpecialPage ? "text-[#0B102F]" : ""}
+              >
+                About us
+              </NavLink>
+              <NavLink
+                link="/articles"
+                className={isSpecialPage ? "text-[#0B102F]" : ""}
+              >
+                Articles
+              </NavLink>
+              <NavLink
+                link="/contact-us"
+                className={isSpecialPage ? "text-[#0B102F]" : ""}
+              >
+                Contact us
+              </NavLink>
               <Link
                 to="/login"
                 className="block bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-full font-medium transition-colors duration-300 mt-4"
