@@ -4,9 +4,9 @@ import { useState } from "react";
 
 function ImageShow(props) {
   const [showModal, setShowModal] = useState(false);
-
+const toke = localStorage.getItem("token");
   const handleImageClick = (e) => {
-    if (!props.isAuthenticated) {
+    if (!toke) {
       e.preventDefault();
       setShowModal(true);
     }

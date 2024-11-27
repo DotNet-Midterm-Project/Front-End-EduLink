@@ -103,7 +103,7 @@ console.log("Departments:", departments);
         <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
           <thead className="bg-gray-100">
             <tr>
-              {headers.map((header, index) => (
+              {headers?.map((header, index) => (
                 <th
                   key={index}
                   className="px-6 py-3 text-xs font-medium text-left text-gray-700 uppercase tracking-wider border-b border-gray-200"
@@ -114,21 +114,21 @@ console.log("Departments:", departments);
             </tr>
           </thead>
           <tbody className="bg-white">
-            {departments.map((department, index) => (
+            {departments?.map((department, index) => (
               <tr
                 key={index}
                 className="hover:bg-gray-50 transition duration-200"
               >
                 <td className="px-6 py-4 border-b border-gray-200 whitespace-nowrap text-gray-800">
-                  {department.departmentName}
+                  {department?.departmentName}
                 </td>
                 <td className="px-6 py-4 border-b border-gray-200 whitespace-nowrap text-gray-600">
-                  {department.address}
+                  {department?.address}
                 </td>
                 <td className="px-6 py-4 border-b border-gray-200 whitespace-nowrap flex space-x-4">
                   <TrashIcon
                     className="w-6 h-6 text-red-500 cursor-pointer hover:text-red-700 transition duration-150"
-                    onClick={() => handleDelete(department.id)}
+                    onClick={() => handleDelete(department?.id)}
                   />
                 </td>
               </tr>
@@ -148,7 +148,7 @@ console.log("Departments:", departments);
           <input
             type="text"
             placeholder="Department Name"
-            value={newDepartment.departmentName}
+            value={newDepartment?.departmentName}
             onChange={(e) =>
               setNewDepartment({ ...newDepartment, departmentName: e.target.value })
             }
@@ -157,7 +157,7 @@ console.log("Departments:", departments);
           <input
             type="text"
             placeholder="Address"
-            value={newDepartment.address}
+            value={newDepartment?.address}
             onChange={(e) =>
               setNewDepartment({ ...newDepartment, address: e.target.value })
             }

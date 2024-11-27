@@ -9,6 +9,7 @@ import { fetchAllAdminCourses } from "../../Redux/Slices/adminCoursesSlice";
 import { fetchAllDepartment } from "../../Redux/Slices/adminDepartmentSlice";
 import Loading from "../../Components/Admin/Loading";
 import ServerError from "../../Components/Error/ServerError";
+import NoData from "../../Components/Error/NoData";
 
 const AdminViewAllCourses = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,9 +34,6 @@ const AdminViewAllCourses = () => {
   }, [dispatch]);
 
   if (loading) return <Loading />;
-  if (error) return <ServerError error={error} />;
-  if (!adminCourses || adminCourses.length === 0)
-    return <p>No courses available.</p>;
 
   const handleAddCourse = async () => {
     setIsSubmitting(true);
@@ -61,7 +59,7 @@ const AdminViewAllCourses = () => {
 
   const handleDeleteCourse = async (courseId) => {
     // console.log(courseId);
-    
+
     try {
       const response = await axios.delete(
         `${
@@ -81,7 +79,7 @@ const AdminViewAllCourses = () => {
 
   const handleLinkCourseToDepartment = async () => {
     // console.log(selectedCourseId, selectedDepartmentId);
-    
+
     if (!selectedCourseId || !selectedDepartmentId) {
       toast.error("Please select a course and a department.");
       return;
@@ -139,30 +137,33 @@ const AdminViewAllCourses = () => {
               </tr>
             </thead>
             <tbody className="bg-white">
-              {adminCourses.map((course, index) => (
+              
+              {adminCourses ? adminCourses?.map((course, index) => (
                 <tr key={index} className="hover:bg-gray-50">
                   <td className="px-6 py-4 border-b text-gray-800">
-                    {course.courseName}
+                    {course?.courseName}
                   </td>
                   <td className="px-6 py-4 border-b text-gray-600">
-                    {course.courseDescription}
+                    {course?.courseDescription}
                   </td>
                   <td className="px-6 py-4 border-b flex space-x-4">
                     <LinkIcon
                       className="w-6 h-6 text-green-500 cursor-pointer hover:text-green-700"
                       onClick={() => {
-                        setSelectedCourseId(course.courseID);
-                        setLinkModalVisible(true); 
+                        setSelectedCourseId(course?.courseID);
+                        setLinkModalVisible(true);
                       }}
                     />
                     <TrashIcon
                       className="w-6 h-6 text-red-500 cursor-pointer hover:text-red-700"
-                      onClick={() => handleDeleteCourse(course.courseID)}
+                      onClick={() => handleDeleteCourse(course?.courseID)}
                     />
                   </td>
                 </tr>
-              ))}
+              )) : <NoData/>}
+            
             </tbody>
+            
           </table>
         </div>
       </div>
@@ -182,7 +183,7 @@ const AdminViewAllCourses = () => {
             />
             <textarea
               placeholder="Course Description"
-              value={newCourse.courseDescription}
+              value={newCourse?.courseDescription}
               onChange={(e) =>
                 setNewCourse({
                   ...newCourse,
@@ -210,41 +211,41 @@ const AdminViewAllCourses = () => {
         </div>
       )}
 
-
-{linkModalVisible && (
-  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-      <h2 className="text-xl font-bold mb-4">Link Course to Department</h2>
-      <select
-        value={selectedDepartmentId}
-        onChange={(e) => setSelectedDepartmentId(e.target.value)}
-        className="w-full p-3 border rounded-lg mb-4"
-      >
-        <option value="">Select Department</option>
-        {departments.map((department) => (
-          <option key={department.id} value={department.id}>
-            {department.departmentName}
-          </option>
-        ))}
-      </select>
-      <div className="flex justify-between">
-        <button
-          className="bg-gray-500 text-white px-4 py-2 rounded-md"
-          onClick={() => setLinkModalVisible(false)}
-        >
-          Cancel
-        </button>
-        <button
-          className="bg-green-500 text-white px-4 py-2 rounded-md"
-          onClick={handleLinkCourseToDepartment}
-        >
-          Link
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
+      {linkModalVisible && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 className="text-xl font-bold mb-4">
+              Link Course to Department
+            </h2>
+            <select
+              value={selectedDepartmentId}
+              onChange={(e) => setSelectedDepartmentId(e.target.value)}
+              className="w-full p-3 border rounded-lg mb-4"
+            >
+              <option value="">Select Department</option>
+              {departments?.map((department) => (
+                <option key={department?.id} value={department?.id}>
+                  {department?.departmentName}
+                </option>
+              ))}
+            </select>
+            <div className="flex justify-between">
+              <button
+                className="bg-gray-500 text-white px-4 py-2 rounded-md"
+                onClick={() => setLinkModalVisible(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-green-500 text-white px-4 py-2 rounded-md"
+                onClick={handleLinkCourseToDepartment}
+              >
+                Link
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

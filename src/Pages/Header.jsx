@@ -28,18 +28,21 @@ export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [roles, setRoles] = useState([]);
- 
+
   // Determine if the current page should use the special font color
   const isSpecialPage =
+  location.pathname === "/student-page"||
     location.pathname === "/contact-us" ||
     location.pathname === "/articles" ||
     location.pathname === "/about-us";
+
     let profileImage = localStorage.getItem("avatarPreview");
     if (!profileImage || profileImage === "null") {
       profileImage = yourProfile; // Replace `yourProfile` with a default image URL or variable.
     }else{
       profileImage = `${import.meta.env.VITE_URL_BACKEND}/Resources/${profileImage}`;
     }
+
   useEffect(() => {
     setIsLoggedIn(!!localStorage.getItem("token"));
     setRoles(JSON.parse(localStorage.getItem("roles") || "[]"));
@@ -90,7 +93,7 @@ export default function Header() {
             className={`hidden md:flex items-center duration-300 space-x-8 text-sm ${
               isScrolled
                 ? isSpecialPage
-                  ? "text-[#0B102F]"
+                  ? "text-gray-200"
                   : "text-[#0B102F]"
                 : isSpecialPage
                 ? "text-[#0B102F]"
@@ -99,24 +102,24 @@ export default function Header() {
           >
             {!isLoggedIn && !roles.includes("Student") ? (
               <>
-                <NavLink link="/" className={isSpecialPage ? "text-[#0B102F]" : ""}>Home</NavLink>
-                <NavLink link="/about-us" className={isSpecialPage ? "text-[#0B102F]" : ""}>About us</NavLink>
-                <NavLink link="/articles" className={isSpecialPage ? "text-[#0B102F]" : ""}>Articles</NavLink>
-                <NavLink link="/contact-us" className={isSpecialPage ? "text-[#0B102F]" : ""}>Contact us</NavLink>
+                <NavLink link="/" className={`${isSpecialPage ? "text-[#0B102F]" : ""} ${isScrolled ? "text-gray-200" : ""}`}>Home</NavLink>
+                <NavLink link="/articles" className={`${location.pathname == "/articles" && !isLoggedIn ? "text-[#0B102F]" : ""} ${isScrolled ? "text-gray-200" : ""}`}>Articles</NavLink>
+                <NavLink link="/about-us" className={`${isSpecialPage ? "text-[#0B102F]" : ""} ${isScrolled ? "text-gray-200" : ""}`}>About us</NavLink>
+                <NavLink link="/contact-us" className={`${isSpecialPage ? "text-[#0B102F]" : ""} ${isScrolled ? "text-gray-200" : ""}`}>Contact us</NavLink>
               </>
             ) : (
               <div className="space-x-4">
-                <Link
-                  to="/profile"
-                  className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
-                >
-                  Profile Settings
-                </Link>
-                <Link
+                 <Link
                   to="/"
-                  className="text-gray-200 hover:text-white transition-all duration-75 transform hover:scale-105"
+                  className={`${isSpecialPage ? "text-gray-200" : ""} ${location.pathname == "/articles" && isLoggedIn ? "text-[#0B102F]" : ""} ${isScrolled ? "text-gray-200" : "text-[#0B102F]"} hover:text-white transition-all duration-75 transform hover:scale-105`}
                 >
                   Home page
+                </Link>
+                <Link
+                  to="/profile"
+                  className={`${isSpecialPage ? "text-gray-200" : ""} ${location.pathname == "/articles" && isLoggedIn ? "text-[#0B102F]" : ""} ${isScrolled ? "text-gray-200" : "text-[#0B102F]"}  hover:text-white transition-all duration-75 transform hover:scale-105`}
+                >
+                  Profile Settings
                 </Link>
               </div>
             )}
@@ -130,7 +133,7 @@ export default function Header() {
                   <img
                     src={profileImage}
                     alt="Profile"
-                    className="h-8 w-8 align-middle hover:text-[#F28E33] bg-[#0B102F]"
+                    className="h-12 w-12 align-middle hover:text-[#F28E33] bg-[#0B102F] rounded-full"
                   />
                 </button>
               </>

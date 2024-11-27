@@ -3,7 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Loading from "../../Components/Admin/Loading";
 import ServerError from "../../Components/Error/ServerError";
-import { CheckCircleIcon, TrashIcon, UserCircleIcon } from "@heroicons/react/outline";
+import {
+  CheckCircleIcon,
+  TrashIcon,
+  UserCircleIcon,
+} from "@heroicons/react/outline";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,22 +19,21 @@ const AdminViewAllVolunteers = () => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const dispatch = useDispatch();
-  const { volunteers, loading, error } = useSelector((state) => state.volunteer);
-console.log(volunteers);
+  const { volunteers, loading, error } = useSelector(
+    (state) => state.volunteer
+  );
+  console.log(volunteers);
   useEffect(() => {
     dispatch(fetchAllVolunteers());
   }, [dispatch]);
-
 
   if (loading) {
     return <Loading />;
   }
 
-
   if (error) {
     return <ServerError error={error} />;
   }
-
 
   if (!volunteers || volunteers.length === 0) {
     return <p className="text-center mt-10">No volunteers available.</p>;
@@ -39,63 +42,77 @@ console.log(volunteers);
   const filteredVolunteers =
     filterRequest === "all"
       ? volunteers
-      : volunteers.filter((volunteer) => String(volunteer.approve) === filterRequest);
+      : volunteers.filter(
+          (volunteer) => String(volunteer.approve) === filterRequest
+        );
 
-      const handleApprove = async (id) => {
-        // console.log(`Approving volunteer with ID: ${id}`);
-        try {
-          const response = await axios.post(
-            `${import.meta.env.VITE_URL_BACKEND}/api/Admin/approve-volunteer/${id}`,
-            {},
-            { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-          );
-      
-          // console.log("API Response:", response.data);
-      
-  
-          dispatch(fetchAllVolunteers());
-
-          toast.success("Volunteer approved successfully!");
-
-          setModalVolunteer(null);
-        } catch (error) {
-    
-          toast.error(error.response?.data?.message || "Failed to approve volunteer.");
+  const handleApprove = async (id) => {
+    // console.log(`Approving volunteer with ID: ${id}`);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_URL_BACKEND}/api/Admin/approve-volunteer/${id}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
-      };
-      
+      );
+
+      // console.log("API Response:", response.data);
+
+      dispatch(fetchAllVolunteers());
+
+      toast.success("Volunteer approved successfully!");
+
+      setModalVolunteer(null);
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Failed to approve volunteer."
+      );
+    }
+  };
 
   const handleDelete = async (id) => {
-    setIsDeleting(true); 
+    setIsDeleting(true);
     try {
       const response = await axios.delete(
         `${import.meta.env.VITE_URL_BACKEND}/api/Admin/delete-volunteer/${id}`,
         {},
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
       );
       console.log("API Response:", response.data);
 
- 
       dispatch(fetchAllVolunteers());
-
 
       toast.success("Volunteer deleted successfully!");
     } catch (error) {
-
-      toast.error(error.response?.data?.message || "Failed to delete volunteer.");
+      toast.error(
+        error.response?.data?.message || "Failed to delete volunteer."
+      );
     } finally {
-      setIsDeleting(false); 
+      setIsDeleting(false);
     }
   };
 
-  const headers = ["Profile", "Name", "Email", "Skills", "Availability", "Rating", "Actions"];
+  const headers = [
+    "Profile",
+    "Name",
+    "Email",
+    "Skills",
+    "Availability",
+    "Rating",
+    "Actions",
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto p-6">
         <div className="bg-white shadow-md rounded-lg p-4">
           <div className="flex flex-col sm:flex-row items-center justify-between mb-4">
-            <h1 className="text-2xl font-bold text-gray-700">Manage Volunteers</h1>
+            <h1 className="text-2xl font-bold text-gray-700">
+              Manage Volunteers
+            </h1>
             <div className="relative">
               <select
                 value={filterRequest}
@@ -108,66 +125,77 @@ console.log(volunteers);
               </select>
             </div>
           </div>
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+          <div className="overflow-x-auto shadow rounded-lg border border-gray-200">
+            <table className="min-w-full bg-white">
               <thead className="bg-gray-100">
                 <tr>
-                  {headers.map((header, index) => (
+                  {headers?.map((header, index) => (
                     <th
                       key={index}
-                      className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-600 uppercase border-b border-gray-200"
+                      className="px-6 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 text-left"
                     >
                       {header}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="bg-white">
-                {filteredVolunteers.map((volunteer) => (
+              <tbody>
+                {filteredVolunteers?.map((volunteer, index) => (
                   <tr
-                    key={volunteer.volunteerID}
-                    className="hover:bg-gray-50 transition duration-200"
+                    key={volunteer?.volunteerID || index}
+                    className={`border-b transition duration-200 ${
+                      index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                    } hover:bg-gray-100`}
                   >
-                    <td className="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
-                      {volunteer.profile ? (
+                    <td className="px-6 py-4 text-center">
+                      {volunteer?.profile ? (
                         <img
-                          src={volunteer.profile}
+                          src={volunteer?.profile}
                           alt="Profile"
-                          className="w-10 h-10 rounded-full"
+                          className="w-10 h-10 rounded-full border"
                         />
                       ) : (
-                        <UserCircleIcon className="w-12 h-12 mr-2" />
+                        <div className="flex justify-center items-center w-10 h-10 rounded-full bg-gray-200">
+                          <UserCircleIcon className="w-6 h-6 text-gray-500" />
+                        </div>
                       )}
                     </td>
-                    <td className="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
-                      {volunteer.volunteerName}
+                    <td className="px-6 py-4 text-gray-700">
+                      {volunteer?.volunteerName}
                     </td>
-                    <td className="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
-                      {volunteer.email}
+                    <td className="px-6 py-4 text-gray-700">
+                      {volunteer?.email}
                     </td>
-                    <td className="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
-                      {volunteer.skillDescription}
+                    <td className="px-6 py-4 text-gray-700">
+                      {volunteer?.skillDescription}
                     </td>
-                    <td className="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
-                      {volunteer.availability}
+                    <td className="px-6 py-4 text-gray-700">
+                      {volunteer?.availability}
                     </td>
-                    <td className="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
-                      {volunteer.rating || "N/A"} ({volunteer.ratingCount || 0} reviews)
+                    <td className="px-6 py-4 text-gray-700">
+                      {volunteer?.rating || "N/A"} (
+                      {volunteer?.ratingCount || 0} reviews)
                     </td>
-                    <td className="px-6 py-4 border-b border-gray-200 whitespace-nowrap flex space-x-4">
-                      {!volunteer.approve ? (
+                    <td className="px-6 py-4 flex items-center space-x-3 text-gray-600">
+                      {!volunteer?.approve ? (
                         <CheckCircleIcon
                           className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-700"
                           onClick={() => setModalVolunteer(volunteer)}
                         />
                       ) : (
-                        <span className="text-green-500 font-semibold">Approved</span>
+                        <span className="text-green-600 font-semibold">
+                          Approved
+                        </span>
                       )}
                       <TrashIcon
                         className={`w-6 h-6 ${
-                          isDeleting ? "text-gray-400 cursor-not-allowed" : "text-red-500 cursor-pointer hover:text-red-700"
+                          isDeleting
+                            ? "text-gray-400 cursor-not-allowed"
+                            : "text-red-500 cursor-pointer hover:text-red-700"
                         }`}
-                        onClick={() => !isDeleting && handleDelete(volunteer.volunteerID)}
+                        onClick={() =>
+                          !isDeleting && handleDelete(volunteer?.volunteerID)
+                        }
                       />
                     </td>
                   </tr>
@@ -183,7 +211,7 @@ console.log(volunteers);
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-md shadow-lg">
             <h2 className="text-lg font-semibold mb-4">
-              Are you sure you want to approve {modalVolunteer.volunteerName}?
+              Are you sure you want to approve {modalVolunteer?.volunteerName}?
             </h2>
             <div className="flex justify-end">
               <button
@@ -194,7 +222,7 @@ console.log(volunteers);
               </button>
               <button
                 className="bg-green-500 text-white px-4 py-2 rounded-md"
-                onClick={() => handleApprove(modalVolunteer.volunteerID)}
+                onClick={() => handleApprove(modalVolunteer?.volunteerID)}
               >
                 Confirm
               </button>
