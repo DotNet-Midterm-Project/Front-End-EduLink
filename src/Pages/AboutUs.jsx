@@ -14,14 +14,44 @@ const AboutUs = () => {
   // Team data for pagination
   const teamPages = [
     [
-      { name: "Fadi Alnajjar", role: "Full Stack Developer", image: fadi, linkedin: "https://www.linkedin.com/in/fadi-al-najar/"},
-      { name: "Rawan Yaghmour", role: "Full Stack Developer", image: rawan,  linkedin: "https://www.linkedin.com/in/rawan-yaghmour/"},
-      { name: "Muath Mhawich", role: "Full Stack Developer", image: mustafa,  linkedin: "https://www.linkedin.com/in/mustafa-raed/"},
-      { name: "Mustafa Mousa", role: "Full Stack Developer", image: mouath,  linkedin: "https://www.linkedin.com/in/muathmhawich/"},
+      {
+        name: "Fadi Alnajjar",
+        role: "Full Stack Developer",
+        image: fadi,
+        linkedin: "https://www.linkedin.com/in/fadi-al-najar/",
+      },
+      {
+        name: "Rawan Yaghmour",
+        role: "Full Stack Developer",
+        image: rawan,
+        linkedin: "https://www.linkedin.com/in/rawan-yaghmour/",
+      },
+      {
+        name: "Muath Mhawich",
+        role: "Full Stack Developer",
+        image: mouath,
+        linkedin: "https://www.linkedin.com/in/muathmhawich/",
+      },
+      {
+        name: "Mustafa Mousa",
+        role: "Full Stack Developer",
+        image: mustafa,
+        linkedin: "https://www.linkedin.com/in/mustafa-raed/",
+      },
     ],
     [
-      { name: "Hassan Karraz", role: "Full Stack Developer", image: hassan, linkedin: "https://www.linkedin.com/in/hassan-karraz/"},
-      { name: "Roua Smesim", role: "Full Stack Developer", image: Roua,  linkedin: "https://www.linkedin.com/in/roua-smisem/"},
+      {
+        name: "Hassan Karraz",
+        role: "Full Stack Developer",
+        image: hassan,
+        linkedin: "https://www.linkedin.com/in/hassan-karraz/",
+      },
+      {
+        name: "Roua Smesim",
+        role: "Full Stack Developer",
+        image: Roua,
+        linkedin: "https://www.linkedin.com/in/roua-smisem/",
+      },
     ],
   ];
 
@@ -51,10 +81,7 @@ const AboutUs = () => {
             </p>
           </div>
           <div className="md:w-1/2 flex justify-center">
-            <img
-              src={IntroSection}
-              alt="Intro Illustration"
-            />
+            <img src={IntroSection} alt="Intro Illustration" />
           </div>
         </div>
         <div className="absolute bottom-0 left-0 w-full h-16 bg-white transform origin-bottom-left skew-y-3"></div>
@@ -128,75 +155,81 @@ const AboutUs = () => {
       </section>
 
       <section className="py-12 px-6 bg-white">
-  <div className="max-w-6xl mx-auto text-center">
-    <h2 className="text-2xl font-bold text-blue-900 mb-2">Meet Our Team</h2>
-    <p className="text-gray-700 font-normal mb-6">
-      Our inspiring team behind the scenes.
-    </p>
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-      {teamPages[currentPage].map((member, index) => (
-        <div
-          key={index}
-          className="flex flex-col bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-          style={{ height: "450px" }} // ارتفاع الكارد
-        >
-          {/* تعديل الصورة لتكون متناسبة مع أبعاد الكارد */}
-          <div className="w-full" style={{ height: "calc(100% - 150px)" }}> {/* 100% من الكارد باستثناء 150px */}
-            <img
-              src={member.image}
-              alt={member.name}
-              className="w-full h-full object-cover object-center" // عرض وارتفاع كامل
-            />
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-2xl font-bold text-blue-900 mb-2">
+            Meet Our Team
+          </h2>
+          <p className="text-gray-700 font-normal mb-6">
+            Our inspiring team behind the scenes.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {teamPages[currentPage].map((member, index) => (
+              <div
+                key={index}
+                className="flex flex-col bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                style={{ height: "450px" }} // ارتفاع الكارد
+              >
+                {/* تعديل الصورة لتكون متناسبة مع أبعاد الكارد */}
+                <div
+                  className="w-full"
+                  style={{ height: "calc(100% - 150px)" }}
+                >
+                  {" "}
+                  {/* 100% من الكارد باستثناء 150px */}
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover object-center" // عرض وارتفاع كامل
+                  />
+                </div>
+                {/* جعل المساحة البيضاء للنص تأخذ ارتفاع 150px مع إضافة أيقونة LinkedIn */}
+                <div
+                  className="text-center flex flex-col justify-center items-center gap-2"
+                  style={{ height: "150px" }}
+                >
+                  <h3 className="font-semibold text-blue-900 text-lg mb-1">
+                    {member.name}
+                  </h3>
+                  <p className="text-sm text-gray-600">{member.role}</p>
+                  {/* أيقونة LinkedIn */}
+                  <a
+                    href={member.linkedin} // Connects to the LinkedIn profile URL
+                    target="_blank" // Opens the link in a new tab
+                    rel="noopener noreferrer" // Ensures security when opening links in a new tab
+                    className="text-blue-600 hover:text-blue-800 transition"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="inline-block"
+                    >
+                      <path d="M22.225 0H1.771C.791 0 0 .774 0 1.728v20.543C0 23.225.792 24 1.771 24h20.451c.978 0 1.778-.774 1.778-1.728V1.728C24 .774 23.203 0 22.225 0zm-15.5 20.452H3.547V9.081h3.178v11.371zm-1.59-12.92c-1.02 0-1.845-.823-1.845-1.841 0-1.018.824-1.841 1.845-1.841 1.019 0 1.843.823 1.843 1.841 0 1.018-.825 1.841-1.844 1.841zm15.308 12.92h-3.177v-5.562c0-1.327-.027-3.038-1.851-3.038-1.853 0-2.137 1.447-2.137 2.939v5.661h-3.177V9.081h3.051v1.551h.043c.425-.807 1.463-1.654 3.013-1.654 3.223 0 3.817 2.122 3.817 4.883v6.591z" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            ))}
           </div>
-          {/* جعل المساحة البيضاء للنص تأخذ ارتفاع 150px مع إضافة أيقونة LinkedIn */}
-          <div
-            className="text-center flex flex-col justify-center items-center gap-2"
-            style={{ height: "150px" }}
-          >
-            <h3 className="font-semibold text-blue-900 text-lg mb-1">
-              {member.name}
-            </h3>
-            <p className="text-sm text-gray-600">{member.role}</p>
-            {/* أيقونة LinkedIn */}
-            <a
-  href={member.linkedin} // Connects to the LinkedIn profile URL
-  target="_blank" // Opens the link in a new tab
-  rel="noopener noreferrer" // Ensures security when opening links in a new tab
-  className="text-blue-600 hover:text-blue-800 transition"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="currentColor"
-    viewBox="0 0 24 24"
-    width="24"
-    height="24"
-    className="inline-block"
-  >
-    <path d="M22.225 0H1.771C.791 0 0 .774 0 1.728v20.543C0 23.225.792 24 1.771 24h20.451c.978 0 1.778-.774 1.778-1.728V1.728C24 .774 23.203 0 22.225 0zm-15.5 20.452H3.547V9.081h3.178v11.371zm-1.59-12.92c-1.02 0-1.845-.823-1.845-1.841 0-1.018.824-1.841 1.845-1.841 1.019 0 1.843.823 1.843 1.841 0 1.018-.825 1.841-1.844 1.841zm15.308 12.92h-3.177v-5.562c0-1.327-.027-3.038-1.851-3.038-1.853 0-2.137 1.447-2.137 2.939v5.661h-3.177V9.081h3.051v1.551h.043c.425-.807 1.463-1.654 3.013-1.654 3.223 0 3.817 2.122 3.817 4.883v6.591z" />
-  </svg>
-</a>
+          <div className="flex justify-center mt-6 gap-2">
+            {teamPages.map((_, pageIndex) => (
+              <button
+                key={pageIndex}
+                onClick={() => setCurrentPage(pageIndex)}
+                className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+                  currentPage === pageIndex
+                    ? "bg-blue-600 text-white"
+                    : "bg-blue-100 text-blue-900"
+                } font-semibold`}
+              >
+                {pageIndex + 1}
+              </button>
+            ))}
           </div>
         </div>
-      ))}
-    </div>
-    <div className="flex justify-center mt-6 gap-2">
-      {teamPages.map((_, pageIndex) => (
-        <button
-          key={pageIndex}
-          onClick={() => setCurrentPage(pageIndex)}
-          className={`w-7 h-7 rounded-lg flex items-center justify-center ${
-            currentPage === pageIndex
-              ? "bg-blue-600 text-white"
-              : "bg-blue-100 text-blue-900"
-          } font-semibold`}
-        >
-          {pageIndex + 1}
-        </button>
-      ))}
-    </div>
-  </div>
-</section>
-
+      </section>
 
       {/* Render Footer */}
     </>

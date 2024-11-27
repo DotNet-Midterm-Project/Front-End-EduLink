@@ -21,8 +21,20 @@ import Capacity from './icons/Capacity.svg';
 import address from './icons/address.svg';
 import status from './icons/status.svg';
 import counting from './icons/counting.svg';
+import java from "./icons/java.svg";
+import nodejs from "./icons/nodejs.svg";
+import python from "./icons/python.svg";
+import react from "./icons/react.svg";
+import ruby from "./icons/Ruby.svg";
+import php from "./icons/php.svg";
 
 export {
+    java,
+    php,
+    nodejs,
+    python,
+    react,
+    ruby,
     counting,
     location,
     eventType,

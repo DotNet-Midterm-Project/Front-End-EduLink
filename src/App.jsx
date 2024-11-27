@@ -60,7 +60,7 @@ const App = () => {
           <Route path="/about-us" element={<Layout><AboutUs /></Layout>} />
           <Route path="/student-page" element={<Layout><StudentPage/></Layout>}/>
           <Route path="/profile" element={<Profile/>}/>
-          <Route path="/booking-page" element={<Layout><BookingPage/></Layout>}/>
+          <Route path="/mange-booking" element={<Layout><BookingPage/></Layout>}/>
           <Route path="/event-page" element={<Layout><EventPage/></Layout>}/>
           <Route path="/event-content/:eventId" element={<Layout><EventContentPage /></Layout>} />
           <Route path="/event-by-course/:courseId" element={<Layout><ShowEventByCourse /></Layout>} />
@@ -70,7 +70,7 @@ const App = () => {
           <Route path="/volunteerProfile" element={<Layout><VolunteerDetails /></Layout>}/>
           <Route path = "/add-event" element={<Layout><AddEvent/></Layout>}/>
           <Route path = "/add-article" element={<Layout><AddArticle/></Layout>}/>
-          <Route path = "/my-events" element={<Layout><VolunteerEventPage/></Layout>}/>
+          <Route path = "/mange-events" element={<Layout><VolunteerEventPage/></Layout>}/>
         </Routes>
       </BrowserRouter>
     </>
