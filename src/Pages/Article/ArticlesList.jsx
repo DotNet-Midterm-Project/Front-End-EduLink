@@ -12,9 +12,8 @@ const ArticlesList = () => {
   const dispatch = useDispatch();
   const { articles, loading, error } = useSelector((state) => state?.articles);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
+  const itemsPerPage = 9;
 
-  // جلب المقالات مرة واحدة عند تحميل المكون
   useEffect(() => {
     dispatch(fetchAllArticles());
   }, [dispatch]);
@@ -29,7 +28,7 @@ const ArticlesList = () => {
 
   const getCurrentArticles = (articles, currentPage, itemsPerPage) => {
     const startIdx = (currentPage - 1) * itemsPerPage;
-    return articles.slice(startIdx, startIdx + itemsPerPage);
+    return articles?.slice(startIdx, startIdx + itemsPerPage);
   };
 
   const currentArticles = getCurrentArticles(

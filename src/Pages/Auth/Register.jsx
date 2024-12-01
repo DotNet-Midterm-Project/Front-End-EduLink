@@ -19,6 +19,7 @@ export default function Register() {
     { id: 2, name: "Information Technology" },
     { id: 3, name: "Software Engineering" },
     { id: 4, name: "Cybersecurity" },
+    { id: 5, name: "Artificial Intelligence" },
   ];
 
   useEffect(() => {
@@ -149,7 +150,6 @@ Empower Your Learning Journey With Us!
       <option value="">Select Gender</option>
       <option value="male">Male</option>
       <option value="female">Female</option>
-      <option value="other">Other</option>
     </select>
   </div>
 

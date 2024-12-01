@@ -188,6 +188,8 @@ export const fetchAlleventSessions = createAsyncThunk(
           params: { eventId },
         }
       );
+      console.log("this is from fetchAlleventSessions", response.data);
+      
       return response.data;
     } catch (error) {
       return rejectWithValue(

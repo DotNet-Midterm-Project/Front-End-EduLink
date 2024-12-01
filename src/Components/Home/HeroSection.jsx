@@ -5,6 +5,7 @@ import Cybersecurity_Professional_Analyzing_Global_Data from "../../assets/Home/
 import Industrial_Control_Room from "../../assets/Home/Industrial_Control_Room.jpeg";
 import Studious_Girls_in_Classroom from "../../assets/Home/Studious_Girls_in_Classroom.jpeg";
 import Tech_Workspace_with_Programmer from "../../assets/Home/Tech_Workspace_with_Programmer.jpeg";
+import { Link } from "react-router-dom";
 
 export default function Component() {
   const [slides, setSlides] = useState([
@@ -65,9 +66,9 @@ export default function Component() {
         <h1 className="text-[75px] font-bold tracking-wide">EduLink</h1>
         <p className="text-[24px] mt-4 leading-relaxed">{texts[currentIndex]}</p>
 
-        <button className="mt-6 h-10 w-48 text-[22px] font-normal bg-[#F28E33] rounded-lg hover:bg-[#F07E12] hover:shadow-lg transition-all">
+        <Link to="/register" className="mt-6 flex items-center justify-center h-10 w-48 text-[22px] font-normal bg-[#F28E33] rounded-lg hover:bg-[#F07E12] hover:shadow-lg transition-all">
           Get Started Now
-        </button>
+        </Link>
       </div>
 
       {/* Right Column */}

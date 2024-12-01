@@ -1,20 +1,18 @@
 import image from "../../assets/imagesecation.png";
 import Edud from "../../assets/Home/Edud.png";
 import { EduLinklogo } from "../../assets";
- 
-function ImageShow(props) {
 
+function ImageShow(props) {
   const roles = JSON.parse(localStorage.getItem("roles") || "[]");
   var profileImage = localStorage.getItem("avatarPreview") || "";
   const Url = import.meta.env.VITE_URL_BACKEND;
- 
+
   const isVolunteer = roles.includes("Volunteer");
-  console.log(props?.profile)
-  if(props?.profile && props?.profile !=="null" ){
-     profileImage = props?.profile;
+  console.log(props?.profile);
+  if (props?.profile && props?.profile !== "null") {
+    profileImage = props?.profile;
   }
- 
- 
+
   return (
     <div
       className={`relative  rounded-lg`}
@@ -24,10 +22,13 @@ function ImageShow(props) {
       {/* الصورة الخلفية */}
       <div className="relative mx-auto w-full h-40 md:h-60 opacity-90">
         <img src={image} className="block w-full h-full" alt="background" />
- 
+
         {/* كارت معلومات الطالب */}
         <div
-          className="border-4 border-orange-500 ml-8 mt-42 absolute shadow-lg shadow-blue-500/50 bottom-[-40px] p-2 md:p-5 h-32 md:h-36 flex items-center text-left text-black bg-[#E0D9D9CC] bg-opacity-90"
+          className={` ${
+            isVolunteer ? "border-orange-500 border-4" : ""
+          } ml-8 mt-42 absolute shadow-lg shadow-blue-500/50 bottom-[-40px] 
+          p-2 md:p-5 h-32 md:h-36 flex items-center text-left text-black bg-[#E0D9D9CC] bg-opacity-90`}
           style={{ borderRadius: "0px 20px 20px 20px" }}
         >
           {isVolunteer && (
@@ -35,7 +36,7 @@ function ImageShow(props) {
               <img
                 src={EduLinklogo}
                 alt="Volunteer Logo"
-                className="w-8 h-8 md:w-12 md:h-8"
+                className="w-8 h-8 md:w-12 md:h-8 "
               />
             </div>
           )}
@@ -76,5 +77,5 @@ function ImageShow(props) {
     </div>
   );
 }
- 
+
 export default ImageShow;

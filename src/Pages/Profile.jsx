@@ -25,11 +25,12 @@ function Profile() {
     </button>
   );
 
+
   return (
     <div className="min-h-screen bg-white">
       <div className="md:p-10 p-0">
         <div className="flex items-center gap-2 mb-5">
-          <div className="relative group flex items-center">
+          {/* <div className="relative group flex items-center">
             <Link to="/student-page" className="flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -43,8 +44,10 @@ function Profile() {
                 />
               </svg>
             </Link>
-          </div>
-          <h1 className="text-lg md:2xl font-bold text-gray-800">Profile Settings</h1>
+          </div> */}
+          {/* <h1 className="text-lg md:2xl font-bold text-gray-800">Profile Settings</h1> */}
+          <div className="relative overflow-hidden bg-white py-5 pt-10">
+      </div>
         </div>
         <div className="flex flex-col md:flex-row">
           <aside className="w-full md:w-80 bg-gray-100 border-r border-gray-200">
