@@ -101,15 +101,7 @@ const AddEventContentModal = ({ event, onClose, isOpen }) => {
             <option value="3">Book</option>
           </select>
 
-          {/* <input
-            id="contentType"
-            type="number"
-            placeholder="Enter content type (e.g., 1 for video)"
-            value={contentType}
-            onChange={(e) => setContentType(Number(e.target.value))}
-            className="w-full p-2 border rounded"
-            required
-          /> */}
+       
         </div>
         <div>
           <label

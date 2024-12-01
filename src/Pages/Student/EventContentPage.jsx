@@ -45,10 +45,11 @@ function EventContentPage() {
   const eventDetails2 = eventContent?.filter(
     (event) => event?.eventID == eventId
   );
+console.log("this is ", eventDetails2);
 
   const { eventSessions } = useSelector((state) => state.bookingEvent);
 
-  console.log(eventSessions);
+  console.log("this is event eventSessions" ,eventSessions);
 
   const {
     loading: bookingLoading,
@@ -136,7 +137,9 @@ function EventContentPage() {
 
     dispatch(bookAnEvent(eventId));
   };
-
+  const filteredSessions = eventSessions?.filter(
+    (session) => session?.eventId == eventId
+  );
   if (eventsLoading) return <Loading />;
 
   const handleDeleteEvent = (bookingId) => {
@@ -183,9 +186,11 @@ function EventContentPage() {
           confirmButtonColor: "#3085d6",
         });
       } else {
-        Swal.fire({
+        console.error("Failed to join session:", resultAction.payload);
+
+        Swal.info({
           title: "Error!",
-          text: resultAction.payload || "Failed to join the session.",
+          text: "You are already join the session.",
           icon: "error",
           confirmButtonText: "Retry",
           confirmButtonColor: "#d33",
@@ -194,7 +199,7 @@ function EventContentPage() {
     } catch (error) {
       Swal.fire({
         title: "Unexpected Error",
-        text: "An unexpected error occurred. Please try again later.",
+        text: "You are already join the session.",
         icon: "warning",
         confirmButtonText: "OK",
         confirmButtonColor: "#f39c12",
@@ -203,7 +208,10 @@ function EventContentPage() {
   };
 
   const hasJoinedSession = (sessionId) => {
-    return eventSessions?.some((session) => session?.sessionId === sessionId);
+    const result =  eventSessions?.some((session) => session?.sessionId === sessionId);
+  console.log(result);
+  
+    return result;
   };
 
   const isValidURL = (string) => {
@@ -272,8 +280,8 @@ function EventContentPage() {
         </div>
       ),
       value: isYourEvent
-        ? event?.eventType
-        : eventDetails2[0]?.eventType || "N/A",
+        ? event?.eventType == "Workshop" ? "Genral Event" : ""
+        : eventDetails2[0]?.eventType == "Workshop" ? "Genral Event" : "Private Session"|| "N/A",
     },
     {
       label: (
@@ -437,7 +445,7 @@ function EventContentPage() {
               </div>
               {eventDetails2[0]?.eventType == "PrivateSession" ? (
                 <div className="flex justify-start mt-8">
-                  {eventSessions?.map((session) => {
+                  {filteredSessions?.map((session) => {
                     const joined = hasJoinedSession(session?.sessionID);
                     return (
                       <div
@@ -477,9 +485,7 @@ function EventContentPage() {
                             capacity: {session?.capacity}
                           </p>
                           {joined ? (
-                            <p className="block font-bold mt-4 text-green-600">
-                              You have joined this session
-                            </p>
+                            null
                           ) : (
                             <button
                               onClick={() =>

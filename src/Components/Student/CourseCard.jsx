@@ -88,22 +88,22 @@ function CourseCard(props) {
             >
               {props?.location === "ShowProfileVolunteer" ? (
                 <>
-                  <h2 className="text-2xl font-bold text-gray-800 mt-1">
+                  <h2 className="text-lg font-bold text-gray-800 mt-1">
                     {props?.name}
                   </h2>
-                  <h3 className="text-lg font-semibold text-gray-800">
+                  <h3 className="text-sm font-normal text-gray-800">
                     {props.volunteer.departmentName}
                   </h3>
                 </>
               ) : (
                 <>
-                  <h2 className="text-2xl font-bold text-gray-800 mt-1">
+                  <h2 className="text-xl font-bold text-gray-800 mt-1">
                     {props?.name}
                   </h2>
                   <h3
-                    className="text-lg font-semibold text-gray-800"
+                    className="text-lg font-normal text-gray-800"
                     style={{
-                      fontSize: "14px", // Adjust font size for "Volunteers"
+                      fontSize: "12px", // Adjust font size for "Volunteers"
                     }}
                   >
                     Volunteers: {props?.count}
