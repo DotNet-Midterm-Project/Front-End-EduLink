@@ -68,7 +68,7 @@ function CourseCard(props) {
               ) : (
                 <img
                   src={`${import.meta.env.VITE_URL_BACKEND}/Resources/${
-                    props.profile
+                    props?.profile
                   }`}
                   alt="Course"
                   className="object-cover h-full w-full"

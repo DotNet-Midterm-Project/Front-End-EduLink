@@ -197,8 +197,6 @@ console.log("this is ", eventDetails2);
         });
       }
     } catch (error) {
-      console.error("An error occurred while joining the session:", error);
-
       Swal.fire({
         title: "Unexpected Error",
         text: "You are already join the session.",
