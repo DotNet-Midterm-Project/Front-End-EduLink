@@ -18,7 +18,7 @@ function RegisterModal({ onClose }) {
   
 
   const skills = ["HTML","CSS",
-    "JavaScript","React","Node.js","MongoDB","Python","Java","C++","C#","SQL","PHP","Swift","Kotlin","Rust","TypeScript","Dart",];
+    "JavaScript","React","Node.js","MongoDB","Python","Java","C++","C#","SQL","PHP","Swift","Kotlin","Rust","TypeScript","Dart", "UI/UX", ];
 
   const handleCheckboxChange = (skill) => {
     setSelectedSkills((prev) => ({

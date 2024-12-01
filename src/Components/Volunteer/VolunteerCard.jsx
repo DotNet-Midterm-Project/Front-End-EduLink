@@ -44,7 +44,7 @@ function VolunteerCard(props) {
                 borderRadius: "0px 0px 0px 20px", // Adjust for left side image area
               }}
             >
-              {!props.profile ? (
+              {!props?.profile ? (
                 <img
                   src={image}
                   alt="Course"
@@ -55,7 +55,7 @@ function VolunteerCard(props) {
                 />
               ) : (
                 <img
-                src={import.meta.env.VITE_URL_BACKEND + props.profile}
+                src={import.meta.env.VITE_URL_BACKEND + props?.profile}
                 alt="Course"
                 className="object-cover h-full w-full"
                 style={{

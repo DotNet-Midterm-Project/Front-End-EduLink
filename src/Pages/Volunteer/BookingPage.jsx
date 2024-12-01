@@ -49,11 +49,9 @@ function BookingPage() {
   };
 
   if (loading) return <Loading />;
-  if (error) return <ServerError />;
-  if (!bookings || bookings.length === 0) return <NoData message="No bookings available" />;
 
-  const eventBookings = bookings.filter((booking) => booking.bookingType === "Event");
-  const sessionBookings = bookings.filter((booking) => booking.bookingType === "Session");
+  const eventBookings = bookings?.filter((booking) => booking?.bookingType === "Event");
+  const sessionBookings = bookings?.filter((booking) => booking?.bookingType === "Session");
 
   const statusColors = {
     Pending: "bg-yellow-200 text-yellow-800",
@@ -63,7 +61,7 @@ function BookingPage() {
   };
 
   return (
-    <div className="my-24 px-6 max-w-6xl mx-auto">
+    <div className="my-36 px-6 max-w-6xl mx-auto ">
       <h1 className="text-3xl font-bold mb-6 text-center">Manage Bookings</h1>
 
       {/* Tabs */}
@@ -85,56 +83,57 @@ function BookingPage() {
           Session Bookings
         </button>
       </div>
-
-      {/* Content */}
+      {bookings ? 
       <div>
-        {(activeTab === "Event" ? eventBookings : sessionBookings).map((booking) => (
+        {(activeTab === "Event" ? eventBookings : sessionBookings)?.map((booking) => (
           <div
-            key={booking.bookingID}
+            key={booking?.bookingID}
             className="relative p-6 border rounded-lg shadow-md bg-white hover:shadow-lg transition-shadow duration-300"
           >
             {/* Status Badge */}
             <span
-              className={`absolute top-2 right-2 px-3 py-1 text-sm font-medium rounded-full ${statusColors[booking.bookingStatus]}`}
+              className={`absolute top-2 right-2 px-3 py-1 text-sm font-medium rounded-full ${statusColors[booking?.bookingStatus]}`}
             >
-              {booking.bookingStatus}
+              {booking?.bookingStatus}
             </span>
 
             {/* Title */}
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">{booking.eventTitle}</h3>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">{booking?.eventTitle}</h3>
 
             {/* Info Section */}
             <div className="flex flex-col space-y-2 text-gray-600">
               <div className="flex items-center">
                 <FaMapMarkerAlt className="mr-2 text-blue-500" />
-                <span>{booking.location}</span>
+                <span>{booking?.location}</span>
               </div>
               <div className="flex items-center">
                 <FaRegCalendarAlt className="mr-2 text-green-500" />
-                <span>Start: {new Date(booking.startDate).toLocaleString()}</span>
+                <span>Start: {new Date(booking?.startDate).toLocaleString()}</span>
               </div>
               <div className="flex items-center">
                 <FaRegClock className="mr-2 text-yellow-500" />
-                <span>End: {new Date(booking.endDate).toLocaleString()}</span>
+                <span>End: {new Date(booking?.endDate).toLocaleString()}</span>
               </div>
             </div>
 
             {/* Generate Link Button */}
-            {booking.location === "Online" &&
-              (booking.bookingStatus === "Pending" || booking.bookingStatus === "Confirmed") && (
+            {booking?.location === "Online" &&
+              (booking?.bookingStatus === "Pending" || booking?.bookingStatus === "Confirmed") && (
                 <button
                   className="mt-4 w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
                   onClick={() =>
-                    handleGenerateUrl(activeTab === "Event" ? "Event" : "Session",activeTab === "Event" ?  booking.eventID:  booking.sessionID)
+                    handleGenerateUrl(activeTab === "Event" ? "Event" : "Session",activeTab === "Event" ?  booking?.eventID:  booking?.sessionID)
                   }
-                  disabled={generatingUrl === booking.bookingID}
+                  disabled={generatingUrl === booking?.bookingID}
                 >
-                  {generatingUrl === booking.bookingID ? "Generating..." : "Generate Link"}
+                  {generatingUrl === booking?.bookingID ? "Generating..." : "Generate Link"}
                 </button>
               )}
           </div>
         ))}
+
       </div>
+: <NoData message="No bookings available" />}
     </div>
   );
 }

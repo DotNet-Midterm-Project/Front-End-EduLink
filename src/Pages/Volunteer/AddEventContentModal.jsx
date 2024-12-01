@@ -62,7 +62,10 @@ const AddEventContentModal = ({ event, onClose, isOpen }) => {
           Add Event Content
         </h2>
         <div>
-          <label htmlFor="contentName" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="contentName"
+            className="block text-sm font-medium text-gray-700"
+          >
             Content Name
           </label>
           <input
@@ -76,10 +79,29 @@ const AddEventContentModal = ({ event, onClose, isOpen }) => {
           />
         </div>
         <div>
-          <label htmlFor="contentType" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="contentType"
+            className="block text-sm font-medium text-gray-700"
+          >
             Content Type
           </label>
-          <input
+          <select
+            id="contentType"
+            value={contentType}
+            onChange={(e) => setContentType(e.target.value)}
+            className="w-full p-2 border rounded"
+            required
+          >
+            <option value="" disabled>
+              Select content type
+            </option>
+            <option value="0">Presentation</option>
+            <option value="1">Document</option>
+            <option value="2">Video</option>
+            <option value="3">Book</option>
+          </select>
+
+          {/* <input
             id="contentType"
             type="number"
             placeholder="Enter content type (e.g., 1 for video)"
@@ -87,10 +109,13 @@ const AddEventContentModal = ({ event, onClose, isOpen }) => {
             onChange={(e) => setContentType(Number(e.target.value))}
             className="w-full p-2 border rounded"
             required
-          />
+          /> */}
         </div>
         <div>
-          <label htmlFor="contentDescription" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="contentDescription"
+            className="block text-sm font-medium text-gray-700"
+          >
             Content Description
           </label>
           <textarea
@@ -103,7 +128,10 @@ const AddEventContentModal = ({ event, onClose, isOpen }) => {
           />
         </div>
         <div>
-          <label htmlFor="contentAddress" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="contentAddress"
+            className="block text-sm font-medium text-gray-700"
+          >
             Content Address
           </label>
           <input
@@ -116,7 +144,10 @@ const AddEventContentModal = ({ event, onClose, isOpen }) => {
           />
         </div>
         <div>
-          <label htmlFor="uploadFile" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="uploadFile"
+            className="block text-sm font-medium text-gray-700"
+          >
             Upload File
           </label>
           <input

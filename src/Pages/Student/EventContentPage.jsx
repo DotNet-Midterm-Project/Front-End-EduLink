@@ -183,8 +183,6 @@ function EventContentPage() {
           confirmButtonColor: "#3085d6",
         });
       } else {
-        console.error("Failed to join session:", resultAction.payload);
-
         Swal.fire({
           title: "Error!",
           text: resultAction.payload || "Failed to join the session.",
@@ -194,8 +192,6 @@ function EventContentPage() {
         });
       }
     } catch (error) {
-      console.error("An error occurred while joining the session:", error);
-
       Swal.fire({
         title: "Unexpected Error",
         text: "An unexpected error occurred. Please try again later.",
@@ -207,7 +203,7 @@ function EventContentPage() {
   };
 
   const hasJoinedSession = (sessionId) => {
-    return eventSessions?.some((session) => session.sessionId === sessionId);
+    return eventSessions?.some((session) => session?.sessionId === sessionId);
   };
 
   const isValidURL = (string) => {
@@ -487,7 +483,7 @@ function EventContentPage() {
                           ) : (
                             <button
                               onClick={() =>
-                                handleJoinSession(session.sessionID)
+                                handleJoinSession(session?.sessionID)
                               }
                               className="mt-12 block w-full select-none rounded-lg bg-[#171E4B] py-3.5 px-7 text-center align-middle
                             text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:bg-[#293aaa]
