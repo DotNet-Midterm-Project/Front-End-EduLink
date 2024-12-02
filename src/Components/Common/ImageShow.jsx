@@ -25,7 +25,6 @@ const toke = localStorage.getItem("token");
           <Link to={`/articles/${props?.id}`} onClick={handleImageClick}>
             <img
              crossOrigin="anonymous"
-            loading="lazy"
               src={`${import.meta.env.VITE_URL_BACKEND}/Resources/${
                 props?.image
               }`}

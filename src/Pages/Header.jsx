@@ -7,6 +7,7 @@ import { yourProfile } from "../assets";
 const NavLink = ({ link, children, className }) => {
   const location = useLocation();
   const currentPath = location.pathname;
+
   return (
     <Link
       to={link}
@@ -33,6 +34,18 @@ export default function Header() {
     location.pathname === "/contact-us" ||
     location.pathname === "/articles" ||
     location.pathname === "/about-us";
+
+  const isPaths =
+    location.pathname == "/event-page" ||
+    location.pathname == "/my-event" ||
+    location.pathname == "/volunteers" ||
+    location.pathname == "/add-event" ||
+    location.pathname == "/add-article" ||
+    location.pathname == "/mange-events" ||
+    location.pathname == "/mange-booking" ||
+    location.pathname == "/profile";
+
+  const isArticle = location.pathname == "/articles";
 
   let profileImage = localStorage.getItem("avatarPreview");
   if (!profileImage || profileImage === "null") {
@@ -92,15 +105,7 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav
-            className={`hidden md:flex items-center duration-300 space-x-8 text-sm ${
-              isScrolled
-                ? isSpecialPage
-                  ? "text-gray-200"
-                  : "text-[#0B102F]"
-                : isSpecialPage
-                ? "text-[#0B102F]"
-                : "text-gray-200"
-            }`}
+            className={`hidden md:flex items-center duration-300 space-x-8 text-sm`}
           >
             {!isLoggedIn && !roles.includes("Student") ? (
               <>
@@ -143,23 +148,28 @@ export default function Header() {
               <div className="space-x-4">
                 <Link
                   to="/"
-                  className={`${isSpecialPage ? "text-gray-200" : ""} ${
-                    location.pathname == "/articles" && isLoggedIn
+                  className={`${
+                    isPaths
                       ? "text-[#0B102F]"
-                      : ""
-                  } ${
-                    isScrolled ? "text-gray-200" : "text-[#0B102F]"
-                  } hover:text-white transition-all duration-75 transform hover:scale-105`}
+                      : isArticle && isLoggedIn
+                      ? "text-[#0B102F]"
+                      : "text-gray-200"
+                  }
+                   ${
+                     isScrolled ? "text-gray-200" : "text-[#0B102F]"
+                   } hover:text-white transition-all duration-75 transform hover:scale-105`}
                 >
                   Home page
                 </Link>
                 <Link
                   to="/profile"
-                  className={`${isSpecialPage ? "text-gray-200" : ""} ${
-                    location.pathname == "/articles" && isLoggedIn
+                  className={`${
+                    isPaths
                       ? "text-[#0B102F]"
-                      : ""
-                  } ${
+                      : isArticle && isLoggedIn
+                      ? "text-[#0B102F]"
+                      : "text-gray-200"
+                  }  ${
                     isScrolled ? "text-gray-200" : "text-[#0B102F]"
                   }  hover:text-white transition-all duration-75 transform hover:scale-105`}
                 >

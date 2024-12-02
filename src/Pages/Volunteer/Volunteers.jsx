@@ -40,7 +40,7 @@ console.log(volunteers)
 
   return (
     <>
-      <div className="mt-28">
+      <div className="mt-28 mx-8">
         <Search
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
