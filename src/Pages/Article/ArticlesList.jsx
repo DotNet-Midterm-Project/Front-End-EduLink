@@ -12,7 +12,7 @@ const ArticlesList = () => {
   const dispatch = useDispatch();
   const { articles, loading, error } = useSelector((state) => state?.articles);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 6;
 
   useEffect(() => {
     dispatch(fetchAllArticles());
@@ -57,7 +57,7 @@ const ArticlesList = () => {
 
       {articles?.length >= 0 && articles[0]?.articleFile ? (
         <>
-          {currentPage === 1 && (
+          {currentPage == 1 && (
             <div className="my-6">
               <ImageShow
                 key={articles[0]?.articleID}
