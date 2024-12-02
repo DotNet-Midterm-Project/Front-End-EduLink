@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Cybersecurity_Professional_Analyzing_Global_Data from "../../assets/Home/Cybersecurity_Professional_Analyzing_Global_Data.jpeg";
 import Industrial_Control_Room from "../../assets/Home/Industrial_Control_Room.jpeg";
 import Studious_Girls_in_Classroom from "../../assets/Home/Studious_Girls_in_Classroom.jpeg";
@@ -14,6 +14,7 @@ export default function Component() {
     Industrial_Control_Room,
     Cybersecurity_Professional_Analyzing_Global_Data,
   ]);
+
   const [texts, setTexts] = useState([
     "Empower Your Learning Journey: Connect with Skilled Volunteers for Tailored Academic Support.",
     "Help fellow students succeed by organizing academic events and providing guidance in your specialty.",
@@ -62,19 +63,26 @@ export default function Component() {
       </div>
 
       {/* Left Column */}
-      <div className="relative z-10 flex flex-col justify-center items-start px-10 w-1/2 text-white">
+      <div className="relative z-10 flex flex-col justify-center items-start px-6 sm:px-10 w-full md:w-1/2 text-white">
         <h1 className="text-[75px] font-bold tracking-wide">EduLink</h1>
-        <p className="text-[24px] mt-4 leading-relaxed">{texts[currentIndex]}</p>
+        <p className="text-[24px] mt-4 leading-relaxed">
+          {texts[currentIndex]}
+        </p>
 
-        <Link to="/register" className="mt-6 flex items-center justify-center h-10 w-48 text-[22px] font-normal bg-[#F28E33] rounded-lg hover:bg-[#F07E12] hover:shadow-lg transition-all">
+        <Link
+          to="/register"
+          className="mt-6 flex items-center justify-center h-14 w-48 text-[22px] font-normal bg-[#F28E33]
+         rounded-lg hover:bg-[#F07E12] hover:shadow-lg transition-all"
+        >
           Get Started Now
         </Link>
       </div>
 
       {/* Right Column */}
-      <div className="relative z-10 flex flex-col justify-end items-center px-10 w-1/2">
-        <div className="flex gap-4 items-end mb-6">
+      <div className="relative z-10 flex flex-col justify-end items-center w-1/2">
+        <div className="gap-4 items-end mb-6 pl-10 flex">
           {slides.map((slide, index) => (
+        <div className="gap-4 items-end hidden md:flex">
             <img
               key={index}
               src={slide}
@@ -90,6 +98,7 @@ export default function Component() {
               }`}
               onClick={() => moveToFront(index)}
             />
+            </div>
           ))}
         </div>
       </div>
