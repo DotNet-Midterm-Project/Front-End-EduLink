@@ -7,7 +7,9 @@ export const fetchAllAdminCourses = createAsyncThunk(
         try {
             const response = await axios.get(
                 `${import.meta.env.VITE_URL_BACKEND}/api/Admin/get-all-courses`,
-                { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+                { headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "ngrok-skip-browser-warning": "true",
+            } }
             );
             return response.data;
         } catch (error) {

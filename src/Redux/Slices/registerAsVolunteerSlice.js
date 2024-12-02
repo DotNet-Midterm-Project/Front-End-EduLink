@@ -8,7 +8,9 @@ export const registerAsVolunteer = createAsyncThunk(
         console.log(data);
         
       const response = await axios.post(`${import.meta.env.VITE_URL_BACKEND}/api/Student/register-as-volunteer`,data,
-         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } } );
+         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}`,
+         "ngrok-skip-browser-warning": "true",
+        } } );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "An error occurred");
