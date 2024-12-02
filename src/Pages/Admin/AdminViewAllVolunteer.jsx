@@ -53,7 +53,10 @@ const AdminViewAllVolunteers = () => {
         `${import.meta.env.VITE_URL_BACKEND}/api/Admin/approve-volunteer/${id}`,
         {},
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "ngrok-skip-browser-warning": "true",
+          },
         }
       );
 
@@ -78,7 +81,10 @@ const AdminViewAllVolunteers = () => {
         `${import.meta.env.VITE_URL_BACKEND}/api/Admin/delete-volunteer/${id}`,
         {},
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "ngrok-skip-browser-warning": "true",
+          },
         }
       );
       console.log("API Response:", response.data);

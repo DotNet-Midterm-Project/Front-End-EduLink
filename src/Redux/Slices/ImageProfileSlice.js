@@ -8,7 +8,9 @@ export const fetchProfileImage = createAsyncThunk(
       const response = await axios.get(
         `${import.meta.env.VITE_URL_BACKEND}/api/Common/Get-ProfileImage`,
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "ngrok-skip-browser-warning": "true",
+        },
         }
       );
       console.log("this is the response", response.data);

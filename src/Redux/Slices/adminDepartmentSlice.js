@@ -6,7 +6,9 @@ export const fetchAllDepartment = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axios.get(`${import.meta.env.VITE_URL_BACKEND}/api/Admin/get-all-departments?`,
-                { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
+                { headers: { Authorization: `Bearer ${localStorage.getItem('token')}`, 
+                "ngrok-skip-browser-warning": "true",
+            } }
             );
             console.log(response.data);
             

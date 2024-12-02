@@ -31,6 +31,7 @@ function BookingPage() {
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
+              "ngrok-skip-browser-warning": "true",
             },
           }
         );
@@ -45,6 +46,7 @@ function BookingPage() {
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
+              "ngrok-skip-browser-warning": "true",
             },
           }
         );

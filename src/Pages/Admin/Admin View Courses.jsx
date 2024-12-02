@@ -43,6 +43,7 @@ const AdminViewAllCourses = () => {
         newCourse,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          "ngrok-skip-browser-warning": "true",
         }
       );
 
@@ -66,6 +67,7 @@ const AdminViewAllCourses = () => {
           import.meta.env.VITE_URL_BACKEND
         }/api/Admin/delete-course/${courseId}`,
         {
+          "ngrok-skip-browser-warning": "true",
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
@@ -137,33 +139,34 @@ const AdminViewAllCourses = () => {
               </tr>
             </thead>
             <tbody className="bg-white">
-              
-              {adminCourses ? adminCourses?.map((course, index) => (
-                <tr key={index} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 border-b text-gray-800">
-                    {course?.courseName}
-                  </td>
-                  <td className="px-6 py-4 border-b text-gray-600">
-                    {course?.courseDescription}
-                  </td>
-                  <td className="px-6 py-4 border-b flex space-x-4">
-                    <LinkIcon
-                      className="w-6 h-6 text-green-500 cursor-pointer hover:text-green-700"
-                      onClick={() => {
-                        setSelectedCourseId(course?.courseID);
-                        setLinkModalVisible(true);
-                      }}
-                    />
-                    <TrashIcon
-                      className="w-6 h-6 text-red-500 cursor-pointer hover:text-red-700"
-                      onClick={() => handleDeleteCourse(course?.courseID)}
-                    />
-                  </td>
-                </tr>
-              )) : <NoData/>}
-            
+              {adminCourses ? (
+                adminCourses?.map((course, index) => (
+                  <tr key={index} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 border-b text-gray-800">
+                      {course?.courseName}
+                    </td>
+                    <td className="px-6 py-4 border-b text-gray-600">
+                      {course?.courseDescription}
+                    </td>
+                    <td className="px-6 py-4 border-b flex space-x-4">
+                      <LinkIcon
+                        className="w-6 h-6 text-green-500 cursor-pointer hover:text-green-700"
+                        onClick={() => {
+                          setSelectedCourseId(course?.courseID);
+                          setLinkModalVisible(true);
+                        }}
+                      />
+                      <TrashIcon
+                        className="w-6 h-6 text-red-500 cursor-pointer hover:text-red-700"
+                        onClick={() => handleDeleteCourse(course?.courseID)}
+                      />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <NoData />
+              )}
             </tbody>
-            
           </table>
         </div>
       </div>

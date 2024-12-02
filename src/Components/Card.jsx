@@ -1,23 +1,39 @@
 import { Link } from "react-router-dom";
 import { formatDate, splitDescription } from "../utils/dateUtils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Card(props) {
   const [showModal, setShowModal] = useState(false);
   const token = localStorage.getItem("token");
-
+  const [imageSrc, setImageSrc] = useState("");
   const handleReadMoreClick = (e) => {
     if (!token) {
       e.preventDefault();
       setShowModal(true);
     }
   };
-
+  console.log(imageSrc);
+  
+  useEffect(() => {
+    if (props?.image) {
+      fetch(`${import.meta.env.VITE_URL_BACKEND}/Resources/${props?.image}`, {
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+        }
+      })
+      .then(response => response.blob())
+      .then(blob => {
+        const imgURL = URL.createObjectURL(blob);
+        setImageSrc(imgURL);
+      })
+      .catch(error => console.error("Error loading image:", error));
+      
+    }
+  }, [props?.image]);
   const linkPath =
     props?.location === "event" || props?.location ==="YourEvent"
       ? `/event-content/${props?.eventId}`
       : `/articles/${props?.id}`;
-  // console.log("this is the card", linkPath);
 
   return (
     <>
@@ -39,7 +55,7 @@ function Card(props) {
             <div className="relative overflow-hidden hover:sky-500">
               <img
                 src={
-                  props?.image
+                  imageSrc
                     ? `${import.meta.env.VITE_URL_BACKEND}/Resources/${
                         props?.image
                       }`
