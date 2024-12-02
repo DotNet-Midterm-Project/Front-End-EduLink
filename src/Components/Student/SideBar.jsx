@@ -21,20 +21,6 @@ function SideBar({ onClose }) {
 
   const Url = import.meta.env.VITE_URL_BACKEND;
 
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-  //       onClose();
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", handleClickOutside);
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [onClose]);
-
   const handleOpenModal = () => setOpenModal(true);
   const avatarImage =
     localStorage.getItem("avatarPreview") !== "null"
@@ -43,7 +29,7 @@ function SideBar({ onClose }) {
   return (
     <>
       <div
-        className="fixed top-0 right-0 h-screen w-96 bg-[#0D47A1]"
+        className="fixed top-0 right-0 h-screen w-96 pl-4 bg-[#0D47A1]"
         ref={sidebarRef}
       >
         <div className="h-screen w-96 pb-10">

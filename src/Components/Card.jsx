@@ -6,40 +6,43 @@ function Card(props) {
   const [showModal, setShowModal] = useState(false);
   const token = localStorage.getItem("token");
   const [imageSrc, setImageSrc] = useState("");
+
+  const linkPath =
+  props?.location == "event" || props?.location =="YourEvent"
+    ? `/event-content/${props?.eventId}`
+    : `/articles/${props?.id}`;
+
   const handleReadMoreClick = (e) => {
     if (!token) {
       e.preventDefault();
       setShowModal(true);
     }
   };
-  console.log(imageSrc);
+  // console.log(imageSrc);
   
-  useEffect(() => {
-    if (props?.image) {
-      fetch(`${import.meta.env.VITE_URL_BACKEND}/Resources/${props?.image}`, {
-        headers: {
-          'ngrok-skip-browser-warning': 'true',
-        }
-      })
-      .then(response => response.blob())
-      .then(blob => {
-        const imgURL = URL.createObjectURL(blob);
-        setImageSrc(imgURL);
-      })
-      .catch(error => console.error("Error loading image:", error));
-      
-    }
-  }, [props?.image]);
-  const linkPath =
-    props?.location === "event" || props?.location ==="YourEvent"
-      ? `/event-content/${props?.eventId}`
-      : `/articles/${props?.id}`;
+    useEffect(() => {
+      if (props?.image) {
+        fetch(`${import.meta.env.VITE_URL_BACKEND}/Resources/${props?.image}`, {
+          headers: {
+            'ngrok-skip-browser-warning': 'true',
+          }
+        })
+        .then(response => response.blob())
+        .then(blob => {
+          const imgURL = URL.createObjectURL(blob);
+          setImageSrc(imgURL);
+        })
+        .catch(error => console.error("Error loading image:", error));
+        
+      }
+    }, [props?.image]);
+
 
   return (
     <>
       <div
         className={`mx-3 mt-4 relative flex w-[23rem] max-w-[26rem] flex-col bg-[#EFEFEF] bg-clip-border text-gray-700 shadow-lg transition duration-300 ease-in-out ${
-          props?.location === "event" ? "hover:bg-white" : "hover:bg-gray-300"
+          props?.location == "event" ? "hover:bg-white" : "hover:bg-gray-300"
         }`}
         style={{
           borderRadius: "20px",
