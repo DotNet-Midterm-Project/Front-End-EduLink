@@ -30,6 +30,7 @@ const AddSessionModal = ({ event, onClose, isOpen, onSessionAdded }) => {
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "ngrok-skip-browser-warning": "true",
           },
         }
       );

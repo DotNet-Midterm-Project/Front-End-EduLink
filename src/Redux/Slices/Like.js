@@ -11,7 +11,9 @@ export const addLikeToArticle = createAsyncThunk(
         }/api/CommentAndLike/add-like/${articleId}`,
         {},
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "ngrok-skip-browser-warning": "true",
+        },
         }
       );
 

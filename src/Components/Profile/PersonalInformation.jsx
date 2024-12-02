@@ -75,6 +75,7 @@ export default function PersonalInformation() {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
+          "ngrok-skip-browser-warning": "true",
         },
       });
       console.log("Form submitted successfully", response.data);
