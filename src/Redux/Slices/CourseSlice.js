@@ -10,7 +10,8 @@ export const fetchAllCourses = createAsyncThunk(
         `${import.meta.env.VITE_URL_BACKEND}/api/Student/get-all-courses`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "ngrok-skip-browser-warning": "true",
+           
+
         },
         }
       );
@@ -34,7 +35,6 @@ export const fetchAllVolunteerByCourseId = createAsyncThunk(
         }/api/Student/get-volunteers-for-course/${CourseID}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "ngrok-skip-browser-warning": "true",
         },
         }
       );

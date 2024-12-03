@@ -74,8 +74,7 @@ export default function PersonalInformation() {
       const response = await axios.put(`${Url}/api/Common/Edit-Profile`, form, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-          "ngrok-skip-browser-warning": "true",
+          "Content-Type": "multipart/form-data",      
         },
       });
       console.log("Form submitted successfully", response.data);

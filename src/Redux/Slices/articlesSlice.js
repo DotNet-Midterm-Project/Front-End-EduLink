@@ -9,8 +9,7 @@ export const fetchAllArticles = createAsyncThunk(
                 `${import.meta.env.VITE_URL_BACKEND}/api/Common/get-all-articles`,
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                        "ngrok-skip-browser-warning": "true",
+                        Authorization: `Bearer ${localStorage.getItem('token')}`          
                     },
                 }
             );
@@ -31,7 +30,8 @@ export const fetchArticleById = createAsyncThunk(
         try {
             const response = await axios.get(`${import.meta.env.VITE_URL_BACKEND}/api/Common/ArticleById/${id}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}`,
-                "ngrok-skip-browser-warning": "true",
+                 
+
             }
             });            
             console.log(response.data);

@@ -9,7 +9,6 @@ export const fetchProfileImage = createAsyncThunk(
         `${import.meta.env.VITE_URL_BACKEND}/api/Common/Get-ProfileImage`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "ngrok-skip-browser-warning": "true",
         },
         }
       );

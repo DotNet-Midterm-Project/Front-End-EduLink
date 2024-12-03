@@ -111,7 +111,7 @@ export default function Header() {
               <>
                 <NavLink
                   link="/"
-                  className={`${isSpecialPage ? "text-[#0B102F]" : ""} ${
+                  className={`${isSpecialPage ? "text-[#0B102F]" : "text-gray-200"} ${
                     isScrolled ? "text-gray-200" : ""
                   }`}
                 >
@@ -122,14 +122,14 @@ export default function Header() {
                   className={`${
                     location.pathname == "/articles" && !isLoggedIn
                       ? "text-[#0B102F]"
-                      : ""
+                      : "text-gray-200"
                   } ${isScrolled ? "text-gray-200" : ""}`}
                 >
                   Articles
                 </NavLink>
                 <NavLink
                   link="/about-us"
-                  className={`${isSpecialPage ? "text-[#0B102F]" : ""} ${
+                  className={`${isSpecialPage ? "text-[#0B102F]" : "text-gray-200"} ${
                     isScrolled ? "text-gray-200" : ""
                   }`}
                 >
@@ -137,7 +137,7 @@ export default function Header() {
                 </NavLink>
                 <NavLink
                   link="/contact-us"
-                  className={`${isSpecialPage ? "text-[#0B102F]" : ""} ${
+                  className={`${isSpecialPage ? "text-[#0B102F]" : "text-gray-200"} ${
                     isScrolled ? "text-gray-200" : ""
                   }`}
                 >

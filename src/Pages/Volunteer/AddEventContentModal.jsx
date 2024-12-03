@@ -36,7 +36,6 @@ const AddEventContentModal = ({ event, onClose, isOpen }) => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "multipart/form-data",
-            "ngrok-skip-browser-warning": "true",
           },
         }
       );

@@ -11,7 +11,8 @@ export const addComment = createAsyncThunk(
         { articleID, commentText },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}`,
-          "ngrok-skip-browser-warning": "true",
+           
+
         },
         }
       );
@@ -30,7 +31,8 @@ export const fetchCommentsByArticle = createAsyncThunk(
         `${import.meta.env.VITE_URL_BACKEND}/api/CommentAndLike/get-comments-by-article/${articleId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}`,
-          "ngrok-skip-browser-warning": "true",
+           
+
         },
         }
       );
@@ -48,8 +50,7 @@ export const deleteComment = createAsyncThunk(
       await axios.delete(
         `${import.meta.env.VITE_URL_BACKEND}/api/CommentAndLike/delete-comment/${commentId}`,
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}`,
-          "ngrok-skip-browser-warning": "true",
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}`, 
         },
         }
       );
