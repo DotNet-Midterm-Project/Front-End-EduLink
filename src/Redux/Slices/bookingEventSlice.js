@@ -13,7 +13,8 @@ export const fetchAllEvent = createAsyncThunk(
       }
       const response = await axios.get(url.toString(), {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "ngrok-skip-browser-warning": "true",
+         
+
       },
       });
       console.log("this is the response",response.data);
@@ -37,7 +38,8 @@ export const fetchEventContent = createAsyncThunk(
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "ngrok-skip-browser-warning": "true",
+             
+
           },
           params: {
             eventId: eventId, // Pass eventId as a query parameter
@@ -68,7 +70,8 @@ export const fetchEventsByVolunteerAndCourse = createAsyncThunk(
         {
           params: { volunteerID, courseID },
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "ngrok-skip-browser-warning": "true",
+           
+
         },
         }
       );
@@ -93,7 +96,8 @@ export const bookAnEvent = createAsyncThunk(
         null,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "ngrok-skip-browser-warning": "true",
+           
+
         },
           params: { workshopID },
         }
@@ -124,7 +128,8 @@ export const addEvent = createAsyncThunk(
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "ngrok-skip-browser-warning": "true",
+             
+
           },
         }
       );
@@ -149,7 +154,8 @@ export const fetchAllbookings = createAsyncThunk(
         }/api/Student/get-bookings`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "ngrok-skip-browser-warning": "true",
+           
+
         },
         }
       );
@@ -171,7 +177,8 @@ export const deleteBooking = createAsyncThunk(
         `${import.meta.env.VITE_URL_BACKEND}/api/Student/delete-booking/${BookingId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "ngrok-skip-browser-warning": "true",
+           
+
         },
         }
       );
@@ -197,7 +204,8 @@ export const fetchAlleventSessions = createAsyncThunk(
           import.meta.env.VITE_URL_BACKEND
         }/api/Common/get-event-sessions`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "ngrok-skip-browser-warning": "true",
+           
+
         },
           params: { eventId },
         }
@@ -225,7 +233,8 @@ export const joinSession = createAsyncThunk(
           params: { sessionId: sessionId },
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "ngrok-skip-browser-warning": "true",
+             
+
           },
         }
       );
@@ -248,7 +257,6 @@ export const downloadFile = createAsyncThunk(
           responseType: "blob",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "ngrok-skip-browser-warning": "true",
           },
         }
       );

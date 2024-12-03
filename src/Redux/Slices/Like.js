@@ -12,7 +12,6 @@ export const addLikeToArticle = createAsyncThunk(
         {},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "ngrok-skip-browser-warning": "true",
         },
         }
       );

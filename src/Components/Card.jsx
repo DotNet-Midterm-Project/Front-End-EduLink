@@ -3,8 +3,8 @@ import { formatDate, splitDescription } from "../utils/dateUtils";
 import { useState, useEffect } from "react";
 
 function Card(props) {
-  const [showModal, setShowModal] = useState(false);
   const token = localStorage.getItem("token");
+  const [showModal, setShowModal] = useState(false);
   const [imageSrc, setImageSrc] = useState("");
 
   const linkPath =
@@ -18,13 +18,13 @@ function Card(props) {
       setShowModal(true);
     }
   };
-  // console.log(imageSrc);
   
     useEffect(() => {
       if (props?.image) {
         fetch(`${import.meta.env.VITE_URL_BACKEND}/Resources/${props?.image}`, {
           headers: {
-            'ngrok-skip-browser-warning': 'true',
+            
+
           }
         })
         .then(response => response.blob())
@@ -35,7 +35,7 @@ function Card(props) {
         .catch(error => console.error("Error loading image:", error));
         
       }
-    }, [props?.image]);
+    }, []);
 
 
   return (

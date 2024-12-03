@@ -55,7 +55,8 @@ const AdminViewAllVolunteers = () => {
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "ngrok-skip-browser-warning": "true",
+             
+
           },
         }
       );
@@ -83,7 +84,8 @@ const AdminViewAllVolunteers = () => {
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "ngrok-skip-browser-warning": "true",
+             
+
           },
         }
       );

@@ -201,7 +201,7 @@ function SideBar({ onClose }) {
             <div className="relative w-[350px] inline-block mx-4 mb-6">
               <hr className="h-px bg-white border-0 dark:bg-white" />
             </div>
-            <div className="flex justify-center items-center w-full mb-4">
+            <div className="flex justify-center items-center w-full mb-12">
               <LogoutButton />
             </div>
           </div>
