@@ -57,7 +57,6 @@ export default function AdminArticles() {
         `${import.meta.env.VITE_URL_BACKEND}/api/Admin/delete-article/${articleID}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "ngrok-skip-browser-warning": "true",
         },
         }
       );

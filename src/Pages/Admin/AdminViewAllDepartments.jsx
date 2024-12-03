@@ -48,7 +48,8 @@ const AdminViewAllDepartments = () => {
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "ngrok-skip-browser-warning": "true",
+             
+
           },
         }
       );
@@ -73,7 +74,6 @@ const AdminViewAllDepartments = () => {
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "ngrok-skip-browser-warning": "true",
           },
         }
       );

@@ -10,7 +10,8 @@ export const fetchAllVolunteers = createAsyncThunk(
         `${import.meta.env.VITE_URL_BACKEND}/api/Admin/get-all-volunteers`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "ngrok-skip-browser-warning": "true",
+           
+
         },
         }
       );
@@ -34,7 +35,8 @@ export const fetchAllEventsVolunteer = createAsyncThunk(
         `${import.meta.env.VITE_URL_BACKEND}/api/Admin/get-all-volunteers`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "ngrok-skip-browser-warning": "true",
+           
+
         },
         }
       );
@@ -60,7 +62,8 @@ export const FetchAllVolunteerCourses = createAsyncThunk(
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "ngrok-skip-browser-warning": "true",
+             
+
           },
         }
       );
@@ -84,7 +87,8 @@ export const FetchAllVolunteerEvents = createAsyncThunk(
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "ngrok-skip-browser-warning": "true",
+             
+
           },
         }
       );
@@ -108,7 +112,6 @@ export const fetchBookings = createAsyncThunk(
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "ngrok-skip-browser-warning": "true",
           },
         }
       );

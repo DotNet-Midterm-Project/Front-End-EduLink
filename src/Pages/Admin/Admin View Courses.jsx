@@ -43,7 +43,6 @@ const AdminViewAllCourses = () => {
         newCourse,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-          "ngrok-skip-browser-warning": "true",
         }
       );
 
@@ -67,7 +66,8 @@ const AdminViewAllCourses = () => {
           import.meta.env.VITE_URL_BACKEND
         }/api/Admin/delete-course/${courseId}`,
         {
-          "ngrok-skip-browser-warning": "true",
+           
+
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
